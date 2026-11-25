@@ -1,0 +1,32 @@
+import type {Avatar,Forecast,Garment,Health,InterfaceRow,Occasion,Outfit,Recommendation,Scan,Slot,Attributes} from './contracts';
+type Body = {occasion:Occasion; when?:string; adm4?:string; manual_weather?:{rain:boolean;hot:boolean}};
+type SaveBody = {items:string[];label?:string;planned_for?:string;occasion?:Occasion};
+type Product = {gtin:string;name:string;slot:Slot};
+type Issued = {gtin:string;serial:string;activation_code:string};
+export class ApiError extends Error {status:number;detail:unknown}
+export function request<T>(path:string, options?:{method?:string;body?:unknown;protectedRead?:boolean;blob?:boolean}):Promise<T>;
+export const locationCode:string;
+export const api:{
+  wardrobe():Promise<Garment[]>;
+  health():Promise<Health>;
+  weather():Promise<Forecast>;
+  recommend(values:Body):Promise<Recommendation>;
+  outfits(week?:string):Promise<Outfit[]>;
+  save(values:SaveBody):Promise<Outfit>;
+  deleteOutfit(id:string):Promise<void>;
+  wear(id:string, wornOn:string):Promise<void>;
+  avatar(id:string):Promise<Avatar>;
+  add(values:{name:string;slot:Slot;attrs?:Partial<Attributes>}):Promise<Garment>;
+  deleteGarment(id:string):Promise<void>;
+  activate(code:string):Promise<Garment>;
+  registerScan(gtin:string,serial:string):Promise<Garment>;
+  scan(gtin:string,serial:string):Promise<Scan>;
+  qr(serial:string):Promise<Blob>;
+  log(filter?:string):Promise<InterfaceRow[]>;
+  summary():Promise<{rows_per_interface:Record<string,number>;bmkg_calls_last_24h:number}>;
+  fault(mode:'none'|'timeout'|'http500'|'malformed'|'missing_fields'):Promise<unknown>;
+  clearWeather():Promise<unknown>;
+  products():Promise<Product[]>;
+  issue(gtin:string):Promise<Issued[]>;
+  reset():Promise<unknown>;
+};

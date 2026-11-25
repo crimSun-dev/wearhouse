@@ -1,0 +1,12 @@
+# Direct v2 runtime dependencies. Versions pinned against the package index on 2026-11-25
+# (same FastAPI/SQLAlchemy/psycopg line legacy already tested). Full transitive pins: requirements.lock
+fastapi==0.165.0
+starlette==1.10.0
+uvicorn==0.54.0
+SQLAlchemy==2.1.9
+psycopg[binary]==3.3.9
+alembic==1.20.1
+pydantic==2.14.4
+PyJWT[crypto]==2.15.1
+cryptography==50.0.2
+httpx==0.28.1

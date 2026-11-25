@@ -1,0 +1,15 @@
+[project]
+name = "digital-wardrobe-live-demo"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = ["ignore:Using .httpx. with .starlette.testclient. is deprecated"]
+markers = [
+    "postgres: needs a PostgreSQL server (TEST_POSTGRES_URL)",
+    "slow: takes several seconds (real timeouts)",
+]

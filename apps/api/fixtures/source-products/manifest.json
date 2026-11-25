@@ -1,0 +1,12 @@
+{
+  "schema": "wearhouse.source-fixture-manifest/1",
+  "status": "pending",
+  "source_namespace": "hm-pfr",
+  "source_name": "H&M Personalized Fashion Recommendations (Kaggle competition data)",
+  "source_url": "https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/data",
+  "terms_url": "https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/rules",
+  "permission": null,
+  "snapshot": null,
+  "records": [],
+  "pending_reason": "No permitted H&M snapshot is present in the workspace, and nobody has accepted the Kaggle terms for this project. The source-backed readiness gate (design D8, task 7.5) stays PENDING until a permission record and at least one original articles.csv row are added below."
+}

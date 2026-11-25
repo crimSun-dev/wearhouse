@@ -1,0 +1,17 @@
+{
+  "name": "hm_transactions",
+  "status": "permitted",
+  "supplied": "transactions_train.csv (31,788,324 rows, 2018-09-20..2020-09-22) and customers.csv (1,371,980 rows) supplied by the owner on 2026-11-26; hashes computed locally",
+  "permission": {
+    "basis": "kaggle-competition-rules-accepted",
+    "accepted_on": "2026-11-25",
+    "accepted_by": "Wearhouse project owner (own Kaggle account)",
+    "scope": "Non-commercial academic research (Wearhouse capstone thesis). The source files are not redistributed.",
+    "terms_url": "https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/rules"
+  },
+  "files": {
+    "transactions": {"path": "H&M DATABASE/transactions_train.csv", "sha256": "fff5e3b35c1b26016aa0bf2231be9525bc766eed32c94f1653420b465aef84fa"},
+    "customers": {"path": "H&M DATABASE/customers.csv", "sha256": "abf3450c37ee1c16124e0d3379371153f5371148742efdcfe44c97c0445df6b2"},
+    "articles": {"path": "H&M DATABASE/articles.csv", "sha256": "25f21882053517f7684ea43f524225a9481a7bb9aab9cf0abfc7fe8c4576a72b"}
+  }
+}

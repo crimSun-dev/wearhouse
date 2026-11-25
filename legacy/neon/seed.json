@@ -1,0 +1,397 @@
+{
+  "user_id": "00000000-0000-4000-8000-000000000001",
+  "garments": [
+    {
+      "id": "9b23535e-ace6-5090-ba24-cfea4f9d6f13",
+      "name": "Pink oxford shirt",
+      "slot": "top",
+      "attrs": {
+        "color_hex": "#F4B6C2",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 2
+      }
+    },
+    {
+      "id": "792183d2-cebd-5728-a7e1-7fd0062e70ec",
+      "name": "White long-sleeve blouse",
+      "slot": "top",
+      "attrs": {
+        "color_hex": "#F5F2EA",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "be428011-2fa3-5ce6-8837-14af45b2f536",
+      "name": "Light blue shirt",
+      "slot": "top",
+      "attrs": {
+        "color_hex": "#A9C4E8",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "17523beb-fc24-56c6-9fc2-eed69b8530fa",
+      "name": "Grey graphic tee",
+      "slot": "top",
+      "attrs": {
+        "color_hex": "#9A9A9A",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "4c143e66-1b0b-5d53-9e5b-8dcbf8fdd4ab",
+      "name": "Black polo",
+      "slot": "top",
+      "attrs": {
+        "color_hex": "#222222",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 2
+      }
+    },
+    {
+      "id": "7febbbe3-7c5d-5ac2-8734-94c1753b1f79",
+      "name": "Beige wrap skirt",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#D8C3A5",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 2
+      }
+    },
+    {
+      "id": "3e8f19e1-29bf-5232-8b21-e4e9206f3537",
+      "name": "Pink pleated skirt",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#E8A5B5",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 2
+      }
+    },
+    {
+      "id": "5674d6ed-f4a6-5f7e-b747-b665dce73b90",
+      "name": "Denim mini skirt",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#5B7FA6",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "bc2e5f21-6abe-50f0-86b9-ec79ab7eb04f",
+      "name": "Beige wide trousers",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#CDB89A",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": true,
+        "formality": 3
+      }
+    },
+    {
+      "id": "fed56f4e-98e3-5f2c-b35f-cf1df4c4060c",
+      "name": "Light-wash jeans",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#8FB3D9",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": true,
+        "formality": 1
+      }
+    },
+    {
+      "id": "6d6dd546-7099-5627-9d99-8c9a1f81054f",
+      "name": "Black tailored trousers",
+      "slot": "bottom",
+      "attrs": {
+        "color_hex": "#1E1E1E",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": true,
+        "formality": 3
+      }
+    },
+    {
+      "id": "2f126cdb-73f5-5528-902a-0b545e13b19d",
+      "name": "Navy long-sleeve maxi dress",
+      "slot": "dress",
+      "attrs": {
+        "color_hex": "#2B3A67",
+        "style": "modest",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": true,
+        "formality": 3
+      }
+    },
+    {
+      "id": "70b9e456-db28-5c6e-8f2d-d56d2606287b",
+      "name": "Orange floral sundress",
+      "slot": "dress",
+      "attrs": {
+        "color_hex": "#F2A65A",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "045b7c30-ec3c-5ac2-bc6f-bce5ed1fa1d1",
+      "name": "Black cocktail dress",
+      "slot": "dress",
+      "attrs": {
+        "color_hex": "#111111",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 4
+      }
+    },
+    {
+      "id": "31469b70-1890-510e-830b-21318ba5f3de",
+      "name": "Clear lightweight raincoat",
+      "slot": "outer",
+      "attrs": {
+        "color_hex": "#DDE8EE",
+        "style": "casual",
+        "rain_suitable": true,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "71b7d091-ba23-574a-9817-ec2799157e2c",
+      "name": "Denim jacket",
+      "slot": "outer",
+      "attrs": {
+        "color_hex": "#4A6C93",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": true,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "fb9d0123-8e3d-5adc-b188-ce6688977cab",
+      "name": "Beige trench coat",
+      "slot": "outer",
+      "attrs": {
+        "color_hex": "#C8B08A",
+        "style": "smart",
+        "rain_suitable": true,
+        "heavy": true,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "3e224e32-d793-5ff5-a5fc-a8a3beb3ab30",
+      "name": "Black blazer",
+      "slot": "outer",
+      "attrs": {
+        "color_hex": "#1C1C1C",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": true,
+        "long_bottom": false,
+        "formality": 4
+      }
+    },
+    {
+      "id": "2b0d1ece-2d7e-5f99-a5ba-ed158224550d",
+      "name": "White sneakers",
+      "slot": "footwear",
+      "attrs": {
+        "color_hex": "#F2F2F2",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "21baa4f3-d77f-542d-bd18-f1f3bddebcc5",
+      "name": "Rubber rain sandals",
+      "slot": "footwear",
+      "attrs": {
+        "color_hex": "#3C6E71",
+        "style": "casual",
+        "rain_suitable": true,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "342cd605-6768-550d-863e-6f13c2fce1ac",
+      "name": "Black loafers",
+      "slot": "footwear",
+      "attrs": {
+        "color_hex": "#1A1A1A",
+        "style": "smart",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "de5a6559-ceb1-5068-89a1-c5d1be369a21",
+      "name": "Nude heels",
+      "slot": "footwear",
+      "attrs": {
+        "color_hex": "#D9B99B",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 4
+      }
+    },
+    {
+      "id": "81cd96ce-459a-5121-9410-6638ff5da4b8",
+      "name": "Waterproof leather ankle boots",
+      "slot": "footwear",
+      "attrs": {
+        "color_hex": "#5A4636",
+        "style": "smart",
+        "rain_suitable": true,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "7e24aa5c-4f59-57b8-833b-d86e68da1b51",
+      "name": "Canvas tote bag",
+      "slot": "accessory",
+      "attrs": {
+        "color_hex": "#E9DFC9",
+        "style": "casual",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "7d5e6c52-98cf-5697-9d38-0553edbd574a",
+      "name": "Cream hijab",
+      "slot": "accessory",
+      "attrs": {
+        "color_hex": "#EFE6D8",
+        "style": "modest",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 2
+      }
+    },
+    {
+      "id": "6fb8a824-2651-5e20-b6f8-4d77bb13b3ef",
+      "name": "Silver necklace",
+      "slot": "accessory",
+      "attrs": {
+        "color_hex": "#C0C0C0",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 3
+      }
+    },
+    {
+      "id": "98c70b7a-b139-5973-b707-cf340778c15c",
+      "name": "Baseball cap",
+      "slot": "accessory",
+      "attrs": {
+        "color_hex": "#2F4F4F",
+        "style": "sporty",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 1
+      }
+    },
+    {
+      "id": "f4f63b04-627e-50af-85ea-5c3316bb0f3f",
+      "name": "Pearl earrings",
+      "slot": "accessory",
+      "attrs": {
+        "color_hex": "#F8F4EC",
+        "style": "formal",
+        "rain_suitable": false,
+        "heavy": false,
+        "long_sleeve": false,
+        "long_bottom": false,
+        "formality": 4
+      }
+    }
+  ]
+}

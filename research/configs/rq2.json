@@ -1,0 +1,240 @@
+{
+  "experiment": "RQ2 outfit recommendation (methodology v11 sections 3.3.2, 3.4.2-3.4.3, 3.5.2)",
+  "manifest": "research/manifests/polyvore_outfits.json",
+  "variant": "nondisjoint",
+  "seed": 20261125,
+  "embedding_dims": 128,
+  "triplets_per_outfit": 4,
+  "model": {
+    "dim": 64,
+    "margin": 0.2,
+    "lr": 0.05,
+    "reg": 0.0001,
+    "epochs": 10
+  },
+  "users_tuning": 100,
+  "users_reporting": 100,
+  "wardrobe_size": [
+    40,
+    80
+  ],
+  "wardrobe_minimums": {
+    "top": 5,
+    "bottom": 3,
+    "footwear": 2,
+    "outer": 1
+  },
+  "candidate_outfit_cap": 600,
+  "days": 30,
+  "season_start_months": [
+    1,
+    7
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "pref_p0": 0.5,
+  "pref_a": 5,
+  "weight_grid": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.5,
+      0.5
+    ],
+    [
+      1.0,
+      0.5,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.5
+    ],
+    [
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.0
+    ]
+  ],
+  "h_grid": [
+    2,
+    3,
+    5,
+    7
+  ],
+  "coverage_target": 0.2,
+  "compat_margin": 0.05,
+  "schedule": {
+    "weekday": [
+      "campus",
+      "campus",
+      "campus",
+      "campus",
+      "worship",
+      "hangout",
+      "hangout"
+    ],
+    "wedding_probability_on_weekend": 0.05,
+    "note": "Weekly Indonesian student schedule (thesis P0391): campus Mon-Thu, worship Friday, hangouts at weekends, occasional weddings."
+  },
+  "climatology": {
+    "status": "CITED: Jakarta Kemayoran (WMO 96745) 1991-2020; rain = WMO normals rain days (>= 1 mm) per day; hot = share of days with max >= 32 C from GHCN-Daily (validated against the normals, max difference 0.023). See research/manifests/jakarta_climate.json.",
+    "source": "research/manifests/jakarta_climate.json",
+    "monthly": {
+      "1": {
+        "rain": 0.565,
+        "hot": 0.267
+      },
+      "2": {
+        "rain": 0.634,
+        "hot": 0.228
+      },
+      "3": {
+        "rain": 0.455,
+        "hot": 0.503
+      },
+      "4": {
+        "rain": 0.383,
+        "hot": 0.733
+      },
+      "5": {
+        "rain": 0.265,
+        "hot": 0.833
+      },
+      "6": {
+        "rain": 0.207,
+        "hot": 0.803
+      },
+      "7": {
+        "rain": 0.155,
+        "hot": 0.792
+      },
+      "8": {
+        "rain": 0.106,
+        "hot": 0.836
+      },
+      "9": {
+        "rain": 0.133,
+        "hot": 0.831
+      },
+      "10": {
+        "rain": 0.239,
+        "hot": 0.833
+      },
+      "11": {
+        "rain": 0.347,
+        "hot": 0.719
+      },
+      "12": {
+        "rain": 0.413,
+        "hot": 0.537
+      }
+    }
+  },
+  "attribute_rules": {
+    "note": "Thesis appendix lookup table (P0390): attributes from item type and title keywords, else these defaults.",
+    "heavy_words": [
+      "coat",
+      "parka",
+      "wool",
+      "puffer",
+      "down",
+      "shearling",
+      "fleece",
+      "knit",
+      "sweater",
+      "cardigan",
+      "leather"
+    ],
+    "light_words": [
+      "linen",
+      "tank",
+      "cami",
+      "tee",
+      "t-shirt",
+      "sleeveless",
+      "chiffon",
+      "sandal",
+      "shorts",
+      "crop"
+    ],
+    "rain_words": [
+      "rain",
+      "trench",
+      "waterproof",
+      "boot",
+      "parka",
+      "windbreaker",
+      "anorak",
+      "jacket"
+    ],
+    "long_sleeve_words": [
+      "long sleeve",
+      "long-sleeve",
+      "shirt",
+      "blouse",
+      "sweater",
+      "cardigan",
+      "hoodie",
+      "turtleneck"
+    ],
+    "long_bottom_words": [
+      "maxi",
+      "trouser",
+      "pants",
+      "jeans",
+      "palazzo",
+      "culotte",
+      "long skirt",
+      "midi"
+    ],
+    "short_bottom_words": [
+      "shorts",
+      "mini",
+      "short skirt",
+      "hot pants"
+    ],
+    "formal_words": [
+      "blazer",
+      "suit",
+      "gown",
+      "silk",
+      "satin",
+      "heel",
+      "pump",
+      "tuxedo",
+      "evening",
+      "cocktail",
+      "oxford"
+    ],
+    "default_warmth": {
+      "top": "light",
+      "bottom": "medium",
+      "dress": "light",
+      "outer": "medium",
+      "footwear": "medium",
+      "accessory": "light"
+    }
+  },
+  "transfer_manifest": "research/manifests/hm_transfer_labels.json"
+}

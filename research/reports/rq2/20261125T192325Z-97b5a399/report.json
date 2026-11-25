@@ -1,0 +1,634 @@
+{
+  "rq": "RQ2",
+  "provenance": {
+    "generated_at": "2026-11-25T19:23:25.209972+00:00",
+    "git_commit": "ea21b056805085f926d8bebc9b9c377e362c3267",
+    "git_dirty": true,
+    "python": "3.11.8",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "libraries": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.1"
+    },
+    "config_hash": "97b5a3995bf5b57a091c419799e38837cce2d309425635ab84388db6b2f97cc5",
+    "seeds": {
+      "base": 20261125,
+      "simulation": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "datasets": {
+      "polyvore_outfits": {
+        "synthetic": false,
+        "permission_basis": "huggingface-gated-access-granted (dataset card licence: CC BY 4.0)",
+        "files": {
+          "nondisjoint_train": "09fe68140c8207240d5d1bbfe2a443e2a80e60e6efb0b9251945cebe38e3f10c",
+          "nondisjoint_test": "31169707e667bb630cee9f5d79837c22b53d688b910299bff171f7781dc2cb62",
+          "nondisjoint_valid": "3295676dc38d592f4135df45ff55ab8d9381b035f975af6432d8a0363521c808",
+          "compatibility_test": "966796137ba0845878cfdf8bf682bbcc192e7f6b7b73a810296b19d909204d3e",
+          "fitb_test": "45db613cdae3aa9730462b57f737590327a9e9c9bc00bb42a9ff938f3b7b528c",
+          "item_metadata": "d5e7a3ce1506bc3e64eacfcb29c26f360c39bba96522f7d316ae8ee9f2d2ea58"
+        }
+      }
+    },
+    "disclosure": "Code for this pipeline was written with AI assistance (Claude Code, Anthropic) under the author's direction; the author designed the study, reviewed the code and is responsible for the results. Disclose this in the thesis as required by the course's GenAI policy."
+  },
+  "assumptions": "ASSUMED placeholder probabilities, NOT cited BMKG figures. Replace each month with BMKG climatological normals for Jakarta (rain-day frequency; share of days with max temperature >= 32 C) and cite them before reporting RQ2 in the thesis.",
+  "result": {
+    "audit": {
+      "train_items": 204679,
+      "test_items": 47854,
+      "test_items_seen_in_training": 16655,
+      "share": 0.34803778158565635,
+      "unseen_test_items": 31199,
+      "thesis_claim_P0390_holds": false
+    },
+    "embedding": "text_tfidf_svd",
+    "compatibility": {
+      "type_aware": {
+        "auc": 0.5299004,
+        "fitb": 0.7021,
+        "final_triplet_loss": 0.19212043286158315,
+        "triplets": 213224
+      },
+      "shared_space": {
+        "auc": 0.51524512,
+        "fitb": 0.6921,
+        "final_triplet_loss": 0.20297560373357562,
+        "triplets": 213224
+      }
+    },
+    "simulation_items": {
+      "source": "unseen test items",
+      "count": 31199,
+      "by_slot": {
+        "accessory": 13532,
+        "footwear": 5583,
+        "bottom": 3300,
+        "dress": 2406,
+        "top": 4130,
+        "outer": 2248
+      }
+    },
+    "selection": {
+      "group": "tuning",
+      "users": 100,
+      "baseline": {
+        "coverage": 0.11088828523149408,
+        "compat": 0.8867946491697001
+      },
+      "table": [
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 2,
+          "coverage": 0.19586937876810195,
+          "compat": 0.8769762662604677,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 3,
+          "coverage": 0.19586937876810195,
+          "compat": 0.8769762662604677,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 5,
+          "coverage": 0.19586937876810195,
+          "compat": 0.8769762662604677,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 7,
+          "coverage": 0.19586937876810195,
+          "compat": 0.8769762662604677,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 2,
+          "coverage": 0.44422540598562155,
+          "compat": 0.851892870972943,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 3,
+          "coverage": 0.4899271147404223,
+          "compat": 0.8494260289712642,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 5,
+          "coverage": 0.543344245275347,
+          "compat": 0.8452757583528536,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 7,
+          "coverage": 0.5756695815960149,
+          "compat": 0.8426145823107828,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.4892959983463095,
+          "compat": 0.8469656186339974,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.5367378774237062,
+          "compat": 0.8418311750891566,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.5886980436481036,
+          "compat": 0.8350681268012019,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.6099172354485912,
+          "compat": 0.8312717340013618,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 2,
+          "coverage": 0.42222665822456956,
+          "compat": 0.8457159236182334,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 3,
+          "coverage": 0.4532223041406771,
+          "compat": 0.8447363970264077,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 5,
+          "coverage": 0.5026712602765997,
+          "compat": 0.8433132591988899,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 7,
+          "coverage": 0.5275056464178128,
+          "compat": 0.8427542758568293,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.4656355720352771,
+          "compat": 0.8409276833454483,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.506859218252788,
+          "compat": 0.838718285293165,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.5600964536663994,
+          "compat": 0.8343657038353519,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.5896480798467836,
+          "compat": 0.832081759440057,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.5322194754838475,
+          "compat": 0.8506264454416744,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.5736888006095149,
+          "compat": 0.84246758561241,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.6068022377473655,
+          "compat": 0.8334835880538075,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.618213084965362,
+          "compat": 0.8300831699129425,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 2,
+          "coverage": 0.3010039948101131,
+          "compat": 0.8474613907603149,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 3,
+          "coverage": 0.3010039948101131,
+          "compat": 0.8474613907603149,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 5,
+          "coverage": 0.3010039948101131,
+          "compat": 0.8474613907603149,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 7,
+          "coverage": 0.3010039948101131,
+          "compat": 0.8474613907603149,
+          "within_margin": true
+        }
+      ],
+      "chosen": {
+        "w": [
+          1.0,
+          0.5,
+          0.5
+        ],
+        "h": 7,
+        "coverage": 0.5756695815960149,
+        "compat": 0.8426145823107828,
+        "within_margin": true
+      },
+      "rule": "highest tuning coverage with compatibility within the margin of the compatibility-only baseline"
+    },
+    "reporting": {
+      "favourite/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.5489031809603997,
+            "coverage_seed_std": 0.003931859596366377,
+            "compat_seed_mean": 0.8389398286672997,
+            "compat_seed_std": 0.000757974804041601
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.052469680315766,
+            "coverage_seed_std": 0.0010337204780986745,
+            "compat_seed_mean": 0.8871658337553701,
+            "compat_seed_std": 0.0014062222048224925
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.5464008438189879,
+            "coverage_seed_std": 0.00286922767405321,
+            "compat_seed_mean": 0.8526441148133526,
+            "compat_seed_std": 0.0008266563398553463
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.2104578941379544,
+            "coverage_seed_std": 0.005735063727620606,
+            "compat_seed_mean": 0.8434714100402723,
+            "compat_seed_std": 0.0005639986746213332
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 9.46134029513929,
+        "compat_relative": -0.0543596284405249,
+        "met": false
+      },
+      "favourite/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.5592152453958705,
+            "coverage_seed_std": 0.0038954829926946357,
+            "compat_seed_mean": 0.8475447082048561,
+            "compat_seed_std": 0.00042011919112857254
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.052469680315766,
+            "coverage_seed_std": 0.0010337204780986745,
+            "compat_seed_mean": 0.8871658337553701,
+            "compat_seed_std": 0.0014062222048224925
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.5464008438189879,
+            "coverage_seed_std": 0.00286922767405321,
+            "compat_seed_mean": 0.8526441148133526,
+            "compat_seed_std": 0.0008266563398553463
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.20449979294943796,
+            "coverage_seed_std": 0.005084168513403484,
+            "compat_seed_mean": 0.8499918806829679,
+            "compat_seed_std": 0.0017671873466264113
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 9.657874071853996,
+        "compat_relative": -0.04466033749608899,
+        "met": true
+      },
+      "random/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.6028266892853722,
+            "coverage_seed_std": 0.0037089309166913873,
+            "compat_seed_mean": 0.8367123712472159,
+            "compat_seed_std": 0.000519315980119501
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.17840252457964628,
+            "coverage_seed_std": 0.0028822690058095102,
+            "compat_seed_mean": 0.8866595884875919,
+            "compat_seed_std": 0.0010371248525653219
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.613280688903583,
+            "coverage_seed_std": 0.004008992741347753,
+            "compat_seed_mean": 0.8495510534209348,
+            "compat_seed_std": 0.0003933939101133963
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.40324037395893636,
+            "coverage_seed_std": 0.0014183301154430626,
+            "compat_seed_mean": 0.857527033344652,
+            "compat_seed_std": 0.0006710271875066233
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 2.3790255530618647,
+        "compat_relative": -0.05633189770785968,
+        "met": false
+      },
+      "random/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.615235617080969,
+            "coverage_seed_std": 0.0038146763484275055,
+            "compat_seed_mean": 0.8447747840815714,
+            "compat_seed_std": 0.0001475297188392186
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.17840252457964628,
+            "coverage_seed_std": 0.0028822690058095102,
+            "compat_seed_mean": 0.8866595884875919,
+            "compat_seed_std": 0.0010371248525653219
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.613280688903583,
+            "coverage_seed_std": 0.004008992741347753,
+            "compat_seed_mean": 0.8495510534209348,
+            "compat_seed_std": 0.0003933939101133963
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.40563676824451733,
+            "coverage_seed_std": 0.0025485805158914398,
+            "compat_seed_mean": 0.8655782177891961,
+            "compat_seed_std": 0.0006476850244949864
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 2.448581338916548,
+        "compat_relative": -0.04723887831345168,
+        "met": true
+      },
+      "weather/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.5810824515642982,
+            "coverage_seed_std": 0.0028807267331583484,
+            "compat_seed_mean": 0.8418749373907779,
+            "compat_seed_std": 0.00031507107501391326
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.10314203352107601,
+            "coverage_seed_std": 0.0036731604497693684,
+            "compat_seed_mean": 0.8878364584679892,
+            "compat_seed_std": 0.0020771727681478747
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.5948478525738156,
+            "coverage_seed_std": 0.0032619856709711005,
+            "compat_seed_mean": 0.8501757233825096,
+            "compat_seed_std": 0.0008133049887881188
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.23112529516674724,
+            "coverage_seed_std": 0.004292634265369128,
+            "compat_seed_mean": 0.8619450893210636,
+            "compat_seed_std": 0.0015717037895550672
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 4.633808368200923,
+        "compat_relative": -0.05176800371153989,
+        "met": false
+      },
+      "weather/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.6004113287998589,
+            "coverage_seed_std": 0.0025474290743066376,
+            "compat_seed_mean": 0.8501522595702073,
+            "compat_seed_std": 0.00045374966988635763
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.10424407599036115,
+            "coverage_seed_std": 0.0038337482277607656,
+            "compat_seed_mean": 0.8915488744255542,
+            "compat_seed_std": 0.0013828298280786488
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.5974425613135907,
+            "coverage_seed_std": 0.002802942617914075,
+            "compat_seed_mean": 0.8536397815474703,
+            "compat_seed_std": 0.0005145661520794748
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.2612868913603436,
+            "coverage_seed_std": 0.007027697788392312,
+            "compat_seed_mean": 0.8647857156799658,
+            "compat_seed_std": 0.001210173896037307
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 4.759668576805991,
+        "compat_relative": -0.04643224397767274,
+        "met": true
+      }
+    },
+    "success": {
+      "by_behaviour": {
+        "favourite": false,
+        "random": false,
+        "weather": false
+      },
+      "rq2_positive": false,
+      "targets": {
+        "coverage": 0.2,
+        "compat_margin": 0.05
+      }
+    }
+  },
+  "wall_seconds": 3190.127
+}

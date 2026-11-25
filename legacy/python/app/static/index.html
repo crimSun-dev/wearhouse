@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Wardrobe</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 1rem; max-width: 1100px; }
+  section { border: 1px solid #ccc; padding: .6rem .8rem; margin: .6rem 0; }
+  h2 { font-size: 1rem; margin: 0 0 .4rem; }
+  .badge { display: inline-block; padding: .1rem .5rem; border: 1px solid #333; font-weight: bold; }
+  .LIVE { background: #c8f7c5; } .CACHED { background: #fff3b0; } .MANUAL, .MANUAL_REQUIRED { background: #ffd0d0; }
+  .card { border: 1px solid #999; padding: .4rem; margin: .3rem 0; }
+  .swatch { display: inline-block; width: .8em; height: .8em; border: 1px solid #555; vertical-align: middle; }
+  table { border-collapse: collapse; font-size: .85rem; } td, th { border: 1px solid #ccc; padding: .1rem .4rem; }
+  .err { color: #a00; } small { color: #555; }
+  .week button.sel { font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Digital Wardrobe</h1>
+<p><small>API base <input id="base" size="32"> · API key <input id="key" size="12" value="demo-key">
+  · <a href="/docs" id="docs">Swagger</a> · <span id="health"></span></small></p>
+
+<section>
+  <h2>Weather <span id="wbadge" class="badge">–</span></h2>
+  <div id="winfo"></div>
+  <div id="manual" hidden>
+    BMKG unavailable — two taps:
+    <label><input type="radio" name="rain" value="1">Rainy</label><label><input type="radio" name="rain" value="0" checked>Dry</label> ·
+    <label><input type="radio" name="hot" value="1">Hot</label><label><input type="radio" name="hot" value="0" checked>Normal</label>
+    <button id="manualGo">Recommend with my answer</button>
+  </div>
+  <small id="credit"></small>
+</section>
+
+<section>
+  <h2>Recommend</h2>
+  Occasion <select id="occasion"><option>campus</option><option>casual</option><option>worship</option><option>formal</option><option>wedding</option></select>
+  When <input id="when" type="datetime-local"> <small>(empty = now, WIB)</small>
+  adm4 <input id="adm4" size="14" placeholder="31.71.03.1001">
+  <button id="recommend">Recommend</button> <span id="rtime"></span>
+  <div id="outfits"></div>
+</section>
+
+<section>
+  <h2>Week (planned outfits)</h2>
+  <div class="week" id="week"></div>
+  <div id="weekOutfits"></div>
+  <p>Saved outfits: <span id="saved"></span></p>
+</section>
+
+<section>
+  <h2>Register a garment (QR + activation code)</h2>
+  <div>Retailer side: product <select id="gtin"></select> <button id="issue">Issue tag code</button> <span id="issued"></span></div>
+  <div>Customer side: code <input id="code" size="24" placeholder="XXXX-XXXX-XXXX-XXXX"> <button id="activate">Activate</button> <span id="actres"></span></div>
+</section>
+
+<section>
+  <h2>Wardrobe <small id="wcount"></small></h2>
+  <div>Manual add: <input id="gname" placeholder="name"> <select id="gslot"><option>top</option><option>bottom</option><option>dress</option><option>outer</option><option>footwear</option><option>accessory</option></select>
+    colour <input id="gcolor" type="color" value="#808080">
+    <select id="gstyle"><option>casual</option><option>smart</option><option>formal</option><option>modest</option><option>sporty</option><option>street</option></select>
+    <label><input type="checkbox" id="grain">rain</label><label><input type="checkbox" id="gheavy">heavy</label>
+    <label><input type="checkbox" id="gls">long sleeve</label><label><input type="checkbox" id="glb">long bottom</label>
+    formality <input id="gform" type="number" min="1" max="5" value="1" style="width:3em">
+    <button id="gadd">Add</button> <span id="gres"></span></div>
+  <table id="wardrobe"></table>
+</section>
+
+<section>
+  <h2>Demo controls</h2>
+  Fault <select id="fault"><option>none</option><option>timeout</option><option>http500</option><option>malformed</option><option>missing_fields</option></select>
+  <button id="setFault">Set</button>
+  <button id="clearCache">Clear weather cache</button>
+  <button id="reset">Reset demo data</button> <span id="ctlres"></span>
+</section>
+
+<section>
+  <h2>Interface log <small>(I1 client, I2 BMKG, I5 scan, I6 measure.py) — auto-refresh 3 s</small></h2>
+  <table id="log"></table>
+</section>
+
+<script src="./config.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const baseInput = $("base");
+const hostedOnPages = location.hostname.endsWith(".github.io");
+baseInput.value = new URLSearchParams(location.search).get("api") || window.DW_API_BASE || localStorage.getItem("dw.base") || (hostedOnPages ? "" : (location.protocol.startsWith("http") ? location.origin : "http://127.0.0.1:8000"));
+$("key").value = localStorage.getItem("dw.key") || "demo-key";
+baseInput.onchange = () => { localStorage.setItem("dw.base", baseInput.value); $("docs").href = baseInput.value.replace(/\/$/, "") + "/docs"; loadProducts(); refreshAll(); };
+$("key").onchange = () => localStorage.setItem("dw.key", $("key").value);
+$("docs").href = baseInput.value + "/docs";
+
+async function api(method, path, body) {
+  if (!baseInput.value.trim()) throw new Error("Enter the deployed API URL above to connect to the Neon-backed server.");
+  const r = await fetch(baseInput.value.replace(/\/$/, "") + "/api/v1" + path, {
+    method, headers: { "Content-Type": "application/json", "X-API-Key": $("key").value },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const text = await r.text();
+  let data = null; try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+  if (!r.ok) throw new Error(`${r.status} ${data && data.detail ? JSON.stringify(data.detail) : text}`);
+  return data;
+}
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const sw = (hex) => `<span class="swatch" style="background:${esc(hex)}"></span>`;
+const itemList = (items) => items.map((i) => `${sw(i.attrs.color_hex)} <b>${esc(i.slot)}</b>: ${esc(i.name)}`).join(" · ");
+
+// ---------------- weather + recommend
+function showWeather(w) {
+  $("wbadge").textContent = w.source; $("wbadge").className = "badge " + w.source;
+  $("manual").hidden = w.source !== "MANUAL_REQUIRED";
+  $("credit").textContent = w.credit || "";
+  if (w.source === "MANUAL_REQUIRED") { $("winfo").innerHTML = `<span class="err">${esc(w.note)}</span>`; return; }
+  const t = w.t == null ? "" : `${w.t} °C, ${w.humidity} % · `;
+  const fetched = w.fetched_at ? ` · fetched ${new Date(w.fetched_at).toLocaleString()}` : "";
+  $("winfo").innerHTML = `${esc(w.local_time)} · ${t}${esc(w.description)} · rain=${w.rain} hot=${w.hot}${fetched} <small>${esc(w.note)}</small>`;
+}
+
+async function doRecommend(manual) {
+  const body = { occasion: $("occasion").value };
+  if ($("when").value) body.when = $("when").value;          // naive → read as WIB by the server
+  if ($("adm4").value.trim()) body.adm4 = $("adm4").value.trim();
+  if (manual) body.manual_weather = manual;
+  const t0 = performance.now();
+  try {
+    const res = await api("POST", "/outfits/recommend", body);
+    $("rtime").textContent = `${Math.round(performance.now() - t0)} ms`;
+    showWeather(res.weather);
+    $("outfits").innerHTML = res.message ? `<p class="err">${esc(res.message)}</p>` : "";
+    res.outfits.forEach((o) => {
+      const div = document.createElement("div"); div.className = "card";
+      div.innerHTML = `#${o.rank} score ${o.score} <small>(compat ${o.compat}, pref ${o.pref}, recency ${o.recency})</small><br>${itemList(o.items)}<br>`;
+      const ids = o.items.map((i) => i.id);
+      const wear = document.createElement("button"); wear.textContent = "Wear this";
+      wear.onclick = async () => {
+        const saved = await api("POST", "/outfits", { items: ids, occasion: body.occasion, planned_for: todayISO() });
+        await api("POST", `/outfits/${saved.id}/wear`, {});
+        wear.textContent = "Worn ✓"; refreshAll();
+      };
+      div.append(wear);
+      ["1", "2", "3"].forEach((slot) => {
+        const b = document.createElement("button"); b.textContent = `Save as ${slot}`;
+        b.onclick = async () => { await api("POST", "/outfits", { items: ids, label: slot, occasion: body.occasion }); b.textContent = `Saved ${slot} ✓`; loadSaved(); };
+        div.append(" ", b);
+      });
+      $("outfits").append(div);
+    });
+  } catch (e) { $("outfits").innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
+$("recommend").onclick = () => doRecommend();
+$("manualGo").onclick = () => doRecommend({
+  rain: document.querySelector("input[name=rain]:checked").value === "1",
+  hot: document.querySelector("input[name=hot]:checked").value === "1",
+});
+
+// ---------------- week strip + saved outfits
+function todayISO() { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+function isoWeek(d) {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day);
+  const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+  return `${t.getUTCFullYear()}-W${String(Math.ceil(((t - y0) / 86400000 + 1) / 7)).padStart(2, "0")}`;
+}
+async function loadWeek() {
+  const now = new Date(); const monday = new Date(now); monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  $("week").innerHTML = "";
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    const b = document.createElement("button");
+    b.textContent = d.toLocaleDateString(undefined, { weekday: "short", day: "numeric" });
+    if (d.toDateString() === now.toDateString()) b.className = "sel";
+    b.onclick = () => { const v = new Date(d); v.setHours(9, 0); $("when").value = new Date(v - v.getTimezoneOffset() * 60000).toISOString().slice(0, 16); };
+    $("week").append(b);
+  }
+  try {
+    const outs = await api("GET", `/outfits?week=${isoWeek(now)}`);
+    $("weekOutfits").innerHTML = outs.map((o) => `<div class="card">${esc(o.planned_for)} ${esc(o.occasion || "")}: ${itemList(o.items)}</div>`).join("") || "<small>nothing planned this week</small>";
+  } catch (e) { $("weekOutfits").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+}
+async function loadSaved() {
+  try {
+    const outs = (await api("GET", "/outfits")).filter((o) => ["1", "2", "3"].includes(o.label));
+    $("saved").innerHTML = outs.map((o) => `<button title="${esc(o.items.map((i) => i.name).join(', '))}" data-id="${o.id}">${esc(o.label)}</button>`).join(" ") || "<small>none</small>";
+    $("saved").querySelectorAll("button").forEach((b) => b.onclick = async () => {
+      const av = await api("GET", `/avatar/${b.dataset.id}`);
+      alert("Avatar payload (Phase 7 input):\n" + JSON.stringify(av, null, 2));
+    });
+  } catch (e) { $("saved").textContent = e.message; }
+}
+
+// ---------------- registration
+async function loadProducts() {
+  try {
+    const ps = await api("GET", "/admin/products");
+    $("gtin").innerHTML = ps.map((p) => `<option value="${esc(p.gtin)}">${esc(p.name)} (${esc(p.slot)})</option>`).join("");
+  } catch (e) { $("issued").textContent = e.message; }
+}
+$("issue").onclick = async () => {
+  try {
+    const [c] = await api("POST", "/admin/codes", { gtin: $("gtin").value, count: 1 });
+    const scan = `${baseInput.value}/01/${c.gtin}/21/${c.serial}`;
+    $("issued").innerHTML = `code <b>${esc(c.activation_code)}</b> (shown once) · <a href="${esc(scan)}" target="_blank">public QR link</a>`;
+    $("code").value = c.activation_code;
+  } catch (e) { $("issued").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+};
+$("activate").onclick = async () => {
+  try { const g = await api("POST", "/garments/activate", { code: $("code").value }); $("actres").textContent = `added ${g.name} (${g.slot})`; loadWardrobe(); }
+  catch (e) { $("actres").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+};
+
+// ---------------- wardrobe
+async function loadWardrobe() {
+  try {
+    const gs = await api("GET", "/wardrobe");
+    $("wcount").textContent = `${gs.length} garments`;
+    $("wardrobe").innerHTML = "<tr><th>slot</th><th>name</th><th>attrs</th><th>chosen/recommended</th><th>last worn</th><th></th></tr>" +
+      gs.map((g) => `<tr><td>${esc(g.slot)}</td><td>${sw(g.attrs.color_hex)} ${esc(g.name)} <small>${esc(g.origin)}</small></td>
+        <td><small>${esc(g.attrs.style)} f${g.attrs.formality}${g.attrs.rain_suitable ? " rain" : ""}${g.attrs.heavy ? " heavy" : ""}${g.attrs.long_sleeve ? " long-sleeve" : ""}${g.attrs.long_bottom ? " long-bottom" : ""}</small></td>
+        <td>${g.times_chosen}/${g.times_recommended}</td><td>${esc(g.last_worn_at || "")}</td>
+        <td><button data-del="${g.id}">delete</button></td></tr>`).join("");
+    $("wardrobe").querySelectorAll("button[data-del]").forEach((b) => b.onclick = async () => {
+      try { await api("DELETE", `/garments/${b.dataset.del}`); loadWardrobe(); } catch (e) { alert(e.message); }
+    });
+  } catch (e) { $("wardrobe").innerHTML = `<tr><td class="err">${esc(e.message)}</td></tr>`; }
+}
+$("gadd").onclick = async () => {
+  try {
+    await api("POST", "/garments", { name: $("gname").value, slot: $("gslot").value, attrs: {
+      color_hex: $("gcolor").value, style: $("gstyle").value, rain_suitable: $("grain").checked, heavy: $("gheavy").checked,
+      long_sleeve: $("gls").checked, long_bottom: $("glb").checked, formality: Number($("gform").value) } });
+    $("gres").textContent = "added"; loadWardrobe();
+  } catch (e) { $("gres").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+};
+
+// ---------------- controls, health, log
+const ctl = async (fn) => { try { $("ctlres").textContent = JSON.stringify(await fn()); refreshAll(); } catch (e) { $("ctlres").textContent = e.message; } };
+$("setFault").onclick = () => ctl(() => api("POST", "/admin/fault", { mode: $("fault").value }));
+$("clearCache").onclick = () => ctl(() => api("POST", "/admin/weather/clear-cache"));
+$("reset").onclick = () => confirm("Wipe outfits, wear log, registrations and the log, then re-seed?") && ctl(() => api("POST", "/admin/reset"));
+
+async function loadHealth() {
+  try { const h = await api("GET", "/health"); $("health").textContent = `db=${h.db} weather=${h.weather_mode} fault=${h.fault}`; $("fault").value = h.fault; }
+  catch (e) { $("health").innerHTML = `<span class="err">server unreachable: ${esc(e.message)}</span>`; }
+}
+async function loadLog() {
+  try {
+    const rows = await api("GET", "/metrics/interface-log?limit=25");
+    $("log").innerHTML = "<tr><th>time</th><th>if</th><th>route</th><th>status</th><th>ms</th><th>weather</th><th>note</th></tr>" +
+      rows.map((r) => `<tr><td>${new Date(r.at).toLocaleTimeString()}</td><td>${esc(r.interface)}</td><td>${esc(r.route)}</td>
+        <td>${r.status ?? ""}</td><td>${r.latency_ms ?? ""}</td><td>${esc(r.weather_source || "")}</td><td><small>${esc(r.note || "")}</small></td></tr>`).join("");
+  } catch { /* server down: health line already says so */ }
+}
+function refreshAll() { loadHealth(); loadWardrobe(); loadWeek(); loadSaved(); loadLog(); }
+if (baseInput.value) { loadProducts(); refreshAll(); }
+else { $("health").textContent = "Backend setup pending: enter the deployed API URL above."; $("docs").removeAttribute("href"); }
+setInterval(() => { if (baseInput.value) loadLog(); }, 3000);
+</script>
+</body>
+</html>

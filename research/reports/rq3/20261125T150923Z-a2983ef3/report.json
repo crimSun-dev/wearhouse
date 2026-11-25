@@ -1,0 +1,119 @@
+{
+  "rq": "RQ3",
+  "question": "Can a two-code registration scheme add garments to the correct wardrobe and category while rejecting guessed, altered, copied, and reused codes?",
+  "provenance": {
+    "generated_at": "2026-11-25T15:09:23.025396+00:00",
+    "git_commit": "ea21b056805085f926d8bebc9b9c377e362c3267",
+    "git_dirty": true,
+    "python": "3.11.8",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "libraries": {},
+    "config_hash": "a2983ef343aca2bff1da26536a308cc81675a38a2c847949f5e70fc245b031ec",
+    "seeds": {
+      "sample_and_alter": 20261125,
+      "guesses": "SystemRandom (CSPRNG)"
+    },
+    "datasets": {
+      "hm_articles": {
+        "synthetic": false,
+        "permission_basis": "kaggle-competition-rules-accepted",
+        "files": {
+          "articles": "25f21882053517f7684ea43f524225a9481a7bb9aab9cf0abfc7fe8c4576a72b"
+        }
+      }
+    },
+    "disclosure": "Code for this pipeline was written with AI assistance (Claude Code, Anthropic) under the author's direction; the author designed the study, reviewed the code and is responsible for the results. Disclose this in the thesis as required by the course's GenAI policy."
+  },
+  "wall_seconds": 2023.973,
+  "genuine": {
+    "products": 500,
+    "placed_correctly": 500,
+    "problems": []
+  },
+  "false_claims": {
+    "a_random_guesses": {
+      "attempts": 100000,
+      "accepted": 0,
+      "status_counts": {
+        "400": 100000
+      }
+    },
+    "b_altered_genuine": {
+      "attempts": 1500,
+      "accepted": 0,
+      "status_counts": {
+        "400": 1500
+      }
+    },
+    "c_public_qr_contents": {
+      "attempts": 1000,
+      "accepted": 0,
+      "status_counts": {
+        "400": 1000
+      }
+    },
+    "d_reused_by_owner": {
+      "attempts": 500,
+      "accepted": 0,
+      "status_counts": {
+        "400": 500
+      }
+    },
+    "d_reused_by_other": {
+      "attempts": 500,
+      "accepted": 0,
+      "status_counts": {
+        "400": 500
+      }
+    },
+    "d_reused_by_own_redeemer": {
+      "attempts": 500,
+      "accepted": 0
+    }
+  },
+  "false_claims_accepted_total": 0,
+  "generic_error_bodies_distinct": 1,
+  "generic_error_body": "{\"code\": \"INVALID_ACTIVATION_CODE\", \"message\": \"This activation code cannot be redeemed.\"}",
+  "rate_limit": {
+    "limit_per_user_per_hour": 10,
+    "first_n_statuses": [
+      400
+    ],
+    "over_limit_status": 429,
+    "over_limit_retry_after": "3600",
+    "independent_user_status": 400,
+    "passed": true
+  },
+  "design_checks": {
+    "label": "design checks, not research findings (thesis P0430)",
+    "eq10_serial_collision_bound": {
+      "n": 1000000000,
+      "serial_bits": 128,
+      "bound": 1.4693679370584914e-21,
+      "target": "< 1e-20",
+      "met": true
+    },
+    "eq11_guessing_bound_one_year": {
+      "attempts_per_year": 87600,
+      "unused_codes": 1000000,
+      "key_bits": 80,
+      "bound": 7.246102165964522e-14,
+      "target": "< 1e-10",
+      "met": true
+    },
+    "offline_bruteforce_years_at_1e10_per_s": 3830563
+  },
+  "deviations": [
+    "The thesis generates a 500-product test catalogue; this run samples 500 REAL permitted H&M catalogue rows (seeded), which is stronger evidence for category placement.",
+    "The public QR payload is the Wearhouse discovery URL with the 128-bit serial, not a GS1 Digital Link: H&M article ids are not GTINs (foundation design D5), so a GS1 link cannot be formed truthfully.",
+    "False-claim families run with per-user, per-IP and global admission limits disabled so the limiter cannot mask validation failures; the rate limit is tested separately with production limits.",
+    "Category placement is checked against the catalogue facts (product_type_name) and the rule-derived slot (mapping hm-articles@1); products whose group has no slot rule are expected as slot 'unknown'."
+  ],
+  "answer": {
+    "all_genuine_placed": true,
+    "zero_false_acceptances": true,
+    "single_generic_rejection": true,
+    "rate_limit_enforced": true,
+    "rq3_positive": true
+  }
+}

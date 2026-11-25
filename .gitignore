@@ -1,0 +1,59 @@
+# secrets — legacy Neon credentials live only in legacy/python/.env (formerly backend/.env);
+# v2 settings come from WEARHOUSE_* environment variables, never committed files
+.env
+*.env
+!.env.example
+
+# local databases
+*.db
+*.db-shm
+*.db-wal
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.claude/
+.deployment/
+_site/
+node_modules/
+dist/
+playwright-report/
+test-results/
+Digital_Wardrobe_Frontend.zip
+
+# generated CI/verification output
+ci-pages/
+ci-results/
+# v2 local state
+apps/api/.env
+*.sqlite
+# account pages e2e build (contains the test-only AuthPort fake; never deploy)
+dist-e2e/
+
+# Licensed source data (Kaggle H&M competition rules: no redistribution). Never commit.
+H&M DATABASE/
+apps/api/fixtures/source-products/local/
+
+# research workspace: environment, datasets and caches never committed (reports and manifests are)
+research/.venv/
+research/data/
+research/.cache/
+
+# kept local, never public (owner decision 2026-11-26)
+# unpublished thesis text (similarity checkers would flag the submission)
+Research Resources/
+CRIMSUN_POOL/RESEARCH_EXTRACT.txt
+# third-party (Steam) UI screenshots used only as design references
+Reference/
+# v1 demo activation keys (claim secrets for live demo items)
+test-tags/new-test-tags.json
+# build metadata
+*.egg-info/

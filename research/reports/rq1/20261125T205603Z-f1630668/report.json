@@ -1,0 +1,304 @@
+{
+  "rq": "RQ1",
+  "provenance": {
+    "generated_at": "2026-11-25T20:56:03.283993+00:00",
+    "git_commit": "ea21b056805085f926d8bebc9b9c377e362c3267",
+    "git_dirty": true,
+    "python": "3.11.8",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "libraries": {
+      "numpy": "2.4.6",
+      "pandas": "3.1.1",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.1"
+    },
+    "config_hash": "f16306689274feea68166a7d4f70304fba9de3f681e44d872981fd03810189a5",
+    "seeds": {
+      "bpr_bootstrap_sampling": 20261125
+    },
+    "datasets": {
+      "hm_transactions": {
+        "synthetic": false,
+        "permission_basis": "kaggle-competition-rules-accepted",
+        "files": {
+          "transactions": "fff5e3b35c1b26016aa0bf2231be9525bc766eed32c94f1653420b465aef84fa",
+          "customers": "abf3450c37ee1c16124e0d3379371153f5371148742efdcfe44c97c0445df6b2",
+          "articles": "25f21882053517f7684ea43f524225a9481a7bb9aab9cf0abfc7fe8c4576a72b"
+        }
+      }
+    },
+    "disclosure": "Code for this pipeline was written with AI assistance (Claude Code, Anthropic) under the author's direction; the author designed the study, reviewed the code and is responsible for the results. Disclose this in the thesis as required by the course's GenAI policy."
+  },
+  "declared": {
+    "content_embedding": "text_attributes",
+    "reason": "No permitted product images exist (catalogue images are generated placeholders), so the FashionCLIP image term of Eq. 2 and the image-similarity Dup of Eq. 3 are replaced by a TF-IDF text/attribute embedding. Comp (Eq. 3) needs the RQ2 compatibility model; lambda_c = 0 until an RQ2 artifact exists."
+  },
+  "result": {
+    "selection": {
+      "split": "validation",
+      "alpha_grid_map": {
+        "0.0": 0.006116190116847235,
+        "0.25": 0.009610914260543507,
+        "0.5": 0.009915531458560731,
+        "0.75": 0.008481064445381653,
+        "1.0": 0.005861601219903994
+      },
+      "alpha": 0.5,
+      "first_stage_duplicate_share": 0.3944124940092934,
+      "lambda_d_grid": {
+        "0.0": {
+          "map@12": 0.009915531458560731,
+          "duplicate_share": 0.3944124940092934
+        },
+        "0.05": {
+          "map@12": 0.007633891811751053,
+          "duplicate_share": 0.17395449146715009
+        },
+        "0.1": {
+          "map@12": 0.005114407179911649,
+          "duplicate_share": 0.06969015023650267
+        },
+        "0.2": {
+          "map@12": 0.0027079878823006998,
+          "duplicate_share": 0.014882998895626262
+        },
+        "0.5": {
+          "map@12": 0.001881905186961269,
+          "duplicate_share": 0.0005417682482132066
+        },
+        "1.0": {
+          "map@12": 0.001881905186961269,
+          "duplicate_share": 0.0
+        }
+      },
+      "lambda_d": 0.05,
+      "lambda_d_rule": "max validation MAP among settings reducing duplicates by >= 30% vs first stage; if none, max MAP (met: True)",
+      "tau": 0.9,
+      "tau_note": "fixed in config (thesis tau from hand-checked image pairs cannot be reproduced without images)"
+    },
+    "test": {
+      "cohort": {
+        "buyers_in_week": 68984,
+        "missing_age_excluded": 292,
+        "genz_evaluated": 15292,
+        "max_age": 23
+      },
+      "evaluated_customers": 15292,
+      "window": {
+        "from": "2020-06-24 00:00:00",
+        "to": "2020-09-15 00:00:00",
+        "rows": 3664080
+      },
+      "methods": {
+        "popularity": {
+          "map@12": {
+            "mean": 0.01064770696973767,
+            "lo": 0.009601487603837344,
+            "hi": 0.011744420777617118,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "recall@12": {
+            "mean": 0.0329450039798074,
+            "lo": 0.0309298315248384,
+            "hi": 0.03518189729124095,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "ndcg@12": {
+            "mean": 0.01920977933104681,
+            "lo": 0.017896984033252898,
+            "hi": 0.020643592537512235,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "duplicate_share": {
+            "mean": 0.0162448774958584,
+            "lo": 0.0155906683233063,
+            "hi": 0.016866117359839564,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          }
+        },
+        "item_knn": {
+          "map@12": {
+            "mean": 0.005593199628179791,
+            "lo": 0.004787677959155828,
+            "hi": 0.006373514023018258,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "recall@12": {
+            "mean": 0.015948647812790453,
+            "lo": 0.01422359066356801,
+            "hi": 0.017568387079704196,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "ndcg@12": {
+            "mean": 0.0093181083153472,
+            "lo": 0.008291329926550023,
+            "hi": 0.010276980353329333,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "duplicate_share": {
+            "mean": 0.2126057197663266,
+            "lo": 0.20927595583747494,
+            "hi": 0.21596831676693695,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          }
+        },
+        "bpr": {
+          "map@12": {
+            "mean": 0.008932997325023777,
+            "lo": 0.007910072016946053,
+            "hi": 0.010050200980742708,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "recall@12": {
+            "mean": 0.024416621612617477,
+            "lo": 0.02237046762202383,
+            "hi": 0.026486020008800543,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "ndcg@12": {
+            "mean": 0.014721219052017885,
+            "lo": 0.01344098798368548,
+            "hi": 0.016067388034148523,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "duplicate_share": {
+            "mean": 0.08430333943674251,
+            "lo": 0.08257531170982649,
+            "hi": 0.08604185739820386,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          }
+        },
+        "first_stage": {
+          "map@12": {
+            "mean": 0.010276166305890844,
+            "lo": 0.009145563424364664,
+            "hi": 0.011516953856282191,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "recall@12": {
+            "mean": 0.02330171878042365,
+            "lo": 0.021196426904070642,
+            "hi": 0.025340124441284306,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "ndcg@12": {
+            "mean": 0.015297768766859916,
+            "lo": 0.013903785085809604,
+            "hi": 0.016753018703577167,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "duplicate_share": {
+            "mean": 0.3906290871043683,
+            "lo": 0.3860622929200453,
+            "hi": 0.39566113000261577,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          }
+        },
+        "reranked": {
+          "map@12": {
+            "mean": 0.008016096319721182,
+            "lo": 0.006947334283859265,
+            "hi": 0.009122091633240811,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "recall@12": {
+            "mean": 0.01822223866701881,
+            "lo": 0.016458702558905237,
+            "hi": 0.019972750721842437,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "ndcg@12": {
+            "mean": 0.011963915378067517,
+            "lo": 0.010686116307275274,
+            "hi": 0.013193807318859128,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          },
+          "duplicate_share": {
+            "mean": 0.17370738512511988,
+            "lo": 0.17021304712703814,
+            "hi": 0.17729327426105154,
+            "n": 15292,
+            "resamples": 1000,
+            "seed": 20261125
+          }
+        }
+      }
+    },
+    "success": {
+      "map_target": 0.1,
+      "duplicate_target": 0.3,
+      "map_relative_vs_best_baseline": {
+        "relative": -0.24715280552854316,
+        "absolute": -0.002631610650016488
+      },
+      "best_baseline": "popularity",
+      "duplicate_relative_vs_first_stage": {
+        "relative": -0.5553137468262604,
+        "absolute": -0.2169217019792484
+      },
+      "map_met": false,
+      "duplicates_met": true,
+      "paired_map_difference_ci": {
+        "mean": -0.002631610650016491,
+        "lo": -0.004038392111567513,
+        "hi": -0.0012021957532010329,
+        "n": 15292,
+        "resamples": 1000,
+        "seed": 20261125
+      },
+      "paired_duplicate_difference_ci": {
+        "mean": -0.21692170197924843,
+        "lo": -0.2199299470311274,
+        "hi": -0.21398307393844276,
+        "n": 15292,
+        "resamples": 1000,
+        "seed": 20261125
+      },
+      "rq1_positive": false
+    },
+    "split": {
+      "validation_start": "2020-09-09 00:00:00",
+      "test_start": "2020-09-16 00:00:00",
+      "end": "2020-09-22 00:00:00"
+    }
+  },
+  "wall_seconds": 5555.597
+}

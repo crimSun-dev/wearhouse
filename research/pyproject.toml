@@ -1,0 +1,25 @@
+[project]
+name = "wearhouse-research"
+version = "0.1.0"
+description = "Wearhouse research pipelines (thesis RQ1-RQ3). Separate from the product API; never imported by it."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy==2.4.6",
+    "pandas==3.1.1",
+    "pyarrow==26.0.1",
+    "scipy==1.17.1",
+    "scikit-learn==1.9.1",
+]
+
+[project.optional-dependencies]
+# Image embeddings for Polyvore (RQ2) when the FashionCLIP weights are available. Not installed by default.
+fashionclip = ["torch", "transformers", "pillow"]
+dev = ["pytest==9.2.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "api: needs the Wearhouse API package and a disposable PostgreSQL server (RQ3)",
+    "synthetic_only: generated data; never a reported result",
+]

@@ -1,0 +1,21 @@
+{
+  "name": "polyvore_outfits",
+  "status": "permitted",
+  "supplied": "nondisjoint split (train/valid/test, compatibility_test, fill_in_blank_test) and item metadata supplied by the owner 2026-11-25/26; images excluded",
+  "permission": {
+    "basis": "huggingface-gated-access-granted (dataset card licence: CC BY 4.0)",
+    "accepted_on": "2026-11-25",
+    "accepted_by": "Wearhouse project owner (own Hugging Face account; confirmed by the owner on 2026-11-25)",
+    "scope": "Academic, non-profit research only (Wearhouse capstone thesis), as the dataset card requires; attribution to Vasileva et al., ECCV 2018; images excluded; files are not redistributed.",
+    "terms_url": "https://huggingface.co/datasets/mvasil/polyvore-outfits"
+  },
+  "citation": "Vasileva, M. I., Plummer, B. A., Dusad, K., Rajpal, S., Kumar, R., & Forsyth, D. A. (2018). Learning Type-Aware Embeddings for Fashion Compatibility. ECCV.",
+  "files": {
+    "nondisjoint_train": {"path": "research/data/polyvore_outfits/nondisjoint/train.json", "sha256": "09fe68140c8207240d5d1bbfe2a443e2a80e60e6efb0b9251945cebe38e3f10c"},
+    "nondisjoint_test": {"path": "research/data/polyvore_outfits/nondisjoint/test.json", "sha256": "31169707e667bb630cee9f5d79837c22b53d688b910299bff171f7781dc2cb62"},
+    "nondisjoint_valid": {"path": "research/data/polyvore_outfits/nondisjoint/valid.json", "sha256": "3295676dc38d592f4135df45ff55ab8d9381b035f975af6432d8a0363521c808"},
+    "compatibility_test": {"path": "research/data/polyvore_outfits/nondisjoint/compatibility_test.txt", "sha256": "966796137ba0845878cfdf8bf682bbcc192e7f6b7b73a810296b19d909204d3e"},
+    "fitb_test": {"path": "research/data/polyvore_outfits/nondisjoint/fill_in_blank_test.json", "sha256": "45db613cdae3aa9730462b57f737590327a9e9c9bc00bb42a9ff938f3b7b528c"},
+    "item_metadata": {"path": "research/data/polyvore_outfits/polyvore_item_metadata.json", "sha256": "d5e7a3ce1506bc3e64eacfcb29c26f360c39bba96522f7d316ae8ee9f2d2ea58"}
+  }
+}

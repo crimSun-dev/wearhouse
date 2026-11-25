@@ -1,0 +1,16 @@
+{
+  "name": "@wearhouse/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generated Wearhouse v2 API contract (OpenAPI + TypeScript types). Do not edit generated files.",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "generate": "openapi-typescript openapi-v2.json -o src/schema.d.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "node scripts/check-drift.mjs && tsc --noEmit"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3"
+  }
+}

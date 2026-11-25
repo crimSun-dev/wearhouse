@@ -1,0 +1,51 @@
+{
+  "_note": "SYNTHETIC TEST-ONLY FIXTURE. Data-free and invented for invariant tests. It is NOT an H&M record and never satisfies the source-backed readiness gate (design D8). Tests using it are marked synthetic_only.",
+  "request": {
+    "source": {
+      "namespace": "wearhouse-synthetic-test",
+      "name": "Wearhouse synthetic test fixture",
+      "url": "https://wearhouse.invalid/synthetic-fixture"
+    },
+    "snapshot": {
+      "sha256": "06a15714b84fef5c12fb5c99fd7ac58bfc06142eb427dc8e68e38d733233aa28",
+      "file_name": "synthetic_product.json",
+      "acquired_on": "2026-11-25"
+    },
+    "permission": {
+      "basis": "synthetic-test-fixture",
+      "scope": "automated tests only",
+      "accepted_on": "2026-11-25",
+      "accepted_by": "wearhouse test suite",
+      "terms_url": "https://wearhouse.invalid/synthetic-fixture/terms"
+    },
+    "external_id": "0000000001",
+    "original_fields": {
+      "article_id": "0000000001",
+      "prod_name": "Synthetic test tee",
+      "product_type_name": "T-shirt",
+      "colour_group_name": "Black",
+      "detail_desc": "Synthetic, data-free test record. Not an H&M article."
+    },
+    "facts": {
+      "product_name": {
+        "value": "Synthetic test tee",
+        "source_field": "prod_name"
+      },
+      "category": {
+        "value": "T-shirt",
+        "source_field": "product_type_name"
+      },
+      "colour": {
+        "value": "Black",
+        "source_field": "colour_group_name"
+      }
+    },
+    "annotations": {
+      "weather_rain_suitable": {
+        "value": false,
+        "origin": "rule",
+        "note": "simulation lookup, not a verified retail characteristic"
+      }
+    }
+  }
+}

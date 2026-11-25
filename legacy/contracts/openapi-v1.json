@@ -1,0 +1,1671 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Digital Wardrobe Live Demo API",
+    "description": "INFS4305 System Integration demo: wardrobe + BMKG weather gateway + garment registration. Interfaces I1–I6 per the TDD. Writes need the X-API-Key header.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/wardrobe": {
+      "get": {
+        "tags": [
+          "wardrobe"
+        ],
+        "summary": "Wardrobe",
+        "operationId": "wardrobe_api_v1_wardrobe_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GarmentOut"
+                  },
+                  "type": "array",
+                  "title": "Response Wardrobe Api V1 Wardrobe Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/garments": {
+      "post": {
+        "tags": [
+          "wardrobe"
+        ],
+        "summary": "Add Garment",
+        "description": "Manual add (e.g. a thrifted item without a tag).",
+        "operationId": "add_garment_api_v1_garments_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GarmentIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GarmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/garments/{garment_id}": {
+      "delete": {
+        "tags": [
+          "wardrobe"
+        ],
+        "summary": "Delete Garment",
+        "description": "409 if a saved outfit uses the garment (blocked, not cascaded).",
+        "operationId": "delete_garment_api_v1_garments__garment_id__delete",
+        "parameters": [
+          {
+            "name": "garment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Garment Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/outfits": {
+      "post": {
+        "tags": [
+          "outfits"
+        ],
+        "summary": "Create Outfit",
+        "description": "Save / plan an outfit. 409 on a slot clash, 422 on unknown garments.",
+        "operationId": "create_outfit_api_v1_outfits_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutfitIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutfitOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "outfits"
+        ],
+        "summary": "List Outfits",
+        "operationId": "list_outfits_api_v1_outfits_get",
+        "parameters": [
+          {
+            "name": "week",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "ISO week, e.g. 2026-W48 (calendar strip)",
+              "title": "Week"
+            },
+            "description": "ISO week, e.g. 2026-W48 (calendar strip)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutfitOut"
+                  },
+                  "title": "Response List Outfits Api V1 Outfits Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/outfits/{outfit_id}": {
+      "delete": {
+        "tags": [
+          "outfits"
+        ],
+        "summary": "Delete Outfit",
+        "operationId": "delete_outfit_api_v1_outfits__outfit_id__delete",
+        "parameters": [
+          {
+            "name": "outfit_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Outfit Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/outfits/{outfit_id}/wear": {
+      "post": {
+        "tags": [
+          "outfits"
+        ],
+        "summary": "Wear",
+        "description": "Writes wear_log, sets last_worn_at and increments times_chosen for each item.",
+        "operationId": "wear_api_v1_outfits__outfit_id__wear_post",
+        "parameters": [
+          {
+            "name": "outfit_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Outfit Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/WearIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/avatar/{outfit_id}": {
+      "get": {
+        "tags": [
+          "outfits"
+        ],
+        "summary": "Avatar",
+        "description": "Slot → template/texture/tint description that the Three.js avatar (Phase 7) consumes.",
+        "operationId": "avatar_api_v1_avatar__outfit_id__get",
+        "parameters": [
+          {
+            "name": "outfit_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Outfit Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/outfits/recommend": {
+      "post": {
+        "tags": [
+          "weather"
+        ],
+        "summary": "Recommend",
+        "operationId": "recommend_api_v1_outfits_recommend_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/weather": {
+      "get": {
+        "tags": [
+          "weather"
+        ],
+        "summary": "Weather",
+        "description": "Debug view of the validated forecast the gateway is using.",
+        "operationId": "weather_api_v1_weather_get",
+        "parameters": [
+          {
+            "name": "adm4",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{4}$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Adm4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/garments/activate": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Activate",
+        "description": "Redeem the private activation code. 400 with one generic message for every kind of\nbad input; 429 after 10 attempts in an hour.",
+        "operationId": "activate_api_v1_garments_activate_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GarmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/garments/scan": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Activate Scan",
+        "description": "The unguessable 128-bit tag serial is a one-time registration credential.",
+        "operationId": "activate_scan_api_v1_garments_scan_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GarmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scan/01/{gtin}/21/{serial}": {
+      "get": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Scan",
+        "description": "I5 resolver (JSON). Shows the product only; never grants ownership.",
+        "operationId": "scan_api_v1_scan_01__gtin__21__serial__get",
+        "parameters": [
+          {
+            "name": "gtin",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Gtin"
+            }
+          },
+          {
+            "name": "serial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Serial"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/codes/{serial}/qr.svg": {
+      "get": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Qr Svg",
+        "description": "QR image of the tag's public Digital Link (for printing demo tags).",
+        "operationId": "qr_svg_api_v1_codes__serial__qr_svg_get",
+        "parameters": [
+          {
+            "name": "serial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Serial"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/interface-log": {
+      "get": {
+        "tags": [
+          "admin",
+          "metrics"
+        ],
+        "summary": "Interface Log",
+        "description": "Newest first. This endpoint itself is not logged (the demo page polls it).",
+        "operationId": "interface_log_api_v1_metrics_interface_log_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "interface",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^I[1-6]$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Interface"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/summary": {
+      "get": {
+        "tags": [
+          "admin",
+          "metrics"
+        ],
+        "summary": "Summary",
+        "description": "Row counts per interface plus BMKG (I2) calls in the last 24 h (budget: ≤ 8/day/location).",
+        "operationId": "summary_api_v1_metrics_summary_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/fault": {
+      "post": {
+        "tags": [
+          "admin",
+          "admin"
+        ],
+        "summary": "Set Fault",
+        "description": "I6 fault switch. Switching marks cached forecasts as due so the next request really hits the fault\n(the cached copy stays available as the CACHED fallback).",
+        "operationId": "set_fault_api_v1_admin_fault_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FaultIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/weather/clear-cache": {
+      "post": {
+        "tags": [
+          "admin",
+          "admin"
+        ],
+        "summary": "Clear Cache",
+        "description": "Forget every cached forecast (to demo a cold failure → MANUAL_REQUIRED).",
+        "operationId": "clear_cache_api_v1_admin_weather_clear_cache_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/codes": {
+      "post": {
+        "tags": [
+          "admin",
+          "admin"
+        ],
+        "summary": "Issue Codes",
+        "description": "Retailer side: mint tag serials + activation codes. Codes are shown ONCE (only hashes are stored).",
+        "operationId": "issue_codes_api_v1_admin_codes_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IssueCodesIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/products": {
+      "get": {
+        "tags": [
+          "admin",
+          "admin"
+        ],
+        "summary": "Products",
+        "operationId": "products_api_v1_admin_products_get",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/reset": {
+      "post": {
+        "tags": [
+          "admin",
+          "admin"
+        ],
+        "summary": "Reset",
+        "description": "Fresh demo run: wipe outfits/wear/registrations/logs and re-seed the 28 garments.",
+        "operationId": "reset_api_v1_admin_reset_post",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/01/{gtin}/21/{serial}": {
+      "get": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Scan Page",
+        "description": "What the phone camera opens: the GS1 Digital Link printed in the tag's QR code.",
+        "operationId": "scan_page_01__gtin__21__serial__get",
+        "parameters": [
+          {
+            "name": "gtin",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Gtin"
+            }
+          },
+          {
+            "name": "serial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Serial"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActivateIn": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "title": "ActivateIn"
+      },
+      "FaultIn": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "none",
+              "timeout",
+              "http500",
+              "malformed",
+              "missing_fields"
+            ],
+            "title": "Mode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mode"
+        ],
+        "title": "FaultIn"
+      },
+      "GarmentAttrs": {
+        "properties": {
+          "color_hex": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "title": "Color Hex",
+            "default": "#808080"
+          },
+          "style": {
+            "type": "string",
+            "enum": [
+              "casual",
+              "smart",
+              "formal",
+              "modest",
+              "sporty",
+              "street"
+            ],
+            "title": "Style",
+            "default": "casual"
+          },
+          "rain_suitable": {
+            "type": "boolean",
+            "title": "Rain Suitable",
+            "default": false
+          },
+          "heavy": {
+            "type": "boolean",
+            "title": "Heavy",
+            "default": false
+          },
+          "long_sleeve": {
+            "type": "boolean",
+            "title": "Long Sleeve",
+            "default": false
+          },
+          "long_bottom": {
+            "type": "boolean",
+            "title": "Long Bottom",
+            "default": false
+          },
+          "formality": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Formality",
+            "default": 1
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "GarmentAttrs"
+      },
+      "GarmentIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "slot": {
+            "type": "string",
+            "enum": [
+              "top",
+              "bottom",
+              "dress",
+              "outer",
+              "footwear",
+              "accessory"
+            ],
+            "title": "Slot"
+          },
+          "attrs": {
+            "$ref": "#/components/schemas/GarmentAttrs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "slot"
+        ],
+        "title": "GarmentIn"
+      },
+      "GarmentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slot": {
+            "type": "string",
+            "title": "Slot"
+          },
+          "attrs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Attrs"
+          },
+          "gtin": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gtin"
+          },
+          "serial": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Serial"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "registered"
+            ],
+            "title": "Origin"
+          },
+          "times_recommended": {
+            "type": "integer",
+            "title": "Times Recommended"
+          },
+          "times_chosen": {
+            "type": "integer",
+            "title": "Times Chosen"
+          },
+          "last_worn_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Worn At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slot",
+          "attrs",
+          "origin",
+          "times_recommended",
+          "times_chosen"
+        ],
+        "title": "GarmentOut"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IssueCodesIn": {
+        "properties": {
+          "gtin": {
+            "type": "string",
+            "pattern": "^\\d{14}$",
+            "title": "Gtin"
+          },
+          "count": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Count",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "gtin"
+        ],
+        "title": "IssueCodesIn"
+      },
+      "ManualWeatherIn": {
+        "properties": {
+          "rain": {
+            "type": "boolean",
+            "title": "Rain"
+          },
+          "hot": {
+            "type": "boolean",
+            "title": "Hot"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rain",
+          "hot"
+        ],
+        "title": "ManualWeatherIn"
+      },
+      "OutfitIn": {
+        "properties": {
+          "items": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 1,
+            "title": "Items"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "planned_for": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planned For"
+          },
+          "occasion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "campus",
+                  "casual",
+                  "worship",
+                  "formal",
+                  "wedding"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Occasion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "OutfitIn"
+      },
+      "OutfitOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "planned_for": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planned For"
+          },
+          "occasion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Occasion"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GarmentOut"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "planned_for",
+          "occasion",
+          "items"
+        ],
+        "title": "OutfitOut"
+      },
+      "RecommendIn": {
+        "properties": {
+          "occasion": {
+            "type": "string",
+            "enum": [
+              "campus",
+              "casual",
+              "worship",
+              "formal",
+              "wedding"
+            ],
+            "title": "Occasion"
+          },
+          "when": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "When",
+            "description": "Defaults to now. Naive times are read as the location's local time."
+          },
+          "adm4": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Adm4",
+            "description": "BMKG village code, default Kemayoran (Jakarta)"
+          },
+          "manual_weather": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ManualWeatherIn"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Two-tap manual answer. When given, BMKG is skipped and source=MANUAL."
+          }
+        },
+        "type": "object",
+        "required": [
+          "occasion"
+        ],
+        "title": "RecommendIn"
+      },
+      "ScanIn": {
+        "properties": {
+          "gtin": {
+            "type": "string",
+            "pattern": "^\\d{14}$",
+            "title": "Gtin"
+          },
+          "serial": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "title": "Serial"
+          }
+        },
+        "type": "object",
+        "required": [
+          "gtin",
+          "serial"
+        ],
+        "title": "ScanIn"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WearIn": {
+        "properties": {
+          "worn_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worn On"
+          }
+        },
+        "type": "object",
+        "title": "WearIn"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "digital-wardrobe-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "types:api": "openapi-typescript ../contracts/openapi-v1.json -o src/schema.d.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/auth": "^0.6.0-beta",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "openapi-typescript": "^7.10.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.2"
+  }
+}

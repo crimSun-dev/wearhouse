@@ -1,0 +1,14 @@
+{
+  "name": "hm_articles",
+  "status": "permitted",
+  "permission": {
+    "basis": "kaggle-competition-rules-accepted",
+    "accepted_on": "2026-11-25",
+    "accepted_by": "Wearhouse project owner (own Kaggle account)",
+    "scope": "Non-commercial academic research (Wearhouse capstone thesis). The source file is not redistributed.",
+    "terms_url": "https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/rules"
+  },
+  "files": {
+    "articles": {"path": "H&M DATABASE/articles.csv", "sha256": "25f21882053517f7684ea43f524225a9481a7bb9aab9cf0abfc7fe8c4576a72b"}
+  }
+}

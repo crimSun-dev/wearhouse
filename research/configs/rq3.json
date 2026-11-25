@@ -1,0 +1,21 @@
+{
+  "experiment": "RQ3 garment registration (methodology v11 section 3.5.3)",
+  "manifest": "research/manifests/hm_articles.json",
+  "seed": 20261125,
+  "products": 500,
+  "random_guesses": 100000,
+  "altered_characters": [1, 2, 3],
+  "reuse_sample": 500,
+  "attempts_per_user_per_hour": 10,
+  "discovery_base_url": "https://wearhouse.example",
+  "garments_for_collision_check": 1000000000,
+  "serial_bits": 128,
+  "key_bits": 80,
+  "unused_codes": 1000000,
+  "declared_deviations": [
+    "The thesis generates a 500-product test catalogue; this run samples 500 REAL permitted H&M catalogue rows (seeded), which is stronger evidence for category placement.",
+    "The public QR payload is the Wearhouse discovery URL with the 128-bit serial, not a GS1 Digital Link: H&M article ids are not GTINs (foundation design D5), so a GS1 link cannot be formed truthfully.",
+    "False-claim families run with per-user, per-IP and global admission limits disabled so the limiter cannot mask validation failures; the rate limit is tested separately with production limits.",
+    "Category placement is checked against the catalogue facts (product_type_name) and the rule-derived slot (mapping hm-articles@1); products whose group has no slot rule are expected as slot 'unknown'."
+  ]
+}

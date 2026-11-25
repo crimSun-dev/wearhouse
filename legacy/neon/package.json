@@ -1,0 +1,16 @@
+{
+  "name": "digital-wardrobe-neon-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@neon/functions": "^0.8.0",
+    "hono": "^4.0.0",
+    "jose": "^6.2.18",
+    "pg": "^8.0.0",
+    "qrcode": "^1.5.4",
+    "zod": "^4.0.0"
+  }
+}

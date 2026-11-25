@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wearhouse-api"
+version = "0.1.0"
+description = "Wearhouse v2 canonical API: verified identity, source-backed products, private redemption"
+requires-python = ">=3.11"
+# Direct dependencies, exact pins. Reproducible install: pip install -r requirements.lock && pip install --no-deps -e .
+dependencies = [
+    "fastapi==0.165.0",
+    "starlette==1.10.0",
+    "uvicorn==0.54.0",
+    "SQLAlchemy==2.1.9",
+    "psycopg[binary]==3.3.9",
+    "alembic==1.20.1",
+    "pydantic==2.14.4",
+    "PyJWT[crypto]==2.15.1",
+    "cryptography==50.0.2",
+    "httpx==0.28.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0"]
+
+[project.scripts]
+wearhouse = "wearhouse.bootstrap.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+wearhouse = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "postgres: needs a disposable PostgreSQL server (WEARHOUSE_TEST_ADMIN_URL)",
+    "synthetic_only: uses the data-free synthetic fixture; never counts as the source-backed readiness proof",
+    "source_backed: requires the permitted source fixture manifest (apps/api/fixtures/source-products)",
+]

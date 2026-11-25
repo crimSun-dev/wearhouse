@@ -1,0 +1,161 @@
+{
+  "name": "jakarta_climate",
+  "station": "BMKG Stasiun Meteorologi Kemayoran, Jakarta (WMO 96745)",
+  "period": "1991-2020",
+  "built_on": "2026-11-26",
+  "method": {
+    "rain": "WMO normals days with precipitation >= 1 mm / days in month",
+    "hot": "share of observed GHCN-Daily days with TMAX >= 32.0 C",
+    "validation": "daily vs WMO share of days >= 30 C: max abs difference 0.023"
+  },
+  "files": {
+    "wmo_normals": {
+      "path": "research/data/climate/StasiunMeteorologiKemayoran_96745.csv",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0216/0253808/6.6/data/0-data/Region-5-WMO-Normals-9120/Indonesia/CSV/StasiunMeteorologiKemayoran_96745.csv",
+      "sha256": "e42e6763d72ad4fe314f1b83960eb5565425c4c8abc7cb73a687aa57a90f2a90",
+      "citation": "WMO Climatological Standard Normals for 1991-2020 (NCEI Accession 0253808), station 96745 Stasiun Meteorologi Kemayoran, submitted by BMKG. NOAA National Centers for Environmental Information."
+    },
+    "ghcn_daily": {
+      "path": "research/data/climate/ID000096745.csv",
+      "url": "https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/ID000096745.csv",
+      "sha256": "d4937825ec8174ac0d80b7d8f045a8db0488896394d00ca9c3851f449128e914",
+      "citation": "Menne, M. J., et al. (2012). Global Historical Climatology Network - Daily (GHCN-Daily), station ID000096745 JAKARTA/OBSERVATORY. NOAA National Centers for Environmental Information."
+    }
+  },
+  "monthly": {
+    "1": {
+      "rain": 0.565,
+      "hot": 0.267
+    },
+    "2": {
+      "rain": 0.634,
+      "hot": 0.228
+    },
+    "3": {
+      "rain": 0.455,
+      "hot": 0.503
+    },
+    "4": {
+      "rain": 0.383,
+      "hot": 0.733
+    },
+    "5": {
+      "rain": 0.265,
+      "hot": 0.833
+    },
+    "6": {
+      "rain": 0.207,
+      "hot": 0.803
+    },
+    "7": {
+      "rain": 0.155,
+      "hot": 0.792
+    },
+    "8": {
+      "rain": 0.106,
+      "hot": 0.836
+    },
+    "9": {
+      "rain": 0.133,
+      "hot": 0.831
+    },
+    "10": {
+      "rain": 0.239,
+      "hot": 0.833
+    },
+    "11": {
+      "rain": 0.347,
+      "hot": 0.719
+    },
+    "12": {
+      "rain": 0.413,
+      "hot": 0.537
+    }
+  },
+  "validation": {
+    "1": {
+      "daily_days": 454,
+      "share_ge30_daily": 0.725,
+      "share_ge30_wmo": 0.729,
+      "mean_tmax_daily": 30.87,
+      "mean_tmax_wmo": 31.0
+    },
+    "2": {
+      "daily_days": 416,
+      "share_ge30_daily": 0.69,
+      "share_ge30_wmo": 0.708,
+      "mean_tmax_daily": 30.68,
+      "mean_tmax_wmo": 30.8
+    },
+    "3": {
+      "daily_days": 449,
+      "share_ge30_daily": 0.949,
+      "share_ge30_wmo": 0.926,
+      "mean_tmax_daily": 31.93,
+      "mean_tmax_wmo": 32.1
+    },
+    "4": {
+      "daily_days": 472,
+      "share_ge30_daily": 0.972,
+      "share_ge30_wmo": 0.967,
+      "mean_tmax_daily": 32.58,
+      "mean_tmax_wmo": 32.8
+    },
+    "5": {
+      "daily_days": 485,
+      "share_ge30_daily": 0.977,
+      "share_ge30_wmo": 0.977,
+      "mean_tmax_daily": 32.93,
+      "mean_tmax_wmo": 33.2
+    },
+    "6": {
+      "daily_days": 457,
+      "share_ge30_daily": 0.969,
+      "share_ge30_wmo": 0.97,
+      "mean_tmax_daily": 32.67,
+      "mean_tmax_wmo": 32.9
+    },
+    "7": {
+      "daily_days": 453,
+      "share_ge30_daily": 0.982,
+      "share_ge30_wmo": 0.977,
+      "mean_tmax_daily": 32.53,
+      "mean_tmax_wmo": 32.7
+    },
+    "8": {
+      "daily_days": 482,
+      "share_ge30_daily": 0.998,
+      "share_ge30_wmo": 0.997,
+      "mean_tmax_daily": 32.78,
+      "mean_tmax_wmo": 33.0
+    },
+    "9": {
+      "daily_days": 496,
+      "share_ge30_daily": 0.984,
+      "share_ge30_wmo": 0.99,
+      "mean_tmax_daily": 32.96,
+      "mean_tmax_wmo": 33.4
+    },
+    "10": {
+      "daily_days": 522,
+      "share_ge30_daily": 0.985,
+      "share_ge30_wmo": 0.977,
+      "mean_tmax_daily": 33.09,
+      "mean_tmax_wmo": 33.4
+    },
+    "11": {
+      "daily_days": 501,
+      "share_ge30_daily": 0.974,
+      "share_ge30_wmo": 0.957,
+      "mean_tmax_daily": 32.68,
+      "mean_tmax_wmo": 32.8
+    },
+    "12": {
+      "daily_days": 488,
+      "share_ge30_daily": 0.922,
+      "share_ge30_wmo": 0.9,
+      "mean_tmax_daily": 31.9,
+      "mean_tmax_wmo": 32.0
+    }
+  }
+}

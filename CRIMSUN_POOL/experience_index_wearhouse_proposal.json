@@ -1,0 +1,66 @@
+[
+  {
+    "file": "CRIMSUN_POOL\\DIGITAL_WARDROBE_FOUNDATIONAL_EXPERIENCE.md",
+    "module_id": "DIGITAL_WARDROBE_HISTORY",
+    "domain": "FULLSTACK_WEB",
+    "source": "Digital Wardrobe repository, four commits on 2026-11-24; methodology v11; current working tree",
+    "type": "module",
+    "approx_tokens": 1055,
+    "counts": {
+      "AXIOM": 0,
+      "RULE": 2,
+      "TRAP": 0,
+      "CHECK": 0,
+      "PROGRESS": 2,
+      "MISTAKE": 2,
+      "GROWN": 2,
+      "BRIDGE": 0
+    },
+    "ranges": {
+      "RULE": "RULE-001..RULE-002",
+      "PROGRESS": "PROGRESS-001..PROGRESS-002",
+      "MISTAKE": "MISTAKE-001..MISTAKE-002",
+      "GROWN": "GROWN-001..GROWN-002"
+    },
+    "chunks": [],
+    "superseded_ids": [],
+    "declared_total": null,
+    "ids_repeat": false,
+    "family": "experience",
+    "tags": {
+      "TIER-0": 8,
+      "IMPACT-HIGH": 2,
+      "NEVER_RESOLVED": 2
+    }
+  },
+  {
+    "file": "CRIMSUN_POOL\\UNIFIED_DECISION_MANIFEST_DIGITAL_WARDROBE_v1.md",
+    "module_id": "UNIFIED_SENIOR_AND_GROWTH_DECISION_MANIFEST",
+    "domain": "",
+    "source": "",
+    "type": "module",
+    "approx_tokens": 3355,
+    "counts": {
+      "AXIOM": 0,
+      "RULE": 2,
+      "TRAP": 0,
+      "CHECK": 0,
+      "PROGRESS": 2,
+      "MISTAKE": 0,
+      "GROWN": 0,
+      "BRIDGE": 0
+    },
+    "ranges": {
+      "RULE": "RULE-001..RULE-002",
+      "PROGRESS": "PROGRESS-001..PROGRESS-002"
+    },
+    "chunks": [],
+    "superseded_ids": [],
+    "declared_total": null,
+    "ids_repeat": false,
+    "family": "experience",
+    "tags": {
+      "TIER-0": 1
+    }
+  }
+]
