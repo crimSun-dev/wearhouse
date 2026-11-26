@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {NavLink, Outlet, useLocation, useNavigate} from 'react-router';
+import {NavLink, Outlet, useLocation, useNavigate, ScrollRestoration} from 'react-router';
 import {Home, Shirt, Store, Users, UserRound} from 'lucide-react';
 import {onIntent, publishFocus} from '../focus/store.ts';
 import {useSettings} from '../settings/SettingsProvider.tsx';
@@ -47,5 +47,7 @@ export function AppShell() {
     <MainMenu open={menu} onClose={() => setMenu(false)} />
     <QuickAccess open={quick} onClose={() => setQuick(false)} />
     <Toaster />
+    {/* Back restores the scroll position of grids and lists (web-motion: Back restores position). */}
+    <ScrollRestoration />
   </div>;
 }

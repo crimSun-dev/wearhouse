@@ -1,3 +1,4 @@
+import {useEffect, useRef} from 'react';
 import {flushSync} from 'react-dom';
 import {useI18n} from '../../i18n/index.tsx';
 import {Tile, accentFor} from '../../components/tiles.tsx';
@@ -18,8 +19,12 @@ export function withTransition(productId: string | null, update: () => void | Pr
   void transition.finished.finally(() => { hero = null; });
 }
 
+/** The product last opened from a grid: its tile takes focus again when the grid is shown on Back. */
+let lastOpened: string | null = null;
+
 /** Navigate to a product with the tile image morphing into the detail hero. */
 export function openProduct(navigate: (to: string) => void, id: string) {
+  lastOpened = id;
   withTransition(id, () => flushSync(() => navigate(`/catalogue/products/${id}`)));
 }
 
@@ -28,7 +33,20 @@ export const heroStyle = (id: string) => (hero === id ? {viewTransitionName: 'pr
 export function ProductTile({p, onOpen}: {p: Card; onOpen?: (id: string) => void}) {
   const {t} = useI18n();
   const title = p.name ?? p.category ?? '';
-  return <div className="store-tile" style={heroStyle(p.id)} onClickCapture={e => {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (lastOpened !== p.id) return;
+    lastOpened = null;
+    // After scroll restoration: refocus without moving the page, unless the tile is off-screen.
+    requestAnimationFrame(() => {
+      const a = ref.current?.querySelector<HTMLElement>('a');
+      if (!a) return;
+      a.focus({preventScroll: true});
+      const r = a.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) a.scrollIntoView({block: 'center'});
+    });
+  }, [p.id]);
+  return <div ref={ref} className="store-tile" style={heroStyle(p.id)} onClickCapture={e => {
     if (!onOpen || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault(); onOpen(p.id);
   }}>
