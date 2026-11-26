@@ -28,6 +28,18 @@ const CheckoutRoute = lazy(() => import('./routes/store/Bag.tsx').then(m => ({de
 const OrdersRoute = lazy(() => import('./routes/store/Orders.tsx').then(m => ({default: m.OrdersRoute})));
 const ReceiptRoute = lazy(() => import('./routes/store/Orders.tsx').then(m => ({default: m.ReceiptRoute})));
 const RedeemRoute = lazy(() => import('./routes/store/Redeem.tsx').then(m => ({default: m.RedeemRoute})));
+// Wardrobe (task group 4).
+const LibraryRoute = lazy(() => import('./routes/wardrobe/Library.tsx').then(m => ({default: m.LibraryRoute})));
+const AddRoute = lazy(() => import('./routes/wardrobe/Library.tsx').then(m => ({default: m.AddRoute})));
+const ItemRoute = lazy(() => import('./routes/wardrobe/ItemRoute.tsx').then(m => ({default: m.ItemRoute})));
+const LooksRoute = lazy(() => import('./routes/wardrobe/Looks.tsx').then(m => ({default: m.LooksRoute})));
+const LookRoute = lazy(() => import('./routes/wardrobe/Looks.tsx').then(m => ({default: m.LookRoute})));
+const FittingRoute = lazy(() => import('./routes/wardrobe/Fitting.tsx').then(m => ({default: m.FittingRoute})));
+const SuggestRoute = lazy(() => import('./routes/wardrobe/Suggest.tsx').then(m => ({default: m.SuggestRoute})));
+const PlannerRoute = lazy(() => import('./routes/wardrobe/Planner.tsx').then(m => ({default: m.PlannerRoute})));
+const WearRoute = lazy(() => import('./routes/wardrobe/Planner.tsx').then(m => ({default: m.WearRoute})));
+const WeatherRoute = lazy(() => import('./routes/wardrobe/Weather.tsx').then(m => ({default: m.WeatherRoute})));
+const SizesRoute = lazy(() => import('./routes/wardrobe/Weather.tsx').then(m => ({default: m.SizesRoute})));
 const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
 import './theme/global.css';
 
@@ -76,12 +88,17 @@ const router = createHashRouter([{
     {path: '/orders', element: <Private>{page(<OrdersRoute />)}</Private>},
     {path: '/orders/:id', element: <Private>{page(<ReceiptRoute />)}</Private>},
     {path: '/redeem', element: <Private>{page(<RedeemRoute />)}</Private>},
+    // Wardrobe: library, inspector, looks, fitting room, suggestions, planner, wear log, weather, sizes.
+    ...([['/wardrobe', <LibraryRoute />], ['/wardrobe/add', <AddRoute />], ['/wardrobe/items/:id', <ItemRoute />],
+      ['/wardrobe/looks', <LooksRoute />], ['/wardrobe/looks/:id', <LookRoute />], ['/wardrobe/fitting-room', <FittingRoute />],
+      ['/wardrobe/suggestions', <SuggestRoute />], ['/wardrobe/planner', <PlannerRoute />], ['/wardrobe/wear', <WearRoute />],
+      ['/weather', <WeatherRoute />], ['/sizes', <SizesRoute />]] as const).map(([path, el]) => ({path, element: <Private>{page(el)}</Private>})),
     // Public surfaces built in later task groups.
     {path: '/catalogue/*', element: <NotFoundRoute />},
     {path: '/u/*', element: <BuildingRoute />}, {path: '/shares/*', element: <BuildingRoute />},
     // Private surfaces built in later task groups.
-    ...['/wardrobe/*', '/wardrobe', '/community/*', '/community', '/profile/*', '/profile', '/settings/*', '/settings',
-      '/notifications', '/sizes', '/weather', '/admin/*', '/admin']
+    ...['/community/*', '/community', '/profile/*', '/profile', '/settings/*', '/settings',
+      '/notifications', '/admin/*', '/admin']
       .map(path => ({path, element: building})),
     {path: '*', element: <NotFoundRoute />},
   ],

@@ -207,7 +207,7 @@ function SignedInHome({items}: {items: Item[]}) {
       const [kind, id] = d.id.split(':');
       if (kind === 'today') return featured?.kind === 'planned' ? <>
         <Button variant="primary" size="lg" onClick={() => navigate('/wardrobe/planner')}>{t('home.wearToday')}</Button>
-        <Button size="lg" icon={<Shirt size={18} />} onClick={() => navigate('/wardrobe/fitting-room')}>{t('home.tryOn')}</Button>
+        <Button size="lg" icon={<Shirt size={18} />} onClick={() => navigate(`/wardrobe/fitting-room?look=${featured.lookId}`)}>{t('home.tryOn')}</Button>
         {suggest}</> : <>
         {suggest}
         {featured && <Button size="lg" onClick={() => navigate(`/wardrobe/looks/${featured.lookId}`)}>{t('home.openLook')}</Button>}
