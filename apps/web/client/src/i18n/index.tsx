@@ -9,12 +9,13 @@ const catalogues = {en, id} as const;
 const LOCAL_KEY = 'wearhouse.lang';
 
 /** Signed-out language: a remembered device choice, else the browser (any `id` locale gets Indonesian). */
-export function detectLanguage(languages: readonly string[] = navigator.languages ?? [navigator.language]): Lang {
+/** Signed-out language: a choice remembered on this device, otherwise English (owner decision 2026-11-26). */
+export function detectLanguage(): Lang {
   try {
     const saved = window.localStorage.getItem(LOCAL_KEY);
     if (saved === 'en' || saved === 'id') return saved;
-  } catch { /* storage unavailable: fall through to the browser */ }
-  return languages.some(l => l.toLowerCase().split('-')[0] === 'id') ? 'id' : 'en';
+  } catch { /* storage unavailable: use the default */ }
+  return 'en';
 }
 export function rememberLanguage(lang: Lang) {
   try { window.localStorage.setItem(LOCAL_KEY, lang); } catch { /* not persisted; still applied */ }

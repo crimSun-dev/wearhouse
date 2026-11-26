@@ -1,0 +1,39 @@
+# Render Blueprint for the public Wearhouse v2 API (staging), served to the GitHub Pages client at
+# https://crimsun-dev.github.io/wearhouse/. Database and identity live on Neon (project "wearhouse").
+# Release order (docs/runbooks/v2-operations.md): migrate from an operator machine first, then deploy.
+# Secrets are entered in the Render dashboard (sync: false); they are never committed.
+services:
+  - type: web
+    name: wearhouse-api
+    runtime: docker
+    plan: free
+    region: singapore                 # next to Neon aws-ap-southeast-1
+    branch: main
+    dockerContext: ./apps/api
+    dockerfilePath: ./apps/api/Dockerfile
+    healthCheckPath: /api/v2/health/ready
+    autoDeploy: true
+    envVars:
+      - key: PORT                     # the image listens on 8100
+        value: "8100"
+      - key: FORWARDED_ALLOW_IPS      # uvicorn: take the client address from Render's proxy (X-Forwarded-For)
+        value: "*"
+      - key: WEARHOUSE_ENV
+        value: staging
+      - key: WEARHOUSE_AUTH_ADAPTER
+        value: oidc
+      - key: WEARHOUSE_ALLOWED_ORIGINS
+        value: https://crimsun-dev.github.io
+      - key: WEARHOUSE_OIDC_ALGORITHMS
+        value: EdDSA
+      # Neon Auth on project "wearhouse", branch main (database "wearhouse"); public values, not secrets.
+      - key: WEARHOUSE_OIDC_ISSUER
+        value: https://ep-shiny-cloud-bildxr11.neonauth.c-5.ap-southeast-1.aws.neon.tech
+      - key: WEARHOUSE_OIDC_AUDIENCE
+        value: https://ep-shiny-cloud-bildxr11.neonauth.c-5.ap-southeast-1.aws.neon.tech
+      - key: WEARHOUSE_OIDC_JWKS_URL
+        value: https://ep-shiny-cloud-bildxr11.neonauth.c-5.ap-southeast-1.aws.neon.tech/wearhouse/auth/.well-known/jwks.json
+      - key: WEARHOUSE_DATABASE_URL   # runtime role (wearhouse_runtime), never the migration owner
+        sync: false
+      - key: WEARHOUSE_DELIVERY_SECRET
+        sync: false

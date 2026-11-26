@@ -45,7 +45,7 @@ Two connected centres share one fashion intelligence: discovering clothes that i
 - There are two separate occasion vocabularies: suggestions use casual, campus, hangout, worship and wedding; the planner uses casual, work, formal, sport and event.
 - Recommendations run in `heuristic_baseline` mode. They are labelled as a baseline, never as AI or trained.
 - Settings are server-synced and versioned: language (en/id), theme, reduce motion, sound, wardrobe view, suggestions, notifications, community and beta.
-- **Language:** before a signed-in user's `language` setting applies, the app follows the browser (`id` browsers get Indonesian, everyone else English). Signed-out visitors get a visible language switch remembered on the device. At onboarding, the language choice is pre-set to the current UI language and saved to the `language` setting, so the account does not flip to English after sign-in. Complete en and id catalogues ship together.
+- **Language:** before a signed-in user's `language` setting applies, the app opens in English (owner decision 2026-11-26), whatever the browser language. Signed-out visitors get a visible language switch remembered on the device. At onboarding, the language choice is pre-set to the current UI language and saved to the `language` setting, so the account does not flip to English after sign-in. Complete en and id catalogues ship together.
 - Avatar body choice is a local UI preference and is not gender identity.
 - Not decided: production hosting and cutover, which need the owner's go-ahead. The landing page and app run locally or on GitHub Pages until then.
 

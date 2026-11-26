@@ -39,17 +39,14 @@ describe('message catalogues', () => {
 });
 
 describe('signed-out language', () => {
-  it('follows the browser: any id locale gets Indonesian', () => {
+  it('defaults to English, whatever the browser language', () => {
     window.localStorage.clear();
-    expect(detectLanguage(['id'])).toBe('id');
-    expect(detectLanguage(['id-ID', 'en-US'])).toBe('id');
-    expect(detectLanguage(['en-US', 'id'])).toBe('id');
-    expect(detectLanguage(['en-GB'])).toBe('en');
-    expect(detectLanguage(['ms-MY'])).toBe('en');
+    Object.defineProperty(navigator, 'languages', {value: ['id-ID', 'id'], configurable: true});
+    expect(detectLanguage()).toBe('en');
   });
   it('prefers a remembered device choice', () => {
-    window.localStorage.setItem('wearhouse.lang', 'en');
-    expect(detectLanguage(['id-ID'])).toBe('en');
+    window.localStorage.setItem('wearhouse.lang', 'id');
+    expect(detectLanguage()).toBe('id');
     window.localStorage.clear();
   });
 });
