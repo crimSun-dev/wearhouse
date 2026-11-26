@@ -2,15 +2,16 @@
 .store { gap: var(--s-5); }
 .store h1 { font-size: var(--fs-7); font-weight: var(--fw-heavy); line-height: 1.1; letter-spacing: var(--track-tight); display: flex; align-items: center; gap: var(--s-3); }
 .store h2 { font-size: var(--fs-4); font-weight: var(--fw-bold); }
-.eyebrow { font-size: var(--fs-1); font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: var(--track-caps); color: var(--text-3); }
+/* The line under a heading that says what the thing is (category, slot, revision). Never an uppercase kicker above it. */
+.head-meta { color: var(--text-2); font-weight: var(--fw-medium); font-size: var(--fs-2); }
 .store-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--s-4); }
 .store-section { display: grid; gap: var(--s-3); }
 
 /* Search */
 .store-search { flex: 1 1 320px; max-width: 520px; display: flex; align-items: center; gap: var(--s-2); min-height: var(--target);
-  padding: 0 var(--s-4); border-radius: var(--r-pill); background: var(--surface-1); border: 1px solid var(--line-strong); color: var(--text-2); }
+  padding: 0 var(--s-4); border-radius: var(--r-control); background: var(--surface-1); border: 1px solid var(--line-strong); color: var(--text-2); }
 .store-search:focus-within { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-.store-search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: var(--fs-3); outline: none; }
+.store-search input { flex: 1; align-self: stretch; min-height: var(--target); min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: var(--fs-3); outline: none; }
 .store-search input::-webkit-search-cancel-button { display: none; }
 .store-search-clear { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--text-2); cursor: pointer; }
 .store-search-clear:hover { background: var(--surface-2); }
@@ -43,7 +44,11 @@
 .product-info { display: grid; gap: var(--s-4); align-content: start; }
 .product-info h1 { font-size: clamp(2rem, 3.6vw, 3rem); }
 .product-facts { display: grid; gap: var(--s-2); padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-0); border: 1px solid var(--line); }
-.product-facts > div { display: grid; grid-template-columns: minmax(110px, 0.4fr) 1fr; gap: var(--s-3); padding: 6px 0; border-top: 1px solid var(--line); }
+.facts-list { display: grid; gap: var(--s-2); margin: 0; }
+.facts-list dd { min-width: 0; }
+/* Phones: each fact's label sits above its value, so controls in a value get the full width. */
+@media (max-width: 600px) { .facts-list > div { grid-template-columns: minmax(0, 1fr); gap: var(--s-1); } }
+.facts-list > div { display: grid; grid-template-columns: minmax(110px, 0.4fr) 1fr; gap: var(--s-3); padding: 6px 0; border-top: 1px solid var(--line); }
 .product-facts dt { color: var(--text-3); text-transform: capitalize; }
 .product-facts dd { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 
@@ -100,7 +105,13 @@ a.bag-name:hover, a.bag-line:hover .bag-name { text-decoration: underline; }
 /* Receipt: the signature moment stamps in once when an order has just been placed. */
 .receipt-page { max-width: 880px; }
 .receipt { display: grid; gap: var(--s-4); padding: var(--s-6); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line-strong); box-shadow: var(--shadow-2); }
-.receipt-head { display: grid; gap: 4px; justify-items: start; }
+.receipt-head { position: relative; display: grid; gap: 4px; justify-items: start; }
+/* The simulated stamp: every receipt carries it; a just-placed order stamps it down once the receipt has emerged. */
+.receipt-stamp { position: absolute; top: 0; right: 0; padding: var(--s-1) var(--s-3); border: 2px solid var(--accent); border-radius: var(--r-1);
+  color: var(--accent); font-weight: var(--fw-heavy); text-transform: uppercase; letter-spacing: var(--track-caps); font-size: var(--fs-2);
+  transform: rotate(-6deg); }
+.receipt.is-new .receipt-stamp { animation: sim-stamp var(--dur-4) var(--ease-out) both; animation-delay: var(--dur-4); }
+@keyframes sim-stamp { 0% { opacity: 0; transform: scale(1.8) rotate(-14deg); } 60% { opacity: 1; transform: scale(0.94) rotate(-5deg); } 100% { transform: rotate(-6deg); } }
 .receipt.is-new .receipt-head { animation: receipt-stamp var(--dur-5) var(--ease-out); }
 @keyframes receipt-stamp { 0% { opacity: 0; transform: translateY(12px) scale(0.98); } 60% { opacity: 1; } 100% { transform: none; } }
 .receipt-ref { display: grid; grid-template-columns: auto 1fr; gap: var(--s-3); }
@@ -124,10 +135,23 @@ a.bag-name:hover, a.bag-line:hover .bag-name { text-decoration: underline; }
 .redeem-input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .redeem-input[aria-invalid] { border-color: var(--danger); }
 .redeem-done { display: grid; gap: var(--s-3); justify-items: start; padding: var(--s-6); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line-strong); }
-.redeem-unlock { display: grid; place-items: center; width: 88px; height: 88px; border-radius: 50%; color: var(--accent-ink);
-  background: var(--accent); animation: unlock var(--dur-5) var(--ease-out); box-shadow: 0 0 0 0 var(--accent); }
-@keyframes unlock { 0% { transform: scale(0.5) rotate(-18deg); box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
-  70% { transform: scale(1.08) rotate(0); box-shadow: 0 0 0 22px transparent; } 100% { transform: none; } }
+/* Redemption moment: the four (masked) key groups lock in one after another, then the card opens into the garment. */
+.redeem-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 5.5rem)); gap: var(--s-2); list-style: none; margin: 0; padding: 0; }
+.redeem-groups li { padding: var(--s-2) var(--s-1); border-radius: var(--r-2); text-align: center;
+  font-family: ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace; font-weight: var(--fw-bold); letter-spacing: 0.18em;
+  color: var(--text); background: var(--surface-2); border: 1px solid var(--accent);
+  animation: key-lock var(--dur-3) var(--ease-out) both; animation-delay: calc(var(--i, 0) * var(--stagger)); }
+@keyframes key-lock { from { opacity: 0.35; transform: translateY(-10px) scale(1.06); border-color: var(--line); } to { opacity: 1; transform: none; } }
+.redeem-garment { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4); padding: var(--s-4); border-radius: var(--r-3);
+  background: var(--surface-2); box-shadow: var(--shadow-2);
+  animation: garment-in var(--dur-4) var(--ease-out) both; animation-delay: calc(4 * var(--stagger) + var(--dur-2)); }
+@keyframes garment-in { from { opacity: 0; clip-path: inset(0 0 60% 0 round var(--r-3)); transform: translateY(-8px); }
+  to { opacity: 1; clip-path: inset(0 0 0 0 round var(--r-3)); transform: none; } }
+.redeem-unlock { display: grid; place-items: center; flex: none; width: 72px; height: 72px; border-radius: 50%; color: var(--accent-ink);
+  background: var(--accent); box-shadow: var(--shadow-1); }
+/* The copy that flies into the Wardrobe navigation (src/motion/fly.ts) never replays the card's entrance. */
+.fly-ghost, .fly-ghost * { animation: none !important; }
+.fly-ghost { z-index: 80; pointer-events: none; overflow: hidden; }
 
 @media (max-width: 900px) {
   .product-layout { grid-template-columns: 1fr; gap: var(--s-5); }
@@ -148,7 +172,7 @@ a.bag-name:hover, a.bag-line:hover .bag-name { text-decoration: underline; }
 }
 
 [data-motion='reduced'] .heart-icon[data-burst] svg, [data-motion='reduced'] .heart-icon[data-burst]::after,
-[data-motion='reduced'] .receipt.is-new .receipt-head, [data-motion='reduced'] .redeem-unlock { animation: none; }
+[data-motion='reduced'] .receipt.is-new .receipt-head, [data-motion='reduced'] .receipt.is-new .receipt-stamp, [data-motion='reduced'] .redeem-groups li, [data-motion='reduced'] .redeem-garment { animation: none; }
 [data-motion='reduced'] .heart-icon[data-burst]::after { display: none; }
 [data-motion='reduced'] ::view-transition-group(product-hero) { animation-duration: 0s; }
 

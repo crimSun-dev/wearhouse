@@ -1,5 +1,6 @@
 // Mirrors the motion custom properties in src/theme/tokens.css. Change both together.
 export const dur = {d1: 0.12, d2: 0.18, d3: 0.28, d4: 0.42, d5: 0.64} as const;
+export const stagger = 0.07;
 export const easeOut = [0.16, 1, 0.3, 1] as const;
 export const easeInOut = [0.65, 0, 0.35, 1] as const;
 

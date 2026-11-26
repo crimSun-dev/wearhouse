@@ -108,7 +108,7 @@ export function FittingRoute() {
 
   return <div className="page wr fitting">
     <WardrobeNav />
-    <header className="store-head"><div><p className="eyebrow">{look.data ? t('fr.editing', {name: look.data.name}) : t('fr.newLook')}</p><h1>{t('fr.title')}</h1></div></header>
+    <header className="store-head"><div><h1>{t('fr.title')}</h1><p className="head-meta">{look.data ? t('fr.editing', {name: look.data.name}) : t('fr.newLook')}</p></div></header>
     <div className="fit-layout">
       <section className="fit-stage" aria-label={t('fr.figure')}>
         <Avatar pieces={reg.slots.flatMap(s => (equipped[s.slot] ?? []).map(id => ({slot: s.slot, colour: byId.get(id)?.colour})))} />

@@ -36,7 +36,7 @@ export function ProductRoute() {
     <Skeleton ratio="3 / 4" /><div className="product-info"><Skeleton ratio="6 / 1" /><Skeleton ratio="4 / 1" /></div></div></div>;
   if (product.isError) {
     if (product.error instanceof ApiFailure && product.error.status === 404) return <div className="page store">
-      <EmptyState title={t('prod.notFound')}><Link to="/catalogue">{t('cat.backToFront')}</Link></EmptyState></div>;
+      <EmptyState title={t('prod.notFound')}><Link className="btn btn-secondary btn-md" to="/catalogue">{t('cat.backToFront')}</Link></EmptyState></div>;
     return <div className="page store"><ErrorState error={product.error} onRetry={() => product.refetch()} /></div>;
   }
   const p = product.data;
@@ -71,21 +71,19 @@ export function ProductRoute() {
         </FocusZone>}
       </section>
       <section className="product-info">
-        <p className="eyebrow">{[text(p.facts.category?.value), slot && slotLabel(t, slot)].filter(Boolean).join(' · ')}</p>
         <h1>{name}</h1>
+        <p className="head-meta">{[text(p.facts.category?.value), slot && slotLabel(t, slot)].filter(Boolean).join(' · ')}</p>
         <Buy productId={p.id} oneSize={p.one_size} signedIn={status === 'ready'} offer={offer} idr={idr} />
-        <dl className="product-facts" aria-label={t('prod.facts')}>
-          <h2>{t('prod.facts')}</h2>
+        <section className="product-facts"><h2>{t('prod.facts')}</h2><dl className="facts-list" aria-label={t('prod.facts')}>
           {Object.entries(p.facts).map(([k, f]) => <div key={k}><dt>{k.replace(/_/g, ' ')}</dt>
             <dd>{text(f.value)}{f.source_field && <span className="muted small"> · {t('prod.factField', {field: f.source_field})}</span>}</dd></div>)}
-        </dl>
-        {Object.keys(p.annotations).length > 0 && <dl className="product-facts">
-          <h2>{t('prod.annotations')}</h2>
+        </dl></section>
+        {Object.keys(p.annotations).length > 0 && <section className="product-facts"><h2>{t('prod.annotations')}</h2><dl className="facts-list">
           {Object.entries(p.annotations).map(([k, a]) => <div key={k}><dt>{k.replace(/_/g, ' ')}</dt>
             <dd>{k === 'slot' ? slotLabel(t, text(a.value)) : text(a.value)}
               {a.origin && <span className="tag tag-quiet">{t('prod.origin', {origin: a.origin})}</span>}
               {a.note && <span className="muted small"> · {a.note}</span>}</dd></div>)}
-        </dl>}
+        </dl></section>}
         <p className="muted small">{t('prod.source')}: {p.source.name} · {t('prod.sourceId', {namespace: p.source.namespace, id: p.source.external_id})}</p>
       </section>
     </div>
@@ -162,7 +160,7 @@ export function CollectionRoute() {
   if (collection.isError) return <div className="page store"><ErrorState error={collection.error} onRetry={() => collection.refetch()} /></div>;
   const c = collection.data;
   return <div className="page store">
-    <header className="store-head"><div><p className="eyebrow">{t('coll.title')}</p><h1>{c.title}</h1>
+    <header className="store-head"><div><h1>{c.title}</h1>
       <p className="muted">{t('coll.pieces', {n: c.items.length})}</p></div></header>
     <FocusZone kind="grid" label={c.title} className="store-grid" version={c.items.length} autoFocus>
       {c.items.map(p => <ProductTile key={p.id} p={p} onOpen={pid => openProduct(navigate, pid)} />)}

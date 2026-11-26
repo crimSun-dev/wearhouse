@@ -5,7 +5,7 @@ import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {createIntent} from '../../api/index.ts';
 import {useLooks, usePlanner} from '../../data/queries.ts';
-import {jakartaDate, useItems, useRefresh, useWearLog} from '../../data/wardrobe.ts';
+import {jakartaDate, justPlanned, useItems, useRefresh, useWearLog} from '../../data/wardrobe.ts';
 import {Button, Select, Skeleton, TextField} from '../../components/ui.tsx';
 import {Overlay} from '../../components/Overlay.tsx';
 import {ItemImage} from '../../components/ItemImage.tsx';
@@ -77,25 +77,31 @@ function DayCard({day, selected, onPlan}: {day: Day; selected: boolean; onPlan: 
   const refresh = useRefresh();
   const fail = useFail();
   const [busy, setBusy] = useState(false);
+  // Signature moment (web-motion 5), after the server confirmed it: a newly planned look drops into its day,
+  // and marking the day worn stamps it. Neither plays on a plain page load.
+  const [stamped, setStamped] = useState(false);
+  const [dropped, setDropped] = useState(false);
+  const planId = day.plan?.look_revision.id;
+  useEffect(() => { if (planId && justPlanned.delete(day.date)) setDropped(true); }, [planId, day.date]);
   const today = jakartaDate();
   const beyond = day.date > jakartaDate(30);
   const canPlan = !day.past && !beyond;
   const run = async (fn: () => Promise<unknown>, msg: string) => {
     setBusy(true);
-    try { await fn(); toast(msg, 'success'); await refresh('planner', 'wear', 'wardrobe-items'); } catch (e) { fail(e); } finally { setBusy(false); }
+    try { await fn(); toast(msg, 'success'); await refresh('planner', 'wear', 'wardrobe-items'); return true; } catch (e) { fail(e); return false; } finally { setBusy(false); }
   };
   const clear = () => run(() => api.call('delete', '/api/v2/me/planner/{plan_date}', {path: {plan_date: day.date}}), t('pl.cleared'));
-  const markWorn = () => run(() => api.call('post', '/api/v2/me/wear', {body: {worn_on: day.date, look_revision_id: day.plan!.look_revision.id}, intent: intentFor(day.date)}), t('pl.wornLogged'));
+  const markWorn = () => run(() => api.call('post', '/api/v2/me/wear', {body: {worn_on: day.date, look_revision_id: day.plan!.look_revision.id}, intent: intentFor(day.date)}), t('pl.wornLogged')).then(ok => { if (ok) setStamped(true); });
   const undo = (id: string) => run(() => api.call('delete', '/api/v2/me/wear/{wear_id}', {path: {wear_id: id}}), t('wl.undone'));
   return <article className={`plan-day ${selected ? 'is-selected' : ''} ${day.is_today ? 'is-today' : ''} ${day.past ? 'is-past' : ''}`} aria-label={fmt(day.date)}>
     <header><h2>{fmt(day.date)}</h2>{day.is_today && <span className="tag tag-ok">{t('pl.today')}</span>}{day.past && !day.is_today && <span className="muted small">{t('pl.past')}</span>}</header>
     <Weather w={day.weather} />
-    {day.plan ? <div className="plan-look">
+    {day.plan ? <div className={`plan-look ${dropped ? 'is-dropped' : ''}`}>
       <p className="plan-look-name">{day.plan.look_revision.name}</p>
       <p className="muted small">{labels.occasion(day.plan.occasion)}{day.plan.note ? ` · ${day.plan.note}` : ''}</p>
       <div className="plan-thumbs">{day.plan.look_revision.items.slice(0, 4).map((i, k) => <span key={k} className="fit-thumb">{i.item ? <ItemImage item={i.item} quiet /> : null}</span>)}</div>
     </div> : <p className="muted">{t('pl.nothing')}</p>}
-    {day.worn.length > 0 && <ul className="plan-worn">{day.worn.map(w => <li key={w.id}><span className="tag tag-ok">{t('pl.worn')}</span> {t('wl.entry', {n: w.item_ids.length})}
+    {day.worn.length > 0 && <ul className={`plan-worn ${stamped ? 'is-stamped' : ''}`}>{day.worn.map(w => <li key={w.id}><span className="tag tag-ok">{t('pl.worn')}</span> {t('wl.entry', {n: w.item_ids.length})}
       <Button variant="ghost" onClick={() => void undo(w.id)} disabled={busy}><Undo2 size={14} aria-hidden /> {t('wl.undo')}</Button></li>)}</ul>}
     <div className="plan-actions">
       {canPlan ? <Button {...focusItemProps({id: `plan:${day.date}`, title: fmt(day.date)})} onClick={onPlan}>{day.plan ? t('pl.replace') : t('pl.plan')}</Button>
@@ -122,7 +128,7 @@ function PlanEditor({date, revision, onClose}: {date: string; revision?: string;
     e.preventDefault(); setBusy(true);
     try {
       await api.call('put', '/api/v2/me/planner/{plan_date}', {path: {plan_date: date}, body: {look_revision_id: look, occasion: (occasion || null) as never, note: note.trim() || null}});
-      toast(t('pl.saved'), 'success'); await refresh('planner'); onClose();
+      justPlanned.add(date); toast(t('pl.saved'), 'success'); await refresh('planner'); onClose();
     } catch (err) { fail(err); } finally { setBusy(false); }
   };
   return <Overlay open onClose={onClose} side="right" title={t('pl.plan')}>

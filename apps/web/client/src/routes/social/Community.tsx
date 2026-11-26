@@ -70,7 +70,7 @@ function Feed() {
   if (feed.isPending) return <Skeleton ratio="4 / 1" />;
   if (feed.isError) return <ErrorState error={feed.error} onRetry={() => feed.refetch()} />;
   const items = feed.data.pages.flatMap(p => p.items);
-  if (!items.length) return <EmptyState title={t('cm.feedEmpty')} body={t('cm.feedEmptyBody')}><Link to="/community?tab=friends">{t('cm.friends')}</Link></EmptyState>;
+  if (!items.length) return <EmptyState title={t('cm.feedEmpty')} body={t('cm.feedEmptyBody')}><Link className="btn btn-secondary" to="/community?tab=friends">{t('cm.friends')}</Link></EmptyState>;
   const save = async (id: string) => {
     try { await api.call('post', '/api/v2/me/inspirations', {body: {share_id: id}}); toast(t('cm.saved'), 'success'); await refresh('inspirations'); } catch (e) { fail(e); }
   };

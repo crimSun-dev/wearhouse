@@ -3,14 +3,16 @@
 .wr h1 { font-size: var(--fs-7); font-weight: var(--fw-heavy); line-height: 1.1; letter-spacing: var(--track-tight); display: flex; align-items: center; gap: var(--s-3); }
 .wr h2 { font-size: var(--fs-4); font-weight: var(--fw-bold); display: flex; align-items: center; gap: var(--s-2); }
 .wr h3 { font-size: var(--fs-3); font-weight: var(--fw-bold); }
-.wr-back { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--text-2); font-weight: var(--fw-bold); text-decoration: none; }
+.wr-back { display: inline-flex; align-items: center; min-height: var(--target); gap: var(--s-2); color: var(--text-2); font-weight: var(--fw-bold); text-decoration: none; }
 
 /* Section bar */
 .wr-nav { display: flex; gap: var(--s-1); overflow-x: auto; padding-bottom: 2px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
-.wr-nav-link { flex: none; padding: var(--s-2) var(--s-4); border-radius: var(--r-2) var(--r-2) 0 0; color: var(--text-2); font-weight: var(--fw-bold);
-  text-decoration: none; border-bottom: 3px solid transparent; min-height: var(--target); display: flex; align-items: center; }
+/* Same language as the top navigation: text tabs with an inset rounded bar under the current one. */
+.wr-nav-link { position: relative; flex: none; padding: var(--s-2) var(--s-4); border-radius: var(--r-2); color: var(--text-2); font-weight: var(--fw-bold);
+  text-decoration: none; min-height: var(--target); display: flex; align-items: center; }
 .wr-nav-link:hover { color: var(--text); background: var(--surface-0); }
-.wr-nav-link.is-active { color: var(--text); border-bottom-color: var(--accent); }
+.wr-nav-link.is-active { color: var(--text); }
+.wr-nav-link.is-active::after { content: ''; position: absolute; left: var(--s-4); right: var(--s-4); bottom: 2px; height: 3px; border-radius: 3px; background: var(--accent); }
 
 /* Library: sidebar + main + status bar (Steam Library structure) */
 .wr-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--s-5); align-items: start; }
@@ -19,14 +21,14 @@
 .wr-side-head { margin: var(--s-4) var(--s-2) var(--s-1); font-size: var(--fs-1) !important; text-transform: uppercase; letter-spacing: var(--track-caps); color: var(--text-3); }
 .wr-side-row { display: flex; align-items: center; gap: 2px; }
 .wr-side-row .wr-side-link { flex: 1; }
-.wr-side-link { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); width: 100%; min-height: 40px; padding: 0 var(--s-3);
+.wr-side-link { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); width: 100%; min-height: var(--target); padding: 0 var(--s-3);
   border: 0; border-radius: var(--r-2); background: transparent; color: var(--text-2); font: inherit; font-weight: var(--fw-medium); text-align: left; cursor: pointer; }
 .wr-side-link:hover { background: var(--surface-1); color: var(--text); }
 .wr-side-link.is-active { background: var(--surface-2); color: var(--text); font-weight: var(--fw-bold); }
 .wr-side-link.is-static { cursor: default; }
 .wr-side-link .count { font-variant-numeric: tabular-nums; color: var(--text-3); }
 .wr-side-new { color: var(--accent-strong); justify-content: flex-start; }
-.wr-side-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: none; border: 0; border-radius: var(--r-2); background: transparent; color: var(--text-2); cursor: pointer; }
+.wr-side-icon { display: grid; place-items: center; width: var(--target); height: var(--target); flex: none; border: 0; border-radius: var(--r-2); background: transparent; color: var(--text-2); cursor: pointer; }
 .wr-side-icon:hover { background: var(--surface-2); color: var(--text); }
 .wr-main { display: grid; gap: var(--s-4); min-width: 0; }
 .wr-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-3); }
@@ -74,7 +76,7 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .inspector-image { aspect-ratio: 3 / 4; border-radius: var(--r-3); overflow: hidden; background: var(--surface-1); box-shadow: var(--shadow-2); }
 .inspector-photo { display: grid; gap: var(--s-2); justify-items: start; }
 .inspector-info { display: grid; gap: var(--s-4); }
-.inspector-info .field { min-width: 200px; }
+.inspector-info .field { min-width: min(200px, 100%); }
 
 /* Looks */
 .look-collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 100%; height: 100%; gap: 2px; background: var(--surface-0); }
@@ -97,7 +99,8 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .fit-slot { display: grid; gap: 4px; padding: var(--s-2) var(--s-3); border-radius: var(--r-2); background: var(--surface-1); border: 1px solid var(--line); }
 .fit-slot.has-error { border-color: var(--danger); }
 .fit-slot.is-landed { animation: equip var(--dur-4) var(--ease-out); }
-@keyframes equip { 0% { transform: translateY(-8px) scale(0.97); box-shadow: 0 0 0 0 var(--accent); } 60% { box-shadow: 0 0 0 6px transparent; } 100% { transform: none; } }
+/* Equip: the piece settles onto its slot, lifted with a real shadow, then down (no glow). */
+@keyframes equip { 0% { transform: translateY(-10px) scale(0.97); box-shadow: var(--shadow-lift); } 65% { transform: translateY(1px); } 100% { transform: none; } }
 .fit-slot-name { font-size: var(--fs-1); font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: var(--track-caps); color: var(--text-3); }
 .fit-piece { display: grid; grid-template-columns: 44px 1fr auto; gap: var(--s-2); align-items: center; }
 .fit-thumb { display: block; width: 44px; aspect-ratio: 3 / 4; border-radius: var(--r-1); overflow: hidden; background: var(--surface-0); }
@@ -119,9 +122,18 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .suggest-reasons { padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-0); border: 1px dashed var(--line-strong); }
 .suggest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s-4); }
 .suggest-card { display: grid; gap: var(--s-3); align-content: start; padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1);
-  border: 1px solid var(--line-strong); animation: deal var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--deal, 0) * 70ms); }
+  border: 1px solid var(--line-strong); animation: deal var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--deal, 0) * var(--stagger)); }
 .suggest-card:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 @keyframes deal { from { opacity: 0; transform: translateY(18px) rotate(-1.5deg); } to { opacity: 1; transform: none; } }
+/* After a confirmed choice the rest of the hand folds back; they stay in place (no layout shift) and stay usable. */
+.suggest-card.is-folded { animation: fold var(--dur-4) var(--ease-out) both; }
+@keyframes fold { from { opacity: 1; transform: none; } to { opacity: 0.42; transform: translateY(6px) scale(0.97); } }
+.suggest-card.is-picked { border-color: var(--accent); box-shadow: var(--shadow-2); }
+.plan-look.is-dropped { animation: plan-drop var(--dur-4) var(--ease-out); }
+@keyframes plan-drop { 0% { opacity: 0; transform: translateY(-18px); } 70% { opacity: 1; transform: translateY(2px); } 100% { transform: none; } }
+/* Marking a day worn stamps its newest entry, like a rubber stamp meeting paper. */
+.plan-worn.is-stamped li:last-child .tag { display: inline-block; animation: worn-stamp var(--dur-4) var(--ease-out); }
+@keyframes worn-stamp { 0% { opacity: 0; transform: scale(1.7) rotate(-9deg); } 55% { opacity: 1; transform: scale(0.94) rotate(-2deg); } 100% { transform: none; } }
 .suggest-card header { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); }
 .suggest-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: var(--s-2); }
 .suggest-items figure { display: grid; grid-template-columns: 44px 1fr; gap: var(--s-2); align-items: center; margin: 0; }
@@ -147,21 +159,20 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .plan-day header { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
 .plan-day h2 { font-size: var(--fs-2) !important; }
 .plan-weather { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-.plan-look { display: grid; gap: 4px; animation: plan-in var(--dur-4) var(--ease-out); }
-@keyframes plan-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+.plan-look { display: grid; gap: 4px; }
 .plan-look-name { font-weight: var(--fw-bold); }
 .plan-thumbs { display: flex; gap: 4px; }
 .plan-thumbs .fit-thumb { width: 34px; }
 .plan-worn { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
 .plan-worn li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: var(--fs-1); }
 .plan-actions { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: auto; }
-.plan-actions .btn { min-height: 36px; padding-inline: var(--s-3); font-size: var(--fs-2); }
+.plan-actions .btn { min-height: var(--target); padding-inline: var(--s-3); font-size: var(--fs-2); }
 
 /* Wear log, weather, sizes */
 .wear-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--s-5); align-items: start; }
 .wear-form { padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line-strong); }
 .wear-items { display: grid; gap: 4px; max-height: 300px; overflow-y: auto; border: 0; padding: 0; margin: 0; }
-.wear-check { display: flex; gap: var(--s-2); align-items: center; min-height: 36px; }
+.wear-check { display: flex; gap: var(--s-2); align-items: center; min-height: var(--target); }
 .weather-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--s-3); }
 .weather-day { padding: var(--s-3); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); }
 .weather-day ul { list-style: none; padding: 0; margin: var(--s-2) 0 0; display: grid; gap: var(--s-1); }
@@ -171,7 +182,7 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .weather-form, .sizes-form { max-width: 520px; padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); }
 
 @media (max-width: 900px) {
-  .wr-layout, .inspector, .fit-layout, .look-layout, .wear-layout { grid-template-columns: 1fr; }
+  .wr-layout, .inspector, .fit-layout, .look-layout, .wear-layout { grid-template-columns: minmax(0, 1fr); }
   .wr-side, .inspector-media, .fit-stage, .look-history { position: static; max-height: none; }
   .wr-side-list { display: flex; flex-wrap: wrap; gap: var(--s-1); }
   .wr-side-link { width: auto; }
@@ -190,7 +201,10 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
   .wr-status { bottom: 64px; }
 }
 
-[data-motion='reduced'] .fit-slot.is-landed, [data-motion='reduced'] .suggest-card, [data-motion='reduced'] .plan-look { animation: none; }
+[data-motion='reduced'] .fit-slot.is-landed, [data-motion='reduced'] .suggest-card, [data-motion='reduced'] .plan-look.is-dropped,
+[data-motion='reduced'] .plan-worn.is-stamped li:last-child .tag { animation: none; }
+/* Reduced motion keeps the outcome perceivable: unchosen cards still recede, instantly. */
+[data-motion='reduced'] .suggest-card.is-folded { opacity: 0.42; }
 
 /* Official (bought or redeemed, from the catalogue) vs unofficial (added by you): like Steam's non-Steam games. */
 .wr-tile.is-unofficial .tile-media { outline: 1px dashed var(--line-strong); outline-offset: -1px; }
@@ -202,7 +216,7 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .weather-picker { display: grid; gap: var(--s-3); margin-top: var(--s-4); padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); }
 .weather-picker h2 { margin: 0; font-size: 1.1rem; }
 .weather-quick { display: flex; flex-wrap: wrap; gap: var(--s-2); }
-.weather-quick .chip { min-height: 36px; padding: 0 var(--s-3); border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text-1); cursor: pointer; font: inherit; }
+.weather-quick .chip { min-height: var(--target); padding: 0 var(--s-3); border-radius: var(--r-label); border: 1px solid var(--line); background: var(--surface-2); color: var(--text-1); cursor: pointer; font: inherit; }
 .weather-quick .chip.is-active { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 18%, var(--surface-2)); }
 .weather-search { max-width: 520px; }
 .weather-matches { list-style: none; margin: var(--s-1) 0 0; padding: var(--s-1); display: grid; gap: 2px; border-radius: var(--r-2); background: var(--surface-2); border: 1px solid var(--line); }

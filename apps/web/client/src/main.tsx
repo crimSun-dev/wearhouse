@@ -1,4 +1,4 @@
-import {lazy, StrictMode, Suspense, type ReactNode} from 'react';
+import {lazy, StrictMode, type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 import {createHashRouter, Navigate, RouterProvider, useLocation} from 'react-router';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import {FocusRoot} from './focus/FocusZone.tsx';
 import {AppShell} from './shell/AppShell.tsx';
 import {HomeRoute} from './routes/Home.tsx';
 import {NotFoundRoute} from './routes/misc.tsx';
+import {PagePending, RouteFrame} from './components/RouteFrame.tsx';
 
 // Screens that are not on the first paint load on demand, keeping the app entry inside its size budget.
 const AboutRoute = lazy(() => import('./routes/About.tsx').then(m => ({default: m.AboutRoute})));
@@ -50,7 +51,8 @@ const SettingsRoute = lazy(() => import('./routes/account/Settings.tsx').then(m 
 const ShareRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.ShareRoute})));
 // Staff workspace (task group 7): its own chunk, never loaded by customer screens.
 const StaffRoute = lazy(() => import('./routes/staff/Staff.tsx').then(m => ({default: m.StaffRoute})));
-const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
+// Every screen: a placeholder while its code loads, and a recoverable message if that code cannot be fetched.
+const page = (node: ReactNode) => <RouteFrame>{node}</RouteFrame>;
 import './theme/global.css';
 
 const queryClient = new QueryClient({defaultOptions: {queries: {
@@ -62,7 +64,7 @@ const queryClient = new QueryClient({defaultOptions: {queries: {
 function Private({children}: {children: ReactNode}) {
   const {status} = useSession();
   const location = useLocation();
-  if (status === 'loading') return null;
+  if (status === 'loading') return <PagePending />;
   if (status === 'onboarding') return <Navigate to="/onboarding" replace />;
   if (status !== 'ready') return <Navigate to="/signin" replace state={{from: location.pathname + location.search}} />;
   return <>{children}</>;

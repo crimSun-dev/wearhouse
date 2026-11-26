@@ -67,10 +67,10 @@ export function ReceiptRoute() {
   return <div className="page store receipt-page">
     <article className={`receipt ${placed ? 'is-new' : ''}`} aria-labelledby="receipt-title">
       <header className="receipt-head">
-        <p className="eyebrow">{t('ord.signature')}</p>
         <h1 id="receipt-title">{t('ord.receipt')}</h1>
         <p className="muted small">{t('ord.placedOn', {date: date(r.created_at)})}</p>
         <span className={`tag ${r.status === 'cancelled' ? 'tag-warn' : 'tag-ok'}`}>{r.status === 'cancelled' ? t('ord.cancelled') : t('ord.fulfilled')}</span>
+        <span className="receipt-stamp" aria-hidden>{t('ord.simulatedTag')}</span>
       </header>
       <p className="co-statement" role="note"><span className="tag tag-quiet">{t('ord.simulatedTag')}</span> {t('co.simulated')}</p>
       <dl className="receipt-ref"><dt>{t('ord.paymentRef')}</dt><dd><code>{r.payment_ref}</code> <span className="tag tag-quiet">{t('ord.simulatedTag')}</span></dd></dl>

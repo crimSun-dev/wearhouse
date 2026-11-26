@@ -1,13 +1,18 @@
 /* Wearhouse landing (task group 8). Chaptered editorial: each chapter lands on its own ground (hard cuts).
    Engine tokens only are themed; the engine itself is copied unchanged. */
+/* Self-hosted, like the app: the landing page makes no third-party font request. */
+@import '@fontsource-variable/figtree';
 :root {
   --sc-canvas: #2a1230; --sc-surface: #3d1937; --sc-ink: #faf6f3; --sc-ink-soft: #dcb3c6;
   --sc-accent: #e07aa0; --sc-accent-ink: #2a1230;
-  --sc-font-display: "Figtree", system-ui, sans-serif; --sc-font-text: "Figtree", system-ui, sans-serif;
+  --sc-font-display: "Figtree Variable", system-ui, sans-serif; --sc-font-text: "Figtree Variable", system-ui, sans-serif;
   --plum: #632947; --ground-title: #2a1230; --ground-store: #f4ece6; --ground-key: #1d0b1f; --ground-weather: #3d1937; --ground-friends: #f1e0e6;
-  --ink-dark: #2b1624; --ink-dark-soft: #6f4f62; --mono: "JetBrains Mono", ui-monospace, monospace;
+  --ink-dark: #2b1624; --ink-dark-soft: #6f4f62; --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
 }
 html { background: var(--sc-canvas); }
+/* No orphaned last words: headings balance their lines, running text avoids a lone word. */
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd, figcaption { text-wrap: pretty; }
 body { margin: 0; background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); font-size: 1.0625rem; line-height: 1.55; }
 img { max-width: 100%; height: auto; display: block; }
 [hidden] { display: none !important; }   /* live elements stay out until their data arrives */

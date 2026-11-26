@@ -3,7 +3,7 @@
 Against `CRIMSUN_POOL/TDD_Digital_Wardrobe_Ecosystem_v1.md` (v1.1). Updated 2026-11-26. The evidence is linked readiness documents and automated tests; nothing here is claimed without one.
 
 **Summary.** The backend, research tooling and release evidence are complete. What remains:
-- the Phase 3 visual frontend and the 3D avatar (RQ4);
+- the Phase 3 frontend is built (OpenSpec `add-wearhouse-frontend`); its one open release bar is the app's LCP on the mobile lab profile (2.9–3.2 s against 2.5 s; `apps/web/client/README.md`, Quality results);
 - deployment and cutover, which need the owner's go-ahead;
 - owner actions: check email and password sign-in (Google sign-in confirmed 2026-11-26). Deferred by the owner (2026-11-26): label the 200 RQ2 pairs; until then RQ2 reports the H&M transfer check as "labels not supplied". The Polyvore images are supplied and the corrected RQ2 run uses them.
 
@@ -15,12 +15,12 @@ Against `CRIMSUN_POOL/TDD_Digital_Wardrobe_Ecosystem_v1.md` (v1.1). Updated 2026
 | F02 | Shared fashion intelligence | Done (rules shared with research; RQ1/RQ2 pipelines run on real data) | outfit-recommender-readiness, research-readiness |
 | F03 | Item identity, key, lifecycle | Done | foundation-readiness; RQ3 report |
 | F04 | Dedicated redemption; public QR cannot claim | Done: 0 false acceptances in 103,500 attempts | `research/reports/rq3/…` |
-| F05 | Visual wardrobe, avatar, accessories | Backend done (accessory positions, looks, inspector data). **Visual avatar: frontend phase** | wardrobe-readiness; `test_accessory_positions_by_rule_and_capacity` |
+| F05 | Visual wardrobe, avatar, accessories | Done: library, inspector, fitting room with the lazy 3D avatar and 2D fallback, looks | wardrobe-readiness; `test_accessory_positions_by_rule_and_capacity`; `apps/web/client/e2e/avatar.e2e.spec.ts`, `wardrobe.e2e.spec.ts`; release-evidence-avatar |
 | F06 | Seven-day timeline | Done (planner, week projection, plan sharing) | wardrobe-readiness, social-readiness |
 | F07 | Mock purchase and wishlist | Done (sandbox offers, sizes, idempotent checkout, receipts, revocation) | commerce-readiness, sizes-readiness |
 | F08 | Friends and profile | Done (requests, blocks, shares, feed, notifications, showcase, moderation, inspiration) | social-readiness |
 | F09 | Admin supplies products | Done (import, review, publish, media, sizes, offers, units, roles, ops) | object-management-readiness |
-| F10 | Steam-inspired feminine UI | **Frontend phase.** The temporary pages are functional only | the owner's reference mocks |
+| F10 | Steam-inspired feminine UI | Done: Desktop and Focus presentations, dark and light | `DESIGN.md`; `apps/web/client/e2e/routes.visual.spec.ts` (reviewed snapshots), `audit.a11y.spec.ts`; `apps/web/client/README.md` (Quality results) |
 | F11 | Complete ecosystem, persists | Done (two-user thread, restart, isolation) | hardening-readiness; `test_ecosystem_acceptance` |
 | F12 | Weather, occasion, rotation | Done (BMKG gateway, thesis rules a–d, Eqs. 7–9, occasions) | outfit-recommender-readiness |
 | F13 | Thrifted or manual garments | Done (declared items, private photos, attributes, sizes) | wardrobe-readiness |
@@ -32,7 +32,7 @@ Against `CRIMSUN_POOL/TDD_Digital_Wardrobe_Ecosystem_v1.md` (v1.1). Updated 2026
 | 0. Evidence and feasibility | Done: dataset permissions and checksums, OIDC on Neon Auth (dev branch), frozen research configs, the pool consulted. The production host is not chosen yet. |
 | 1. Identity and item foundation | Done |
 | 2. Catalogue-to-wardrobe flow | Done |
-| 3. Wardrobe experience (shell, Focus mode, avatar) | **Not started: the frontend stage.** The backend contracts are ready |
+| 3. Wardrobe experience (shell, Focus mode, avatar) | Built: `openspec/changes/add-wearhouse-frontend` (tasks 1–10). Evidence: `apps/web/client/e2e/ecosystem.e2e.spec.ts` (two-user path), `keyboard.e2e.spec.ts`, `harden.e2e.spec.ts`, `moments.e2e.spec.ts`, `audit.a11y.spec.ts`, `routes.visual.spec.ts`; `apps/web/client/README.md` (Quality results). Open: app LCP 2.9–3.2 s on the mobile lab profile (budget 2.5 s) |
 | 4. Shared intelligence | Done: pipelines, rules and serving. Results: RQ3 positive. RQ2 first run negative (2026-11-25): text-only compatibility (AUC 0.530) and assumed climate. The declared corrected re-run (2026-11-26, `research/reports/rq2/20261126T012606Z-21acd80e`; FashionCLIP images, cited BMKG Kemayoran climate) is POSITIVE under the pre-registered rule: coverage +45% to +156% with compatibility −1.1% to −2.0%; type-aware AUC 0.899. Caveat: tuning chose w = [1, 0, 0], so the gain comes from compatibility plus the weather and occasion rules, not from rotation (see research-readiness). RQ1 finished 2026-11-26 (`research/reports/rq1/20261125T205603Z-f1630668`): not positive. The duplicate target was met (−56% vs first stage) and the MAP target was missed (reranked MAP@12 0.0080 vs popularity 0.0106, −25%) |
 | 5. Social and profile | Done |
 | 6. Hardening and cutover | Hardening done: limits, acceptance, performance bars, backup/restore rehearsal, ops view. **Cutover not done**: it needs a deployment decision |

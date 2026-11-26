@@ -6,8 +6,10 @@ import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {ApiFailure, createIntent} from '../../api/index.ts';
 import {Button} from '../../components/ui.tsx';
-import {keyFrom, normaliseKey, takeKey} from './parts.tsx';
+import {consumeKey, keyFrom, normaliseKey, peekKey} from './parts.tsx';
 import {QrScanner} from '../../components/QrScanner.tsx';
+import {useSettings} from '../../settings/SettingsProvider.tsx';
+import {flyTo} from '../../motion/fly.ts';
 import './store.css';
 
 type Owned = {id: string; public_serial: string; product: {id: string; name: string}};
@@ -15,8 +17,11 @@ type Owned = {id: string; public_serial: string; product: {id: string; name: str
 export function RedeemRoute() {
   const {t} = useI18n();
   const {api, userKey} = useSession();
+  const {reducedMotion} = useSettings();
+  const garment = useRef<HTMLDivElement>(null);
   const qc = useQueryClient();
-  const [raw, setRaw] = useState(() => takeKey() ?? '');
+  const [raw, setRaw] = useState(() => peekKey() ?? '');
+  useEffect(() => consumeKey(), []);
   const [error, setError] = useState<string | null>(null);
   const [wait, setWait] = useState(0);
   const [busy, setBusy] = useState(false);
@@ -52,11 +57,17 @@ export function RedeemRoute() {
       else setError(t('common.offline'));
     } finally { setBusy(false); }
   };
+  // Signature moment (web-motion 1), only after the server confirmed the claim: the four key groups lock in (masked,
+  // so no key stays in the page), the card becomes the garment, and the garment flies into the Wardrobe navigation.
   if (done) return <div className="page store redeem">
     <section className="redeem-done" aria-live="polite">
-      <span className="redeem-unlock" aria-hidden><Unlock size={40} /></span>
-      <h1>{t('red.success', {name: done.product.name})}</h1>
-      <p className="muted">{t('red.serial', {serial: done.public_serial})}</p>
+      <ol className="redeem-groups" aria-hidden>{[0, 1, 2, 3].map(i => <li key={i} style={{'--i': i} as never}>••••</li>)}</ol>
+      <div className="redeem-garment" ref={garment}
+        onAnimationEnd={e => { if (e.target === garment.current && !reducedMotion) flyTo(garment.current!, ['.topnav a[href$="#/wardrobe"]', '.bottomnav-link[href$="#/wardrobe"]', '.menu-btn']); }}>
+        <span className="redeem-unlock" aria-hidden><Unlock size={40} /></span>
+        <div><h1>{t('red.success', {name: done.product.name})}</h1>
+          <p className="muted">{t('red.serial', {serial: done.public_serial})}</p></div>
+      </div>
       <div className="buy-actions">
         <Link className="btn btn-primary btn-lg" to={`/items/${done.public_serial}`}>{t('red.view')}</Link>
         <Button size="lg" onClick={() => setDone(null)}>{t('red.another')}</Button>

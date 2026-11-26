@@ -72,3 +72,6 @@ export function jakartaDate(offsetDays = 0, from?: string) {
   base.setUTCDate(base.getUTCDate() + offsetDays);
   return new Intl.DateTimeFormat('en-CA', {timeZone: 'Asia/Jakarta'}).format(base);
 }
+
+/** Planner days planned in this page session, so the planner plays its drop-in moment once for each (web-motion 5). */
+export const justPlanned = new Set<string>();

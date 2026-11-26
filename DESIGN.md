@@ -86,6 +86,8 @@ rounded:
   r-2: "8px"
   r-3: "12px"
   pill: "999px"
+  control: "8px"
+  label: "6px"
 spacing:
   s-1: "4px"
   s-2: "8px"
@@ -103,7 +105,7 @@ components:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     typography: "{typography.body-sm}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "0 24px"
     height: "44px"
   button-primary-hover:
@@ -112,22 +114,22 @@ components:
   button-primary-light:
     backgroundColor: "{colors.plum}"
     textColor: "{colors.light-surface-1}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
   button-primary-light-hover:
     backgroundColor: "{colors.light-primary-hover}"
   button-large:
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "0 32px"
     height: "52px"
   chip:
     textColor: "{colors.text-2}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.label}"
     padding: "0 16px"
-    height: "36px"
+    height: "44px"
   chip-selected:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.label}"
   tab:
     textColor: "{colors.text-3}"
     typography: "{typography.label-caps}"
@@ -157,7 +159,7 @@ components:
     height: "26px"
   tag:
     textColor: "{colors.text-2}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.label}"
     padding: "2px 9px"
 ---
 
@@ -271,15 +273,15 @@ Each theme defines its own values for all three (plum-black on dark, ink at lowe
 
 ## Shapes
 
-Gently rounded, never sharp and never blobby. Tiles, fields, skeletons, menu rows and toasts use 8px; panels, menus, dialog and sheet tops and cards use 12px; small chrome (logo link, top-nav and tab focus, keycaps) uses 6px. Every button, chip, tag, toggle, segmented control, stepper, avatar button and badge is a full pill. Borders are 1px hairlines in the line colours; the focus ring is the only 3px stroke.
+Gently rounded, never sharp and never blobby. Tiles, fields, skeletons, menu rows and toasts use 8px; panels, menus, dialog and sheet tops and cards use 12px; small chrome (logo link, top-nav and tab focus, keycaps) uses 6px. Controls speak the console language of the tiles, not capsules: buttons, fields, the search box, segmented tracks, steppers, rail arrows and the account button are 8px rounded rectangles (`--r-control`), and chips, tags, segments and source labels are 6px (`--r-label`). Only things that are round by function stay round: the toggle switch, count badges, icon-button circles and scrollbar thumbs. Borders are 1px hairlines in the line colours; the focus ring is the only 3px stroke.
 
 Media is clipped to its radius. Tiles are flat (no border, no frame); the image or silhouette is the surface.
 
 ## Components
 
 ### Buttons
-Confident pills that move a pixel when you reach for them.
-- **Shape:** full pill, 44px minimum height (52px large, 48px in the detail zone), 24px side padding (32px large), weight 720.
+Confident console keys that move a pixel when you reach for them.
+- **Shape:** 8px rounded rectangle (`--r-control`), 44px minimum height (52px large, 48px in the detail zone), 24px side padding (32px large), weight 720.
 - **Primary:** paper on dark, plum on light, with the Rest shadow. Hover lifts 1px, brightens to the hover colour and takes the Raised shadow.
 - **Secondary:** 8% text-colour tint with a strong hairline; hover 14% and 1px lift.
 - **Ghost:** transparent; 9% tint on hover.
@@ -288,18 +290,18 @@ Confident pills that move a pixel when you reach for them.
 - **Icon button:** 44px circle, transparent, 10% tint on hover, scale 0.94 on press; badges are rose pills (18px) that pop in.
 
 ### Chips, Toggle, Segmented, Tabs
-- **Chip:** 36px pill, strong hairline, Blush Text; selected fills with the primary colour.
-- **Toggle:** 50×30 pill; on fills rose with a 22px Thumb carrying the Rest shadow.
-- **Segmented:** pill track at 8% tint; the selected segment's primary-coloured pill slides between options.
-- **Tabs:** uppercase tracked labels in Muted Rose Text, white when active, over a hairline; the active tab carries a 3px rose underline. Counts sit in rose pills.
+- **Chip:** 44px tall, 6px radius, strong hairline, Blush Text; selected fills with the primary colour.
+- **Toggle:** a 50×30 rounded track (round by function) drawn inside a 44px-tall target; on fills rose with a 22px Thumb carrying the Rest shadow.
+- **Segmented:** 8px track at 8% tint that hugs its options (wraps on phones); the selected segment's 6px primary-coloured block slides between options; each option is 44px tall.
+- **Tabs:** uppercase tracked labels in Muted Rose Text, white when active, over a hairline; the active tab carries a 3px rose underline as an inset rounded bar (the top navigation and the wardrobe sub-navigation share it). Counts sit in rose pills.
 
 ### Inputs / Fields
 - **Style:** 44px, 8px radius, strong hairline, Surface 0 at 70% fill, label above (560), meta hint below.
 - **Focus:** border turns to the focus colour with a 3px focus-colour halo at 35% (the only soft ring in the system, inside fields).
-- **Error:** danger border and a danger message under the field. Selects carry an inline chevron; sliders fill rose to the value with the Thumb; steppers are pill-bordered with 44px buttons.
+- **Error:** danger border and a danger message under the field. Selects carry an inline chevron; sliders fill rose to the value with the Thumb; steppers are 8px-bordered with 44px buttons. Placeholders use Muted Rose Text everywhere (never the browser grey).
 
 ### Tags and Labels
-Small pills (meta size, 560) at 12% tint; a quiet variant with only a hairline names provenance (Simulated price, Baseline ranking, weather source LIVE / CACHED / MANUAL). Status tags mix ok or warn at 22–24%. The weather chip always names its source and credits BMKG when data is live or cached.
+Small 6px labels (meta size, 560) at 12% tint; a quiet variant with only a hairline names provenance (Simulated price, Baseline ranking, weather source LIVE / CACHED / MANUAL). Status tags mix ok or warn at 22–24%. The weather chip always names its source and credits BMKG when data is live or cached.
 
 ### Tiles (signature)
 One link per tile: media and title together; secondary actions live outside it.
@@ -315,10 +317,10 @@ One link per tile: media and title together; secondary actions live outside it.
 The rail's first and largest object: a 16:9 card with a Surface 3 to Surface 1 gradient and a glow top-right in the strong accent at 38%. Its backdrop wash is the featured garment's tint, falling back to the accent. The outfit collage fills the right 62%; label, temperature, condition and source chip sit bottom-left. On phones the collage takes the top band and the info sits beneath.
 
 ### Rails
-Head row with title, optional note and 36px pill prev/next (60% opacity until the rail is hovered or the button focused). Where a tab names the row, the rail's controls sit up on the tab row instead.
+Head row with title, optional note and 44px rounded prev/next (60% opacity until the rail is hovered or the button focused). Where a tab names the row, the rail's controls sit up on the tab row instead.
 
 ### Navigation
-- **Top bar:** sticky, 72px, logo left (42px; 28px on phones), icon buttons, clock and avatar pill right. Transparent at the top of the page, solid at 97% top-of-gradient with a hairline once scrolled 96px (scroll-driven, no blur).
+- **Top bar:** sticky, 72px, logo left (42px; 28px on phones), icon buttons, clock and the account button right. Below 1200px the text links fold into the Main menu drawer; below 900px the clock and the handle beside the avatar give way. Transparent at the top of the page, solid at 97% top-of-gradient with a hairline once scrolled 96px (scroll-driven, no blur).
 - **Top nav (Desktop):** uppercase tracked links in Blush Text; active is white with a 3px rose underline.
 - **Main menu / quick access:** opaque Surface 1 drawers sliding from their edges on the sheet spring; menu entries are 56px, title-small weight, with a 4px nudge right on hover or focus. They open on their first entry.
 - **Account menu:** 12px-radius Surface 1 popover with the Lift shadow, 44px rows.
@@ -340,7 +342,17 @@ A fixed layer behind everything: a radial wash in the focused item's tint plus a
 Toasts stack bottom-centre above the hint bar, 8px radius, strong hairline (coloured for error or success), Raised shadow. Skeletons are 8px-radius shimmer blocks in the tile ratios; the shimmer stops under reduced motion.
 
 ### Motion
-Durations d1 120ms, d2 180ms, d3 280ms, d4 420ms, d5 640ms, plus press (60ms, button press feedback) and three loop durations: spin (900ms, spinner), ring (900ms, the notification bell's single swing) and shimmer (1400ms, skeletons); exponential ease-out for reveals, ease-in-out for symmetric moves; springs for focus (420/32/0.8), small controls (600/38) and sheets (320/36). Every animation has a reduced variant (a short linear crossfade; loops such as shimmer and the bell ring stop), triggered by the OS setting or the account's reduce-motion setting.
+Durations d1 120ms, d2 180ms, d3 280ms, d4 420ms, d5 640ms, plus press (60ms, button press feedback) and three loop durations: spin (900ms, spinner), ring (900ms, the notification bell's single swing) and shimmer (1400ms, skeletons); exponential ease-out for reveals, ease-in-out for symmetric moves; springs for focus (420/32/0.8), small controls (600/38) and sheets (320/36). Sequences step by the stagger token (70ms). Every animation has a reduced variant (a short linear crossfade or an instant change; loops such as shimmer and the bell ring stop), triggered by the OS setting or the account's reduce-motion setting.
+
+Six signature moments play only after the server confirms the action, never on a plain page load:
+1. **Redemption:** the four key groups (masked, so no key stays in the page) lock in one by one, the card opens into the garment, and a copy of it flies into whichever Wardrobe entry is on screen (top link, bottom tab or menu button), which lands with a small bounce.
+2. **Simulated checkout:** the receipt emerges and a rose "Simulated" stamp presses down on it.
+3. **Suggestions:** the cards deal in; after a confirmed Plan or Wear today the unchosen cards fold back in place (no reflow) and stay usable.
+4. **Equip:** the piece settles onto its slot, lifted with a real offset shadow, with the conflict preview before any replacement.
+5. **Plan and wear:** a look planned in this session drops into its day; marking a day worn stamps its newest entry.
+6. **Friend acceptance:** the notification settles in with an offset lift.
+
+Depth in these moments is always a downward offset shadow, never an expanding glow ring. A screen whose code is still loading shows a page placeholder that fades in only after a short delay (no flash on fast loads), and a screen whose code cannot be fetched shows a recoverable message with Try again.
 
 ## Do's and Don'ts
 
@@ -361,5 +373,7 @@ Durations d1 120ms, d2 180ms, d3 280ms, d4 420ms, d5 640ms, plus press (60ms, bu
 - **Don't** use glow for focus or emphasis; depth is downward offset shadow.
 - **Don't** paint focus rings on mouse clicks in the Desktop presentation.
 - **Don't** recolour or add effects to the Wearhouse mark or wordmark beyond the supplied white and plum versions; the dark theme uses the supplied white lockup.
-- **Don't** put uppercase tracked labels above headlines as decoration.
+- **Don't** put uppercase tracked labels above headlines as decoration. What a thing is (category, slot, revision) goes in a plain meta line under the heading.
+- **Don't** make buttons, chips or tags into capsules; pills are only for things that are round by function (switch, count badge).
+- **Don't** animate an expanding zero-offset ring as celebration or emphasis; settle with an offset shadow instead.
 - **Don't** show gamepad button glyphs.

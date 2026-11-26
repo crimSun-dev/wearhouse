@@ -3,7 +3,8 @@
 .main:focus { outline: none; }
 .shell-focus .main { padding-bottom: calc(var(--hint-h) + var(--s-6)); }
 .muted { color: var(--text-3); }
-.skip-link { position: absolute; left: var(--s-4); top: -60px; z-index: 60; padding: var(--s-2) var(--s-4); border-radius: var(--r-2);
+.skip-link { position: absolute; left: var(--s-4); top: -60px; z-index: 60; display: inline-flex; align-items: center;
+  min-height: var(--target); padding: var(--s-2) var(--s-4); border-radius: var(--r-2);
   background: var(--primary); color: var(--primary-ink); font-weight: var(--fw-bold); transition: top var(--dur-2) var(--ease-out); }
 .skip-link:focus-visible { top: var(--s-3); }
 
@@ -27,7 +28,7 @@
   @keyframes bar-solid { to { background: color-mix(in srgb, var(--bg-top) 97%, transparent); border-bottom-color: var(--line); } }
 }
 .topbar-start { display: flex; align-items: center; gap: var(--s-2); }
-.logo-link { display: block; border-radius: var(--r-1); }
+.logo-link { display: inline-flex; align-items: center; min-height: var(--target); border-radius: var(--r-1); }
 .logo { height: 42px; width: auto; }
 .topnav { display: flex; gap: var(--s-1); }
 .topnav-link { position: relative; padding: var(--s-3) var(--s-3); text-decoration: none; color: var(--text-2);
@@ -48,8 +49,8 @@
 [data-motion='reduced'] .bell-ring { animation: none; }
 
 .account { position: relative; }
-.avatar-btn { display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--target); padding: 0 var(--s-3) 0 var(--s-2);
-  border-radius: var(--r-pill); border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--text) 8%, transparent);
+.avatar-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); min-width: var(--target); min-height: var(--target); padding: 0 var(--s-3) 0 var(--s-2);
+  border-radius: var(--r-control); border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--text) 8%, transparent);
   color: var(--text); cursor: pointer; font-weight: var(--fw-medium); }
 .avatar-btn:hover { background: color-mix(in srgb, var(--text) 14%, transparent); }
 .avatar-handle { max-width: 14ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -94,6 +95,16 @@
 .hint-btn { border: 0; background: none; cursor: pointer; padding: var(--s-2); margin-left: calc(var(--s-2) * -1); border-radius: var(--r-1); }
 .key { min-width: 28px; height: 26px; padding: 0 7px; display: inline-grid; place-items: center; border-radius: 6px;
   background: var(--text); color: var(--bg-bottom); font: inherit; font-size: 12px; letter-spacing: 0; box-shadow: var(--shadow-1); }
+/* Tablet and narrow desktop windows: the top links fold into the Main menu drawer (web-quality "tablet: a drawer"),
+ * then the clock and the handle beside the avatar give way, so the bar never pushes the page sideways. */
+@media (max-width: 1200px) {
+  .shell-desktop .topnav { display: none; }
+  .shell-desktop .menu-btn { display: inline-grid; }
+}
+@media (max-width: 900px) {
+  .clock, .avatar-handle { display: none; }
+  .avatar-btn { padding-right: var(--s-2); }
+}
 @media (hover: none) and (pointer: coarse) { .hintbar { display: none; } .shell-focus .main { padding-bottom: var(--s-7); } }
 
 /* ---------- bottom nav (phones) ---------- */
@@ -126,3 +137,7 @@
 .cart-landed svg { animation: cart-land var(--dur-4) var(--ease-out); }
 @keyframes cart-land { 0% { transform: translateY(-10px) scale(0.7); } 60% { transform: translateY(2px) scale(1.18); } 100% { transform: none; } }
 [data-motion='reduced'] .cart-landed svg { animation: none; }
+/* A redeemed garment lands on the Wardrobe entry it flew into. */
+.nav-landed { animation: nav-land var(--dur-4) var(--ease-out); }
+@keyframes nav-land { 0% { transform: translateY(-6px) scale(0.9); color: var(--accent); } 60% { transform: translateY(1px) scale(1.08); color: var(--accent); } 100% { transform: none; } }
+[data-motion='reduced'] .nav-landed { animation: none; }

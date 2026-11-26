@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router';
 import {CalendarDays, Shirt, Sparkles} from 'lucide-react';
 import type {Schemas} from '@wearhouse/contracts';
-import {useSession} from '../session/SessionProvider.tsx';
+import {likelySignedIn, useSession} from '../session/SessionProvider.tsx';
 import {useSettings} from '../settings/SettingsProvider.tsx';
 import {useI18n, TIME_ZONE} from '../i18n/index.tsx';
 import {useCollections, useFeed, useForMe, useLooks, useMyWeather, useNewest, usePlanner, useWardrobeItems} from '../data/queries.ts';
@@ -246,7 +246,8 @@ function SignedInHome({items}: {items: Item[]}) {
 export function HomeRoute() {
   const {status} = useSession();
   const items = useWardrobeItems();
-  if (status === 'loading') return <div className="home"><RailSkeleton ratio="16 / 9" n={3} /></div>;
+  // A device that never had a session sees the signed-out Home at once, not a placeholder, while the check runs.
+  if (status === 'loading') return likelySignedIn() ? <div className="home"><RailSkeleton ratio="16 / 9" n={3} /></div> : <SignedOutHome />;
   if (status !== 'ready') return <SignedOutHome />;
   if (items.isPending) return <div className="home"><RailSkeleton ratio="16 / 9" n={3} /><RailSkeleton /></div>;
   if (items.isError) return <div className="home"><ErrorState error={items.error} onRetry={() => items.refetch()} /></div>;

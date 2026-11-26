@@ -32,6 +32,15 @@ export function loadAuth(): Promise<AuthPort | null> {
   authLoad ??= import('../auth/provider.ts').then(m => { try { return m.createAuth(); } catch { return null; } }, () => null);
   return authLoad;
 }
+// A plain per-device hint (no token, no identity): did this browser have a session last time? When it did not,
+// screens can show their signed-out form at once instead of waiting for the identity broker to answer.
+const HAD_SESSION = 'wearhouse.hadSession';
+export function likelySignedIn(): boolean {
+  try { return localStorage.getItem(HAD_SESSION) === '1'; } catch { return false; }
+}
+function rememberSession(had: boolean) {
+  try { if (had) localStorage.setItem(HAD_SESSION, '1'); else localStorage.removeItem(HAD_SESSION); } catch { /* not persisted */ }
+}
 const lazyToken: Pick<AuthPort, 'token'> = {token: async () => (await loadAuth())?.token() ?? null};
 
 export function SessionProvider({children}: {children: ReactNode}) {
@@ -78,6 +87,11 @@ export function SessionProvider({children}: {children: ReactNode}) {
       refresh, signOut,
     };
   }, [auth, api, query.data, query.isPending, query.isError, refresh, signOut]);
+
+  useEffect(() => {
+    if (value.status === 'ready' || value.status === 'onboarding') rememberSession(true);
+    else if (value.status === 'signedOut') rememberSession(false);
+  }, [value.status]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

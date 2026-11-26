@@ -5,7 +5,7 @@ import {CalendarDays, RefreshCw, Save, Shirt, Sparkles} from 'lucide-react';
 import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {ApiFailure, createIntent} from '../../api/index.ts';
-import {jakartaDate, useRefresh, useRegistry} from '../../data/wardrobe.ts';
+import {jakartaDate, justPlanned, useRefresh, useRegistry} from '../../data/wardrobe.ts';
 import {Button, Select, Skeleton, TextField} from '../../components/ui.tsx';
 import {ModelLabel} from '../../components/labels.tsx';
 import {ItemImage} from '../../components/ItemImage.tsx';
@@ -33,6 +33,8 @@ export function SuggestRoute() {
   const [rain, setRain] = useState('');
   const [hot, setHot] = useState('');
   const [nonce, setNonce] = useState(0);
+  // Signature moment (web-motion 3): once a choice is confirmed, the other cards of that run fold away.
+  const [picked, setPicked] = useState<{run: string; index: number} | null>(null);
   const query = {date, limit: 5, ...(occasion ? {occasion} : {}), ...(rain ? {rain: rain === 'yes'} : {}), ...(hot ? {hot: hot === 'yes'} : {})};
   // Explicit triggers only: the key changes on open (gcTime 0), date/occasion/override changes, and Refresh (nonce).
   const run = useQuery({queryKey: [...userKey, 'suggestions', query, nonce], staleTime: Infinity, gcTime: 0, retry: false,
@@ -77,10 +79,10 @@ export function SuggestRoute() {
       else if (kind === 'plan') {
         const look = await saveLook(s, index);
         await api.call('put', '/api/v2/me/planner/{plan_date}', {path: {plan_date: date}, body: {look_revision_id: look.current.id}});
-        void refresh('planner'); toast(t('sg.planned', {date: fmtDate(date)}), 'success');
+        justPlanned.add(date); if (runId) setPicked({run: runId, index}); void refresh('planner'); toast(t('sg.planned', {date: fmtDate(date)}), 'success');
       } else {
         await api.call('post', '/api/v2/me/wear', {body: {worn_on: jakartaDate(), item_ids: s.item_ids}, intent: createIntent()});
-        void refresh('wear', 'planner', 'wardrobe-items'); toast(t('sg.worn'), 'success');
+        if (runId) setPicked({run: runId, index}); void refresh('wear', 'planner', 'wardrobe-items'); toast(t('sg.worn'), 'success');
       }
     } catch (e) { fail(e); }
   };
@@ -119,7 +121,7 @@ export function SuggestRoute() {
         </div> : null}
         <div ref={results}>
           <FocusZone kind="rail" label={t('sg.title')} className="suggest-grid" version={runId}>
-            {d!.suggestions.map((s, i) => <article key={`${runId}-${i}`} className="suggest-card" style={{'--deal': i} as never}
+            {d!.suggestions.map((s, i) => <article key={`${runId}-${i}`} className={`suggest-card ${picked?.run === runId ? (picked.index === i ? 'is-picked' : 'is-folded') : ''}`} style={{'--deal': i} as never}
               {...focusItemProps({id: `sg:${runId}:${i}`, title: t('sg.outfit', {n: i + 1}), meta: s.score !== null ? t('sg.score', {score: s.score.toFixed(2)}) : undefined})} tabIndex={0}>
               <header><h2>{t('sg.outfit', {n: i + 1})}</h2>{s.score !== null && <span className="tag tag-quiet">{t('sg.score', {score: s.score.toFixed(2)})}</span>}</header>
               <div className="suggest-items">{s.items.map(it => <figure key={it.id}><span className="fit-thumb"><ItemImage item={it} quiet /></span>

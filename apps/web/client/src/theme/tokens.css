@@ -10,6 +10,8 @@
   /* space and shape */
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
   --r-1: 6px; --r-2: 8px; --r-3: 12px; --r-pill: 999px;
+  --r-control: var(--r-2);   /* buttons, fields, segmented tracks, the account button: the tile family */
+  --r-label: var(--r-1);     /* chips, tags, segments, source labels */
   --target: 44px;
   --gutter: clamp(16px, 3.9vw, 56px);
   --hint-h: 56px;
@@ -17,6 +19,7 @@
   /* motion */
   --dur-1: 120ms; --dur-2: 180ms; --dur-3: 280ms; --dur-4: 420ms; --dur-5: 640ms;
   --dur-press: 60ms;                              /* button press feedback */
+  --stagger: 70ms;                                /* gap between items of a dealt or locked-in sequence */
   --dur-spin: 900ms; --dur-ring: 900ms; --dur-shimmer: 1400ms;   /* loops: spinner, bell, skeleton */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);

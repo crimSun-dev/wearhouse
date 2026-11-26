@@ -14,7 +14,7 @@
 .avatar-why { font-weight: var(--fw-medium); color: var(--warn); }
 .avatar-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2); }
 .avatar-buttons { display: flex; gap: 4px; }
-.avatar-buttons button { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong);
+.avatar-buttons button { display: grid; place-items: center; width: var(--target); height: var(--target); border-radius: 50%; border: 1px solid var(--line-strong);
   background: var(--surface-1); color: var(--text); cursor: pointer; }
 .avatar-buttons button:hover { background: var(--surface-2); }
 .link-btn { border: 0; background: none; padding: 0; color: var(--accent-strong); font: inherit; font-weight: var(--fw-bold); text-decoration: underline; cursor: pointer; }

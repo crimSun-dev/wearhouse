@@ -44,8 +44,8 @@ function TagResult({serial}: {serial: string}) {
   return <section className="tag-card">
     <div className="tag-media"><Media src={detail.data?.media[0]?.uri ?? null} alt={product.name} slot={slot} /></div>
     <div className="tag-body">
-      <p className="eyebrow">{product.category}</p>
       <h2>{product.name}</h2>
+      <p className="head-meta">{product.category}</p>
       <p className="muted small">{t('tag.serial', {serial: item.data.public_serial})} · {source.namespace} · {source.external_id}</p>
       <p className="muted small">{t('tag.status', {status: catalogue_status})}</p>
       <p className="tag-note">{t('tag.discovery')}</p>

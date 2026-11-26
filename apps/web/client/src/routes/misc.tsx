@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Link, useLocation} from 'react-router';
+import {Link} from 'react-router';
 import {Heart, Sparkles} from 'lucide-react';
 import {useI18n} from '../i18n/index.tsx';
 import {Button, Chip, IconButton, Segmented, Select, Skeleton, Slider, Stepper, Tabs, TextField, Toggle} from '../components/ui.tsx';
@@ -11,13 +11,6 @@ import {toast} from '../components/toast.tsx';
 import {FocusZone} from '../focus/FocusZone.tsx';
 import './pages.css';
 
-/** Routes owned by later task groups render this until they land. */
-export function BuildingRoute() {
-  const {t} = useI18n();
-  const {pathname} = useLocation();
-  return <section className="page"><h1>{pathname.split('/').filter(Boolean)[0] ?? ''}</h1><p className="muted">{t('common.building')}</p>
-    <Link to="/">{t('common.goHome')}</Link></section>;
-}
 
 export function NotFoundRoute() {
   const {t} = useI18n();

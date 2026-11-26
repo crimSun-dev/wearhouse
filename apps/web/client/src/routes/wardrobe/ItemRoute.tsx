@@ -83,8 +83,8 @@ function Inspector({item}: {item: Item}) {
       </div>}
     </section>
     <section className="inspector-info">
-      <p className="eyebrow">{labels.slot(unknownSlot ? null : item.slot)} · {item.verified ? t('wr.verified') : t('wr.declared')}</p>
       <h1>{itemTitle(item)}</h1>
+      <p className="head-meta">{labels.slot(unknownSlot ? null : item.slot)} · {item.verified ? t('wr.verified') : t('wr.declared')}</p>
       {revoked && <p className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('it.revoked', {reason: owned.data?.revoked_reason ?? ''})}</p>}
       {!item.verified && <p className="unofficial-note">{t('it.unofficialNote')}</p>}
       {unknownSlot && <div className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('it.unknownSlot')}</div>}
@@ -94,8 +94,7 @@ function Inspector({item}: {item: Item}) {
         {item.product_id && <Link className="btn btn-ghost btn-md" to={`/catalogue/products/${item.product_id}`}>{t('it.viewProduct')}</Link>}
       </div>
 
-      <dl className="product-facts">
-        <h2>{t('it.details')}</h2>
+      <section className="product-facts"><h2>{t('it.details')}</h2><dl className="facts-list">
         <div><dt>{t('it.name')}</dt><dd className="inline-edit">
           <input aria-label={t('it.name')} value={name} maxLength={120} onChange={e => setName(e.target.value)} />
           {name.trim() && name !== (item.name ?? '') && <Button onClick={() => void patch({name: name.trim()})}>{t('common.save')}</Button>}</dd></div>
@@ -115,10 +114,9 @@ function Inspector({item}: {item: Item}) {
           </Select> : item.size?.label ?? t('it.noSize')}</dd></div>
         <div><dt>{t('it.wear')}</dt><dd>{item.wear_count ? t('wr.worn', {n: item.wear_count}) : t('wr.neverWorn')}
           {item.last_worn_on && <span className="muted small"> · {t('wr.lastWorn', {date: date(item.last_worn_on)})}</span>}</dd></div>
-      </dl>
+      </dl></section>
 
-      <dl className="product-facts">
-        <h2>{t('it.attributes')}</h2>
+      <section className="product-facts"><h2>{t('it.attributes')}</h2><dl className="facts-list">
         {attrs.map(a => { const v = item.attributes?.[a]; return <div key={a}><dt>{labels.attr(a)}</dt><dd>
           <Select label={labels.attr(a)} value={v === undefined ? '' : String(v.value)}
             onChange={e => void patch({attributes: {[a]: e.target.value === '' ? null : e.target.value === 'true' ? true : e.target.value === 'false' ? false : e.target.value}})}>
@@ -126,19 +124,19 @@ function Inspector({item}: {item: Item}) {
             {v && typeof v.value === 'string' && <option value={v.value}>{v.value}</option>}
           </Select>
           {v && <span className="tag tag-quiet">{t('it.origin', {origin: labels.source(v.origin)})}</span>}</dd></div>; })}
-      </dl>
+      </dl></section>
 
-      {item.verified && <dl className="product-facts">
+      {item.verified && <section className="product-facts">
         <h2><ShieldCheck size={18} aria-hidden /> {t('it.provenance')}</h2>
-        {owned.isPending ? <Skeleton ratio="6 / 1" /> : owned.data && <>
+        {owned.isPending ? <Skeleton ratio="6 / 1" /> : owned.data && <dl className="facts-list">
           <div><dt>{t('it.serial')}</dt><dd><code>{owned.data.public_serial}</code> <Link to={`/items/${owned.data.public_serial}`}>{t('tag.title')}</Link></dd></div>
           <div><dt>{t('it.sourceNs')}</dt><dd>{owned.data.acquisition.source_namespace}</dd></div>
           <div><dt>{t('it.externalId')}</dt><dd>{owned.data.acquisition.external_id}</dd></div>
           <div><dt>{t('it.revision')}</dt><dd>{owned.data.acquisition.revision_no}</dd></div>
           <div><dt>{t('it.snapshot')}</dt><dd><code className="small">{owned.data.acquisition.snapshot_sha256.slice(0, 16)}…</code></dd></div>
           <div><dt>{t('it.claimed', {date: ''}).trim()}</dt><dd>{date(owned.data.claimed_at)}</dd></div>
-        </>}
-      </dl>}
+        </dl>}
+      </section>}
 
       <Button variant={item.archived ? 'secondary' : 'ghost'} onClick={() => void patch({archived: !item.archived})}>{item.archived ? t('it.unarchive') : t('it.archive')}</Button>
     </section>

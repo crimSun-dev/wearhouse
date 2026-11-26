@@ -733,7 +733,7 @@
       {
         "name": "spring-snappy",
         "value": "spring stiffness 600, damping 38",
-        "purpose": "Small controls (segmented pill)."
+        "purpose": "Small controls (segmented indicator)."
       },
       {
         "name": "spring-sheet",
@@ -781,15 +781,15 @@
       "refersTo": "button-primary",
       "description": "The one action per view: paper on plum (dark), plum on paper (light).",
       "html": "<button class=\"ds-btn ds-btn-primary\">Wear today</button>",
-      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 24px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; font-family: 'Figtree Variable', system-ui, sans-serif; font-weight: 720; font-size: 0.9375rem; letter-spacing: 0.01em; transition: transform var(--dur-1, 120ms) cubic-bezier(0.16,1,0.3,1), background-color 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); } .ds-btn-primary:hover { background: var(--primary-hover, #ffffff); transform: translateY(-1px); box-shadow: var(--shadow-2, 0 14px 30px -10px rgba(20,4,16,0.6), 0 3px 8px rgba(20,4,16,0.3)); } .ds-btn:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 24px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; font-family: 'Figtree Variable', system-ui, sans-serif; font-weight: 720; font-size: 0.9375rem; letter-spacing: 0.01em; transition: transform var(--dur-1, 120ms) cubic-bezier(0.16,1,0.3,1), background-color 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); } .ds-btn-primary:hover { background: var(--primary-hover, #ffffff); transform: translateY(-1px); box-shadow: var(--shadow-2, 0 14px 30px -10px rgba(20,4,16,0.6), 0 3px 8px rgba(20,4,16,0.3)); } .ds-btn:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Tinted pill with a strong hairline for secondary actions.",
+      "description": "Tinted 8px console key with a strong hairline for secondary actions.",
       "html": "<button class=\"ds-btn-secondary\">Try on</button>",
-      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 999px; cursor: pointer; font-weight: 720; font-size: 0.9375rem; background: color-mix(in srgb, var(--text, #fff) 8%, transparent); color: var(--text, #fff); border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); transition: background-color 180ms, transform 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--text, #fff) 14%, transparent); transform: translateY(-1px); } .ds-btn-secondary:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn-secondary:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 8px; cursor: pointer; font-weight: 720; font-size: 0.9375rem; background: color-mix(in srgb, var(--text, #fff) 8%, transparent); color: var(--text, #fff); border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); transition: background-color 180ms, transform 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--text, #fff) 14%, transparent); transform: translateY(-1px); } .ds-btn-secondary:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn-secondary:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
     },
     {
       "name": "Text Field",
@@ -811,15 +811,15 @@
       "name": "Chip",
       "kind": "chip",
       "refersTo": "chip",
-      "description": "36px filter pill; selected fills with the primary colour.",
+      "description": "44px filter label, 6px radius; selected fills with the primary colour.",
       "html": "<div style=\"display:flex;gap:8px\"><button class=\"ds-chip is-selected\">All</button><button class=\"ds-chip\">Tops</button><button class=\"ds-chip\">Bottoms</button></div>",
-      "css": ".ds-chip { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: transparent; color: var(--text-2, #f6dfe7); font-weight: 560; cursor: pointer; transition: background-color 180ms, color 180ms, border-color 180ms; } .ds-chip:hover { border-color: var(--text-2, #f6dfe7); color: var(--text, #fff); } .ds-chip.is-selected { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); border-color: var(--primary, #faf6f3); } .ds-chip:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+      "css": ".ds-chip { min-height: 44px; padding: 0 16px; border-radius: 6px; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: transparent; color: var(--text-2, #f6dfe7); font-weight: 560; cursor: pointer; transition: background-color 180ms, color 180ms, border-color 180ms; } .ds-chip:hover { border-color: var(--text-2, #f6dfe7); color: var(--text, #fff); } .ds-chip.is-selected { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); border-color: var(--primary, #faf6f3); } .ds-chip:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
     },
     {
       "name": "Toggle",
       "kind": "custom",
       "refersTo": "toggle",
-      "description": "50x30 pill; on fills rose; Thumb knob with the Rest shadow.",
+      "description": "50x30 rounded track (round by function) in a 44px target; on fills rose; Thumb knob with the Rest shadow.",
       "html": "<button class=\"ds-toggle is-on\" role=\"switch\" aria-checked=\"true\"><span class=\"ds-thumb\"></span></button>",
       "css": ".ds-toggle { display: flex; width: 50px; height: 30px; padding: 3px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: color-mix(in srgb, var(--text, #fff) 10%, transparent); transition: background-color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-toggle.is-on { justify-content: flex-end; background: var(--accent, #e07aa0); border-color: var(--accent, #e07aa0); } .ds-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--thumb, #ffffff); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); } .ds-toggle:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
     },
@@ -851,9 +851,9 @@
       "name": "Provenance Tag",
       "kind": "chip",
       "refersTo": "tag",
-      "description": "Quiet hairline pill naming where a claim comes from; status tags mix ok/warn at 22-24%.",
+      "description": "Quiet hairline 6px label naming where a claim comes from; status tags mix ok/warn at 22-24%.",
       "html": "<span style=\"display:flex;gap:8px\"><span class=\"ds-tag ds-tag-quiet\">Simulated price</span><span class=\"ds-tag ds-tag-quiet\">Baseline ranking</span><span class=\"ds-tag ds-tag-ok\">Ready</span></span>",
-      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: 0.8125rem; font-weight: 560; background: color-mix(in srgb, var(--text, #fff) 12%, transparent); color: var(--text-2, #f6dfe7); } .ds-tag-quiet { background: transparent; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); } .ds-tag-ok { background: color-mix(in srgb, var(--ok, #8ad9b0) 22%, transparent); color: var(--text, #fff); }"
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 6px; font-size: 0.8125rem; font-weight: 560; background: color-mix(in srgb, var(--text, #fff) 12%, transparent); color: var(--text-2, #f6dfe7); } .ds-tag-quiet { background: transparent; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); } .ds-tag-ok { background: color-mix(in srgb, var(--ok, #8ad9b0) 22%, transparent); color: var(--text, #fff); }"
     }
   ],
   "narrative": {

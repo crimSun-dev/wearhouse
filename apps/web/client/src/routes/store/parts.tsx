@@ -84,7 +84,15 @@ export function serialFrom(input: string): string | null {
 }
 
 /** In-memory hand-off of a revealed key to the Redeem screen: never the URL, history state or storage. */
+// The receipt hands a revealed key to Redeem in memory only (never the URL or storage). Reading does not consume it,
+// because React may discard and repeat a render; the Redeem screen consumes it once mounted, and an unused hand-off
+// expires on its own so a key never lingers.
 let pendingKey: string | null = null;
-export function handOffKey(key: string) { pendingKey = key; }
-/** Read once: cleared after the current task, so StrictMode's double initialiser call still sees it. */
-export function takeKey() { const k = pendingKey; queueMicrotask(() => { pendingKey = null; }); return k; }
+let expiry: ReturnType<typeof setTimeout> | undefined;
+export function handOffKey(key: string) {
+  pendingKey = key;
+  clearTimeout(expiry);
+  expiry = setTimeout(() => { pendingKey = null; }, 10_000);
+}
+export function peekKey() { return pendingKey; }
+export function consumeKey() { pendingKey = null; clearTimeout(expiry); }

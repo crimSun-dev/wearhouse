@@ -61,7 +61,6 @@ export const en = {
   'common.error': 'Something went wrong.', 'common.copyDetails': 'Copy details', 'common.copied': 'Copied',
   'common.requestId': 'Request {id}', 'common.notFound': 'This page doesn’t exist.', 'common.goHome': 'Go home',
   'common.wait': 'Try again in {s} s', 'common.previous': 'Previous', 'common.next': 'Next', 'common.seeAll': 'See all',
-  'common.building': 'This area arrives in the next build step.',
   'quick.theme': 'Theme', 'quick.reduceMotion': 'Reduce motion', 'quick.sound': 'UI sounds', 'quick.weather': 'Today’s weather',
   'quick.requests': 'Friend requests', 'quick.noNotifications': 'You’re all caught up.', 'quick.allNotifications': 'All notifications',
   'theme.dark': 'Dark', 'theme.light': 'Light', 'theme.system': 'System',

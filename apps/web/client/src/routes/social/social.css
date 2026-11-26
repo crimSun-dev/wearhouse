@@ -30,7 +30,7 @@
 .note-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); grid-column: 1; }
 .note:not(.is-unread) .note-text { grid-column: 2; }
 .note-request_accepted.is-unread { animation: accepted var(--dur-5) var(--ease-out); }
-@keyframes accepted { 0% { box-shadow: 0 0 0 0 var(--ok); transform: scale(0.98); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { transform: none; } }
+@keyframes accepted { 0% { opacity: 0.4; transform: translateY(-8px); box-shadow: var(--shadow-lift); } 70% { opacity: 1; transform: translateY(1px); } 100% { transform: none; } }
 .profile-head { display: flex; align-items: center; gap: var(--s-4); }
 .profile-avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--sw); border: 3px solid var(--line-strong); flex: none; }
 .profile-bio { max-width: 60ch; font-size: var(--fs-3); }
@@ -38,7 +38,7 @@
 .accent-plum { --accent-tint: #632947; } .accent-ivory { --accent-tint: #f4ead9; } .accent-blush { --accent-tint: #f1c9d6; }
 .accent-noir { --accent-tint: #2b1624; } .accent-sage { --accent-tint: #9fb59a; } .accent-sky { --accent-tint: #a9c4e0; }
 .chip-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
-.chip-list li a { display: inline-block; padding: 6px 12px; border-radius: var(--r-pill); background: var(--surface-1); color: var(--text); text-decoration: none; border: 1px solid var(--line); }
+.chip-list li a { display: inline-block; padding: 6px 12px; border-radius: var(--r-label); background: var(--surface-1); color: var(--text); text-decoration: none; border: 1px solid var(--line); }
 .week-strip { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--s-2); }
 .week-strip li { display: grid; gap: 2px; padding: var(--s-2) var(--s-3); border-radius: var(--r-2); background: var(--surface-1); border: 1px solid var(--line); }
 .profile-form { max-width: 560px; }

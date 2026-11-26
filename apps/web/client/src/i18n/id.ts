@@ -62,7 +62,6 @@ export const id: Messages = {
   'common.error': 'Terjadi kesalahan.', 'common.copyDetails': 'Salin detail', 'common.copied': 'Tersalin',
   'common.requestId': 'Permintaan {id}', 'common.notFound': 'Halaman ini tidak ada.', 'common.goHome': 'Ke beranda',
   'common.wait': 'Coba lagi dalam {s} dtk', 'common.previous': 'Sebelumnya', 'common.next': 'Berikutnya', 'common.seeAll': 'Lihat semua',
-  'common.building': 'Bagian ini hadir di tahap pembangunan berikutnya.',
   'quick.theme': 'Tema', 'quick.reduceMotion': 'Kurangi animasi', 'quick.sound': 'Suara UI', 'quick.weather': 'Cuaca hari ini',
   'quick.requests': 'Permintaan pertemanan', 'quick.noNotifications': 'Semua sudah kamu lihat.', 'quick.allNotifications': 'Semua notifikasi',
   'theme.dark': 'Gelap', 'theme.light': 'Terang', 'theme.system': 'Sistem',

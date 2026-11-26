@@ -115,7 +115,7 @@ export function CheckoutRoute() {
     <p className="co-statement" role="note"><span className="tag tag-quiet">{t('ord.simulatedTag')}</span> {t('co.simulated')}</p>
     {changed && <p className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('co.changed', {reason: t(changed)})}</p>}
     {lost && <p className="co-alert" role="alert">{t('co.lostResponse')}</p>}
-    {!c.lines.length ? <EmptyState title={t('cart.empty')}><Link to="/catalogue">{t('home.browse')}</Link></EmptyState> : <>
+    {!c.lines.length ? <EmptyState title={t('cart.empty')}><Link className="btn btn-primary btn-md" to="/catalogue">{t('home.browse')}</Link></EmptyState> : <>
       <ul className="bag-list co-lines">
         {c.lines.map(l => <li key={l.product_id + (l.size?.code ?? '')} className={`bag-line ${l.available ? '' : 'is-off'}`}>
           <span className="bag-name">{l.name}{l.size && <span className="bag-sub">{t('cart.size', {size: l.size.label})}</span>}</span>

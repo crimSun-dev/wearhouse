@@ -79,11 +79,11 @@ export function LookRoute() {
     <WardrobeNav />
     <header className="store-head">
       <div>
-        <p className="eyebrow">{t('lk.revision', {n: shown?.revision_no ?? l.current_revision_no})}</p>
         {renaming !== null ? <form className="inline-edit" onSubmit={e => { e.preventDefault(); void rename(); }}>
           <input aria-label={t('lk.rename')} value={renaming} maxLength={80} onChange={e => setRenaming(e.target.value)} autoFocus />
           <Button type="submit" variant="primary">{t('common.save')}</Button><Button onClick={() => setRenaming(null)}>{t('common.cancel')}</Button></form>
           : <h1>{l.name}</h1>}
+        <p className="head-meta">{t('lk.revision', {n: shown?.revision_no ?? l.current_revision_no})}</p>
       </div>
       <div className="buy-actions">
         <Button variant="primary" onClick={() => navigate(`/wardrobe/fitting-room?look=${l.id}`)}><Shirt size={18} aria-hidden /> {t('lk.edit')}</Button>

@@ -87,7 +87,7 @@ export function PublicProfileRoute() {
     {!visible ? <p className="co-alert">{p.profile_visibility === 'private' ? t('pf.private') : t('pf.friendsOnly')}</p> : <>
       {showcase.data && (showcase.data.headline || showcase.data.featured.length > 0) && <section className="profile-showcase">
         {showcase.data.headline && <h2>{showcase.data.headline}</h2>}
-        <div className="share-grid">{showcase.data.featured.map(s => s.look && <article key={s.id} className="share"><p className="eyebrow">{t('pf.featured')}</p>
+        <div className="share-grid">{showcase.data.featured.map(s => s.look && <article key={s.id} className="share"><span className="tag tag-quiet">{t('pf.featured')}</span>
           {s.caption && <p className="share-caption">{s.caption}</p>}<LookCard look={s.look} /></article>)}</div>
       </section>}
       {!!shares.data?.items.length && <section><h2>{t('pf.shares')}</h2><div className="share-grid">{shares.data.items.map(s => <article key={s.id} className="share">

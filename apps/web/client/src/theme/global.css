@@ -11,7 +11,9 @@ body {
 }
 h1, h2, h3, h4, p { margin: 0; }
 h1, h2, h3 { text-wrap: balance; letter-spacing: var(--track-tight); }
-p { text-wrap: pretty; }
+p, li, dd, figcaption, small { text-wrap: pretty; }
+/* Every placeholder, not only those inside .field, uses the readable tertiary ink (browser grey fails 4.5:1). */
+::placeholder { color: var(--text-3); opacity: 1; }
 a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
 button, input, select, textarea { font: inherit; color: inherit; }
 img { display: block; max-width: 100%; }
