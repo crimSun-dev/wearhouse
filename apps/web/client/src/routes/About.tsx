@@ -37,7 +37,6 @@ export function AboutRoute() {
       </section>
       {about.data.notices.length > 0 && <section className="read-section"><h2>{t('about.notices')}</h2>
         <ul>{about.data.notices.map(n => <li key={n}>{n}</li>)}</ul></section>}
-      <section className="read-section"><h2>{t('about.ai')}</h2><p>{about.data.ai_disclosure}</p></section>
     </>}
   </article>;
 }

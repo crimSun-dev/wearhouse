@@ -71,6 +71,12 @@ export function TopBar({onMenu, onQuick}: {onMenu: () => void; onQuick: () => vo
   const navigate = useNavigate();
   const signedIn = status === 'ready';
   const hasSession = signedIn || status === 'onboarding';
+  const [landed, setLanded] = useState(0);
+  useEffect(() => {
+    const on = () => setLanded(n => n + 1);
+    window.addEventListener('wh:cart-landed', on);
+    return () => window.removeEventListener('wh:cart-landed', on);
+  }, []);
   return <header className="topbar">
     <div className="topbar-start">
       <IconButton label={`${t('nav.mainMenu')} (M)`} onClick={onMenu} className="menu-btn"><Menu size={22} /></IconButton>
@@ -80,10 +86,11 @@ export function TopBar({onMenu, onQuick}: {onMenu: () => void; onQuick: () => vo
       {primaryNav.map(n => <NavLink key={n.to} to={n.to} end={n.to === '/'} className="topnav-link">{t(n.key)}</NavLink>)}
     </nav>
     <div className="topbar-end">
-      <IconButton label={`${t('nav.search')} (/)`} onClick={() => navigate('/catalogue/browse')}><Search size={20} /></IconButton>
+      <IconButton label={`${t('nav.search')} (/)`} onClick={() => navigate('/catalogue?all=1', {state: {search: true}})}><Search size={20} /></IconButton>
       {signedIn && <>
         <IconButton label={t('nav.wishlist')} badge={counts.wishlist} onClick={() => navigate('/wishlist')} className="hide-sm"><Heart size={20} /></IconButton>
-        <IconButton label={t('nav.cart')} badge={counts.cart} onClick={() => navigate('/cart')} className="hide-sm"><ShoppingBag size={20} /></IconButton>
+        <IconButton key={`cart-${landed}`} label={t('nav.cart')} badge={counts.cart} onClick={() => navigate('/cart')}
+          className={`hide-sm ${landed ? 'cart-landed' : ''}`}><ShoppingBag size={20} /></IconButton>
         <IconButton label={`${t('nav.notifications')} (Q)`} badge={counts.unread} onClick={onQuick}>
           <Bell size={20} className={counts.unread ? 'bell-ring' : undefined} /></IconButton>
         <IconButton label={t('nav.feed')} onClick={() => navigate('/community')} className="hide-sm"><Rss size={20} /></IconButton>

@@ -32,7 +32,7 @@ export function AppShell() {
   useEffect(() => onIntent(intent => {
     if (intent === 'menu') setMenu(true);
     else if (intent === 'quick') setQuick(true);
-    else if (intent === 'search') navigate('/catalogue/browse');
+    else if (intent === 'search') navigate('/catalogue?all=1', {state: {search: true}});
     else if (intent === 'back' && location.pathname !== '/') navigate(-1);
   }), [navigate, location.pathname]);
   useEffect(() => { publishFocus(null); }, [location.pathname]);

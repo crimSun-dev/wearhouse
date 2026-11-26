@@ -1,3 +1,5 @@
+import {storeEn} from './store.ts';
+
 // English catalogue. Every key here must exist in id.ts (tests/i18n.test.ts enforces it).
 export const en = {
   'app.name': 'Wearhouse',
@@ -49,7 +51,7 @@ export const en = {
   'onb.displayName': 'Display name', 'onb.avatar': 'Avatar colour', 'onb.language': 'Language', 'onb.finish': 'Finish setup',
   'about.title': 'About Wearhouse', 'about.version': 'Version {v}', 'about.schema': 'Schema {v}', 'about.sources': 'Data sources',
   'about.licence': 'Licence', 'about.terms': 'Terms', 'about.usedFor': 'Used for', 'about.notices': 'Notices',
-  'about.ai': 'AI assistance', 'about.health': 'Service status', 'about.healthy': 'The Wearhouse service is reachable.',
+  'about.health': 'Service status', 'about.healthy': 'The Wearhouse service is reachable.',
   'about.unhealthy': 'The Wearhouse service isn’t reachable right now.',
   'common.retry': 'Try again', 'common.loading': 'Loading', 'common.cancel': 'Cancel', 'common.close': 'Close',
   'common.save': 'Save', 'common.back': 'Back', 'common.offline': 'Can’t reach Wearhouse. Check your connection and try again.',
@@ -68,6 +70,7 @@ export const en = {
   'home.plannedToday': 'Planned for today', 'home.latestLook': 'Your latest look', 'home.nothingPlanned': 'Nothing planned for today',
   'home.wearToday': 'Wear today', 'home.tryOn': 'Try on',
   'kit.title': 'Component kit',
+  ...storeEn,
 } as const;
 
 export type MessageKey = keyof typeof en;

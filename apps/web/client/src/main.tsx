@@ -17,6 +17,17 @@ const SignUpRoute = lazy(() => import('./routes/Auth.tsx').then(m => ({default: 
 const ResetRoute = lazy(() => import('./routes/Auth.tsx').then(m => ({default: m.ResetRoute})));
 const OnboardingRoute = lazy(() => import('./routes/Onboarding.tsx').then(m => ({default: m.OnboardingRoute})));
 const DevKitRoute = lazy(() => import('./routes/misc.tsx').then(m => ({default: m.DevKitRoute})));
+// Catalogue and commerce (task group 3).
+const CatalogueRoute = lazy(() => import('./routes/store/Catalogue.tsx').then(m => ({default: m.CatalogueRoute})));
+const ProductRoute = lazy(() => import('./routes/store/Product.tsx').then(m => ({default: m.ProductRoute})));
+const CollectionRoute = lazy(() => import('./routes/store/Product.tsx').then(m => ({default: m.CollectionRoute})));
+const TagRoute = lazy(() => import('./routes/store/Tag.tsx').then(m => ({default: m.TagRoute})));
+const WishlistRoute = lazy(() => import('./routes/store/Bag.tsx').then(m => ({default: m.WishlistRoute})));
+const CartRoute = lazy(() => import('./routes/store/Bag.tsx').then(m => ({default: m.CartRoute})));
+const CheckoutRoute = lazy(() => import('./routes/store/Bag.tsx').then(m => ({default: m.CheckoutRoute})));
+const OrdersRoute = lazy(() => import('./routes/store/Orders.tsx').then(m => ({default: m.OrdersRoute})));
+const ReceiptRoute = lazy(() => import('./routes/store/Orders.tsx').then(m => ({default: m.ReceiptRoute})));
+const RedeemRoute = lazy(() => import('./routes/store/Redeem.tsx').then(m => ({default: m.RedeemRoute})));
 const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
 import './theme/global.css';
 
@@ -54,13 +65,23 @@ const router = createHashRouter([{
     {path: '/reset', element: page(<ResetRoute />)},
     {path: '/onboarding', element: page(<OnboardingRoute />)},
     {path: '/dev/kit', element: page(<DevKitRoute />)},
+    // Catalogue and commerce: public discovery, private bag, orders and redemption.
+    {path: '/catalogue', element: <OnboardingGate>{page(<CatalogueRoute />)}</OnboardingGate>},
+    {path: '/catalogue/products/:id', element: <OnboardingGate>{page(<ProductRoute />)}</OnboardingGate>},
+    {path: '/collections/:slug', element: <OnboardingGate>{page(<CollectionRoute />)}</OnboardingGate>},
+    {path: '/items', element: page(<TagRoute />)}, {path: '/items/:serial', element: page(<TagRoute />)},
+    {path: '/wishlist', element: <Private>{page(<WishlistRoute />)}</Private>},
+    {path: '/cart', element: <Private>{page(<CartRoute />)}</Private>},
+    {path: '/checkout', element: <Private>{page(<CheckoutRoute />)}</Private>},
+    {path: '/orders', element: <Private>{page(<OrdersRoute />)}</Private>},
+    {path: '/orders/:id', element: <Private>{page(<ReceiptRoute />)}</Private>},
+    {path: '/redeem', element: <Private>{page(<RedeemRoute />)}</Private>},
     // Public surfaces built in later task groups.
-    {path: '/catalogue/*', element: <BuildingRoute />}, {path: '/catalogue', element: <BuildingRoute />},
-    {path: '/collections/*', element: <BuildingRoute />}, {path: '/items/*', element: <BuildingRoute />},
+    {path: '/catalogue/*', element: <NotFoundRoute />},
     {path: '/u/*', element: <BuildingRoute />}, {path: '/shares/*', element: <BuildingRoute />},
     // Private surfaces built in later task groups.
-    ...['/wardrobe/*', '/wardrobe', '/community/*', '/community', '/profile/*', '/profile', '/settings/*', '/settings', '/redeem',
-      '/orders/*', '/orders', '/wishlist', '/cart', '/checkout', '/notifications', '/sizes', '/weather', '/admin/*', '/admin']
+    ...['/wardrobe/*', '/wardrobe', '/community/*', '/community', '/profile/*', '/profile', '/settings/*', '/settings',
+      '/notifications', '/sizes', '/weather', '/admin/*', '/admin']
       .map(path => ({path, element: building})),
     {path: '*', element: <NotFoundRoute />},
   ],

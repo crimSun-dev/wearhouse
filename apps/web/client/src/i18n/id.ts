@@ -1,4 +1,5 @@
 import type {Messages} from './en.ts';
+import {storeId} from './store.ts';
 
 // Katalog Bahasa Indonesia. Setiap kunci di en.ts wajib ada di sini.
 export const id: Messages = {
@@ -51,7 +52,7 @@ export const id: Messages = {
   'onb.displayName': 'Nama tampilan', 'onb.avatar': 'Warna avatar', 'onb.language': 'Bahasa', 'onb.finish': 'Selesai',
   'about.title': 'Tentang Wearhouse', 'about.version': 'Versi {v}', 'about.schema': 'Skema {v}', 'about.sources': 'Sumber data',
   'about.licence': 'Lisensi', 'about.terms': 'Ketentuan', 'about.usedFor': 'Dipakai untuk', 'about.notices': 'Pemberitahuan',
-  'about.ai': 'Bantuan AI', 'about.health': 'Status layanan', 'about.healthy': 'Layanan Wearhouse dapat dijangkau.',
+  'about.health': 'Status layanan', 'about.healthy': 'Layanan Wearhouse dapat dijangkau.',
   'about.unhealthy': 'Layanan Wearhouse sedang tidak dapat dijangkau.',
   'common.retry': 'Coba lagi', 'common.loading': 'Memuat', 'common.cancel': 'Batal', 'common.close': 'Tutup',
   'common.save': 'Simpan', 'common.back': 'Kembali', 'common.offline': 'Tidak bisa terhubung ke Wearhouse. Periksa koneksimu lalu coba lagi.',
@@ -70,4 +71,5 @@ export const id: Messages = {
   'home.plannedToday': 'Direncanakan hari ini', 'home.latestLook': 'Look terbarumu', 'home.nothingPlanned': 'Belum ada rencana hari ini',
   'home.wearToday': 'Pakai hari ini', 'home.tryOn': 'Coba',
   'kit.title': 'Kit komponen',
+  ...storeId,
 };
