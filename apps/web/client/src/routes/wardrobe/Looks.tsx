@@ -112,7 +112,7 @@ export function LookRoute() {
       </aside>
     </div>
     <Overlay open={confirmDelete} onClose={() => setConfirmDelete(false)} side="center" title={t('lk.delete')}>
-      <div className="confirm"><h2>{t('lk.delete')}</h2><p>{t('lk.deleteWarn')}</p>
+      <div className="confirm"><p>{t('lk.deleteWarn')}</p>
         <div className="buy-actions"><Button data-autofocus onClick={() => setConfirmDelete(false)}>{t('common.back')}</Button>
           <Button variant="danger" loading={busy} onClick={() => void remove()}>{t('lk.delete')}</Button></div></div>
     </Overlay>

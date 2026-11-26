@@ -33,7 +33,7 @@ export function planEquip(equipped: Equipped, slot: string, itemId: string, regi
 }
 
 export function FittingRoute() {
-  const {t} = useI18n();
+  const {t, date} = useI18n();
   const labels = useLabels();
   const {api} = useSession();
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export function FittingRoute() {
         toast(t('fr.revisionSaved', {n: out.current_revision_no}), 'success');
         await refresh('looks', 'look'); navigate(`/wardrobe/looks/${out.id}`);
       } else {
-        const out = await api.call('post', '/api/v2/me/looks', {body: {name: name.trim(), slots: equipped}});
+        const out = await api.call('post', '/api/v2/me/looks', {body: {name: name.trim() || `${t('lk.title')} · ${date(new Date().toISOString())}`, slots: equipped}});
         toast(t('fr.saved'), 'success');
         await refresh('looks'); navigate(`/wardrobe/looks/${out.id}`);
       }
@@ -125,7 +125,7 @@ export function FittingRoute() {
         </div>
         <div className="fit-save">
           <TextField label={t('fr.lookName')} value={name} maxLength={80} onChange={e => setName(e.target.value)} />
-          <Button variant="primary" size="lg" loading={saving} disabled={!count || !name.trim()} onClick={() => void save()}>
+          <Button variant="primary" size="lg" loading={saving} disabled={!count} onClick={() => void save()}>
             <Save size={18} aria-hidden /> {lookId ? t('fr.saveRevision') : t('fr.save')}</Button>
           {count > 0 && <Button variant="ghost" onClick={() => setEquipped({})}>{t('fr.clear')}</Button>}
         </div>
@@ -147,7 +147,6 @@ export function FittingRoute() {
     </div>
     <Overlay open={!!pending} onClose={() => setPending(null)} side="center" title={t('fr.conflictTitle')}>
       {pending && <div className="confirm">
-        <h2>{t('fr.conflictTitle')}</h2>
         <ul className="fit-removed">{pending.removed.map(id => <li key={id}>{byId.get(id) ? `${itemTitle(byId.get(id)!)} (${labels.slot(byId.get(id)!.slot)})` : id}</li>)}</ul>
         <div className="buy-actions">
           <Button data-autofocus onClick={() => setPending(null)}>{t('fr.cancel')}</Button>

@@ -83,7 +83,7 @@ export function ReceiptRoute() {
       {r.cancellable && <Button variant="danger" onClick={() => setConfirmCancel(true)}>{t('ord.cancel')}</Button>}
     </article>
     <Overlay open={confirmCancel} onClose={() => setConfirmCancel(false)} side="center" title={t('ord.cancel')}>
-      <div className="confirm"><h2>{t('ord.cancel')}</h2><p>{t('ord.cancelWarn')}</p>
+      <div className="confirm"><p>{t('ord.cancelWarn')}</p>
         <div className="buy-actions"><Button data-autofocus onClick={() => setConfirmCancel(false)}>{t('common.back')}</Button>
           <Button variant="danger" loading={cancelling} onClick={() => void cancel()}>{t('ord.cancelConfirm')}</Button></div></div>
     </Overlay>
@@ -140,7 +140,7 @@ function Unit({orderId, unit, n, cancelled}: {orderId: string; unit: UnitOut; n:
       : <span className="unit-state muted">{d.status === 'expired' ? t('ord.expired') : t('ord.keyUnavailable')}
         {d.status === 'expired' && !cancelled && <Button variant="ghost" onClick={() => setConfirmRenew(true)}><RefreshCw size={16} aria-hidden /> {t('ord.renew')}</Button>}</span>}
     <Overlay open={confirmRenew} onClose={() => setConfirmRenew(false)} side="center" title={t('ord.renew')}>
-      <div className="confirm"><h2>{t('ord.renew')}</h2><p>{t('ord.renewWarn')}</p>
+      <div className="confirm"><p>{t('ord.renewWarn')}</p>
         <div className="buy-actions"><Button data-autofocus onClick={() => setConfirmRenew(false)}>{t('common.back')}</Button>
           <Button variant="primary" loading={busy} onClick={() => void renew()}>{t('ord.renewConfirm')}</Button></div></div>
     </Overlay>

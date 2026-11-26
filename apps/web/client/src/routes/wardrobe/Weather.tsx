@@ -51,10 +51,10 @@ export function WeatherRoute() {
           <h2>{date(day)}</h2>
           <ul>{slots.map(s => <li key={s.at}>
             <span className="weather-time">{time(s.at)}</span><strong>{Math.round(s.temp_c)}°C</strong>
-            <span>{s.description}</span>
-            {s.rain && <span className="tag tag-quiet"><CloudRain size={12} aria-hidden /> {t('we.rain')}</span>}
-            {s.hot && <span className="tag tag-quiet"><Sun size={12} aria-hidden /> {t('we.hot')}</span>}
-            <span className="muted small">{t('we.humidity', {n: s.humidity})}</span>
+            <span className="weather-desc">{s.description}
+              {s.rain && <span className="tag tag-quiet"><CloudRain size={12} aria-hidden /> {t('we.rain')}</span>}
+              {s.hot && <span className="tag tag-quiet"><Sun size={12} aria-hidden /> {t('we.hot')}</span>}</span>
+            <span className="muted small">{s.humidity}%</span>
           </li>)}</ul>
         </section>)}</div>
       </>}
