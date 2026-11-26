@@ -70,3 +70,5 @@ test-tags/new-test-tags.json
 # Impeccable working evidence (local review captures and decision sketches); DESIGN.md and .impeccable/design.json are committed
 .impeccable/review/
 .impeccable/mocks/
+# Course presentation brief (mentions thesis results): local only unless the owner decides to publish it
+docs/WEARHOUSE_SYSTEM_INTEGRATION_PPT_PROMPT.md
