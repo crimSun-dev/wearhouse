@@ -43,6 +43,22 @@ The H&M source has no sizes. After importing a catalogue, generate mock sizes, t
 
 The command is idempotent (only products without sizes) and batched. Staff manage systems and sizes at `#/staff/sizes`; retiring a size hides it from pickers but keeps old orders and wardrobe items readable.
 
+## Synthetic demo catalogue and starter kit (staging)
+
+The public staging demo uses invented records only (namespace `wearhouse-synthetic-demo`, article ids 900000+); H&M rows are never published there. `tools/make_demo_catalogue.py` writes `apps/api/fixtures/demo-catalogue/wearhouse-demo-catalogue.csv` (+ `.sha256`) deterministically. Every step below is idempotent:
+
+    wearhouse import-catalogue --csv apps/api/fixtures/demo-catalogue/wearhouse-demo-catalogue.csv --publish \
+      --namespace wearhouse-synthetic-demo --source-name "Wearhouse synthetic demo catalogue" \
+      --source-url https://wearhouse.invalid/demo --acquired-on 2026-11-26 --basis synthetic-demo-fixture \
+      --scope "public demo; synthetic records only" --accepted-on 2026-11-26 --accepted-by "Wearhouse owner" \
+      --terms-url https://wearhouse.invalid/demo/terms --operator-issuer <iss> --operator-subject <sub>
+    wearhouse generate-media --operator-issuer <iss> --operator-subject <sub>
+    wearhouse assign-sizes   --operator-issuer <iss> --operator-subject <sub>
+    python tools/finish_demo_catalogue.py --operator-issuer <iss> --operator-subject <sub>   # offers (never overwrites) + 12-piece 'starter-kit' collection; prints the ids
+    wearhouse grant-starter-kit   # tops every onboarded account up with kit pieces it has not received yet
+
+The kit is `WEARHOUSE_STARTER_KIT` when set (render.yaml), otherwise the `starter-kit` collection; at most 12 pieces. A piece an account already received from the kit is never granted again.
+
 ## Recommendation artifacts
 
 Import a research artifact (directory with `manifest.json` and `neighbours.csv`, written by `research/src/wearhouse_research/export.py`):
