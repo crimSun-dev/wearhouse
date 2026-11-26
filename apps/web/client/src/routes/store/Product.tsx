@@ -118,10 +118,10 @@ function Buy({productId, oneSize, signedIn, offer, idr}: {
       : o && <>
         <p className="price">{idr(o.price_idr)} <SimulatedLabel /></p>
         {sized ? <FocusZone kind="rail" label={t('prod.sizes')} className="buy-sizes" version={o.sizes.length}>
-          {o.sizes.map(s => <Chip key={s.system + s.code} selected={size === `${s.system}:${s.code}`} disabled={!s.in_stock}
+          {o.sizes.map(s => <Chip key={s.system + s.code} selected={size === s.code} disabled={!s.in_stock}
             aria-label={s.in_stock ? s.label : t('prod.sizeOut', {size: s.label})}
             {...focusItemProps({id: `size:${s.code}`, title: s.label})}
-            onClick={() => setSize(`${s.system}:${s.code}`)}>{s.label}</Chip>)}
+            onClick={() => setSize(s.code)}>{s.label}</Chip>)}
         </FocusZone> : <p className="muted">{t('prod.oneSize')}</p>}
         {!o.in_stock && <p className="buy-reason" role="status">{t('prod.outOfStock')}</p>}
       </>}

@@ -58,7 +58,7 @@ export function CartRoute() {
       <Link className="btn btn-primary btn-md" to="/catalogue">{t('home.browse')}</Link></EmptyState> : <>
       <FocusZone kind="grid" label={t('cart.title')} className="bag-list" version={c.lines.length} autoFocus>
         {c.lines.map(l => {
-          const size = l.size ? `${l.size.system}:${l.size.code}` : null;
+          const size = l.size ? l.size.code : null;   // the cart addresses a line by its size code
           const busy = line.isPending && line.variables?.id === l.product_id && line.variables?.size === size;
           return <div key={l.product_id + (size ?? '')} className={`bag-line ${l.available ? '' : 'is-off'}`}>
             <Link to={`/catalogue/products/${l.product_id}`} className="bag-name" {...focusItemProps({id: `cart:${l.product_id}:${size}`, title: l.name ?? ''})}>

@@ -85,6 +85,23 @@ test('Scanning does not claim: opening a tag sends no redemption and leaves the 
   expect((await call<{items: unknown[]}>('GET', '/me/items')).items).toHaveLength(0);
 });
 
+test('Sized product: choosing a size and adding to cart puts that size in the cart', async ({page}) => {
+  const id = await product('Sized linen shirt', `Shirt${run}`, 'White', null);
+  await curator('PUT', `/admin/catalogue/products/${id}/sizes`, {sizes: [{system: 'alpha', code: 'S'}, {system: 'alpha', code: 'M'}]});
+  await curator('PUT', `/admin/commerce/offers/${id}`, {price_idr: 199000, stock: 10, size_stock: {S: 0, M: 5}});
+  await shopper(page, 'sized');
+  await page.goto(`/app/#/catalogue/products/${id}`);
+  await expect(page.getByRole('button', {name: 'S (out of stock)'})).toBeDisabled();
+  await expect(page.getByRole('button', {name: 'Choose a size first'})).toBeDisabled();
+  await page.getByRole('button', {name: 'M', exact: true}).click();
+  await page.getByRole('button', {name: 'Add to cart'}).click();
+  await expect(page.getByText('Added to your cart')).toBeVisible();
+  await page.goto('/app/#/cart');
+  await expect(page.getByText('Size M')).toBeVisible();
+  await page.getByRole('button', {name: 'Remove'}).click();
+  await expect(page.getByText('Your cart is empty')).toBeVisible();
+});
+
 test('Unavailable line: a retired product is flagged and checkout readiness follows the server', async ({page}) => {
   const id = await product('Retiring belt', `Belt${run}`, 'Brown', {price: 159000, stock: 5});
   const {call} = await shopper(page, 'retire');
