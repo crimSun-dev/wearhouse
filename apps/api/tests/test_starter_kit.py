@@ -4,6 +4,7 @@ from __future__ import annotations
 import pytest
 
 from conftest import Api, counts, make_settings
+from wearhouse.ownership.application import backfill_starter_kit
 from wearhouse.testing import create_test_app
 
 pytestmark = [pytest.mark.postgres, pytest.mark.synthetic_only]
@@ -34,3 +35,14 @@ def test_new_account_gets_the_starter_kit_once_as_owned_verified_items(api, staf
 def test_without_configuration_onboarding_grants_nothing(api, staff, clean_db):
     onboard(api, "plain", "plain_user")
     assert api.get("/api/v2/me/items", "plain").json()["items"] == []
+
+
+def test_backfill_gives_existing_accounts_the_kit_exactly_once(api, staff, clean_db, issuer):
+    onboard(api, "early-bird", "early_bird")                     # onboarded before the kit existed
+    api.get("/api/v2/me", "not-onboarded")                       # no handle yet: left for onboarding to grant
+    kit = (staff["product_id"],)
+    first = backfill_starter_kit(api.services.uow_factory, api.app.state.engine, kit)
+    assert first == {"accounts": 1, "pieces": 1}
+    assert len(api.get("/api/v2/me/items", "early-bird").json()["items"]) == 1
+    assert backfill_starter_kit(api.services.uow_factory, api.app.state.engine, kit) == {"accounts": 0, "pieces": 0}
+    assert api.get("/api/v2/me/items", "not-onboarded").json()["items"] == []

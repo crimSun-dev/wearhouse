@@ -3,19 +3,25 @@ import {describe, expect, it} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {MeshoptDecoder} from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import type {Object3D} from 'three';
 import {planEquip} from '../src/routes/wardrobe/Fitting.tsx';
+import {templateFor} from '../src/avatar/scene.ts';
+import {bodyFor} from '../src/avatar/Avatar.tsx';
 
 const dir = join(process.cwd(), 'public', 'avatar');
 const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')) as {
-  bodies: Record<string, string>; slots: Record<string, {template: string; capacity: number; positions: string[]}>;
+  bodies: Record<string, string>; slots: Record<string, {template: string; anchor: 'body' | 'point'; capacity: number; positions: string[]}>;
 };
 const load = (file: string) => new Promise<Object3D>((resolve, reject) => {
   const buf = readFileSync(join(dir, file));
-  new GLTFLoader().parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength), '', g => resolve(g.scene), reject);
+  new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength), '', g => resolve(g.scene), reject);
 });
 
-describe('avatar placeholders', () => {
+describe('avatar models', () => {
+  it('there is one body per avatar_gender choice', () => {
+    expect(Object.keys(manifest.bodies).sort()).toEqual(['female', 'male', 'unspecified']);
+  });
   it('every body loads and carries every attachment point the manifest names', async () => {
     const points = new Set(Object.values(manifest.slots).flatMap(s => s.positions));
     for (const file of Object.values(manifest.bodies)) {
@@ -23,12 +29,19 @@ describe('avatar placeholders', () => {
       for (const p of points) expect(scene.getObjectByName(p), `${file} ${p}`).toBeTruthy();
     }
   });
-  it('every slot template loads as a mesh', async () => {
-    for (const {template} of Object.values(manifest.slots)) {
+  it('every slot template loads as a mesh, fitted ones once per body', async () => {
+    for (const body of Object.keys(manifest.bodies)) for (const spec of Object.values(manifest.slots)) {
+      const file = templateFor(spec, body);
       let meshes = 0;
-      (await load(template)).traverse(o => { if ((o as {isMesh?: boolean}).isMesh) meshes++; });
-      expect(meshes, template).toBeGreaterThan(0);
+      (await load(file)).traverse(o => { if ((o as {isMesh?: boolean}).isMesh) meshes++; });
+      expect(meshes, file).toBeGreaterThan(0);
     }
+  });
+  it('the body is read from the avatar_gender setting; unknown values show the in-between body', () => {
+    expect(bodyFor('female')).toBe('female');
+    expect(bodyFor('male')).toBe('male');
+    expect(bodyFor(undefined)).toBe('unspecified');
+    expect(bodyFor('a')).toBe('unspecified');
   });
   it('the manifest lists every registry slot with its capacity, and two wrist and two ring positions', () => {
     const registry = {top: 1, outer: 1, bottom: 1, dress: 1, footwear: 1, bag: 1, headwear: 1, eyewear: 1, earrings: 1, necklace: 1,

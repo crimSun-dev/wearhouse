@@ -493,3 +493,21 @@ class StarterKit:
                             payload={"unit_id": str(unit_id), "user_id": str(user_id)})
             granted += 1
         return granted
+
+
+def backfill_starter_kit(uow_factory: Callable, engine, product_ids: tuple[str, ...], *, clock: Clock = utcnow) -> dict:
+    """Gives the starter kit to every onboarded account that has not received it (idempotent: an account counts
+    as granted once it has a claim event marked source=starter_kit). One transaction per account."""
+    from sqlalchemy import text as sql
+    kit = StarterKit(product_ids)
+    with engine.connect() as conn:
+        users = conn.execute(sql(
+            "SELECT p.user_id FROM account_profile p WHERE p.handle IS NOT NULL AND NOT EXISTS ("
+            " SELECT 1 FROM ownership_event e WHERE e.user_id = p.user_id AND e.details->>'source' = 'starter_kit')"
+            " ORDER BY p.user_id")).scalars().all()
+    granted = 0
+    for user_id in users:
+        with uow_factory() as uow:
+            granted += kit.grant(uow, user_id, clock())
+            uow.commit()
+    return {"accounts": len(users), "pieces": granted}

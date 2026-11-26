@@ -174,8 +174,11 @@ SETTINGS: dict[str, dict] = {
                              "default": "everyone"},
     "discoverable": {"section": "community", "type": "flag", "default": True},
     "beta_features": {"section": "beta", "type": "flag", "default": False},
+    # Which body model the fitting-room avatar uses (owner request 2026-11-26). Only the avatar reads it.
+    "avatar_gender": {"section": "avatar", "type": "choice", "choices": ("unspecified", "female", "male"),
+                      "default": "unspecified"},
 }
-SETTING_SECTIONS = ("general", "wardrobe", "style", "display", "audio", "notifications", "community", "beta")
+SETTING_SECTIONS = ("general", "wardrobe", "style", "avatar", "display", "audio", "notifications", "community", "beta")
 # outfit-suggestion Eq. 7 weight profiles (compatibility / preference / recency): balanced = the demo baseline
 # (align-wearhouse-outfit-recommender). Weather is a hard rule, not a weight.
 RECOMMENDATION_WEIGHTS = {

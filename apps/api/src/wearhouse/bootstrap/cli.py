@@ -301,6 +301,26 @@ def cmd_import_recommendations(a) -> int:
     return 0
 
 
+def cmd_grant_starter_kit(a) -> int:
+    """Backfill: give WEARHOUSE_STARTER_KIT to every onboarded account that has not received it (idempotent)."""
+    from ..identity.ports import InvalidToken
+    from ..ownership.application import backfill_starter_kit
+    from .container import build_services
+
+    settings, engine, _ = _runtime()
+    if not settings.starter_kit:
+        print("refusing: WEARHOUSE_STARTER_KIT is not set", file=sys.stderr)
+        return 2
+
+    class _NoTokens:
+        def verify(self, token):
+            raise InvalidToken("cli")
+
+    services = build_services(settings, engine, _NoTokens())
+    print(json.dumps(backfill_starter_kit(services.uow_factory, engine, settings.starter_kit)))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="wearhouse", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -312,6 +332,7 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--revision", default="head")
     m.set_defaults(fn=cmd_migrate)
     sub.add_parser("check").set_defaults(fn=cmd_check)
+    sub.add_parser("grant-starter-kit", help="give the starter kit to existing accounts that lack it").set_defaults(fn=cmd_grant_starter_kit)
     for name, fn in (("grant-role", cmd_grant), ("revoke-role", cmd_revoke)):
         g = sub.add_parser(name)
         g.add_argument("--issuer", required=True)

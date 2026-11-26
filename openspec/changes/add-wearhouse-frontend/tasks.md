@@ -65,7 +65,7 @@
 
 ## 5. Avatar (prompt A3, `/impeccable`)
 
-- [x] 5.1 Write `scripts/make-avatar-placeholders.mjs` to generate low-poly placeholder GLBs per slot template, plus a body model with named attachment points, and `public/avatar/manifest.json`. Verify that the script output loads in a Three.js test and that the manifest lists every slot and accessory position from `GET /wardrobe/slots`.
+- [x] 5.1 Write `scripts/make-avatar-models.mjs` to generate low-poly placeholder GLBs per slot template, plus a body model with named attachment points, and `public/avatar/manifest.json`. Verify that the script output loads in a Three.js test and that the manifest lists every slot and accessory position from `GET /wardrobe/slots`.
 - [x] 5.2 Implement the lazy 3D avatar (rotate, zoom, equip, remove, body option as a device preference), the colour approximation table with a disclosure label, and the 2D layered SVG fallback with a mode label. Verify that the "WebGL unavailable" and "Mode label" scenarios pass, and that composing a look works before Three.js loads (network-throttled test).
 - [x] 5.3 Add `#/dev/avatar-fps` (60 s rotation, median FPS, device) and automatic fallback below 30 FPS. Record results for a named laptop and a mid-range phone in `docs/architecture/release-evidence-avatar.md`. Verify that the "Low frame rate" scenario passes (simulated with a throttled CPU) and that the evidence file exists with real measurements or an explicit "not measured" entry. Status 2026-11-26: desktop measured (59.9 fps hardware and software); laptop and mid-range phone recorded as "not measured" in the evidence file.
 

@@ -35,7 +35,7 @@ export function AvatarFpsRoute() {
     try {
       const {createAvatarScene} = await import('../../avatar/scene.ts');
       scene.current?.dispose();
-      const s = await createAvatarScene(canvas.current!, 'a');
+      const s = await createAvatarScene(canvas.current!, 'female');
       scene.current = s;
       await s.show(toWorn(FULL_LOOK));
       const samples: number[] = []; const start = performance.now();

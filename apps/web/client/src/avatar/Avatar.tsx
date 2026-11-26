@@ -3,15 +3,19 @@ import {Minus, Plus, RotateCcw, RotateCw} from 'lucide-react';
 import {useI18n} from '../i18n/index.tsx';
 import {accentFor} from '../components/tiles.tsx';
 import {Segmented} from '../components/ui.tsx';
+import {useSettings} from '../settings/SettingsProvider.tsx';
 import type {AvatarScene, Worn} from './scene.ts';
 import './avatar.css';
 
 /** Neutral garment colour for unknown colour names (the documented approximation: see components/tiles.tsx). */
 export const NEUTRAL = '#9e959b';
-const BODY_KEY = 'wearhouse.avatarBody';
 const FALLBACK_KEY = 'wearhouse.avatarFallback';
 type Mode = 'loading' | '3d' | '2d';
 type Reason = 'noWebgl' | 'failed' | 'lowFps' | null;
+export const BODIES = ['female', 'male', 'unspecified'] as const;
+export type Body = typeof BODIES[number];
+/** The account's avatar_gender setting, read as a body key (anything unknown shows the in-between body). */
+export const bodyFor = (v: unknown): Body => (BODIES as readonly unknown[]).includes(v) ? v as Body : 'unspecified';
 
 export type AvatarPiece = {slot: string; colour: string | null | undefined};
 
@@ -36,7 +40,8 @@ export function Avatar({pieces}: {pieces: AvatarPiece[]}) {
   const {t} = useI18n();
   const canvas = useRef<HTMLCanvasElement>(null);
   const scene = useRef<AvatarScene | null>(null);
-  const [body, setBody] = useState(() => stored(BODY_KEY) ?? 'a');
+  const {values, update} = useSettings();
+  const body = bodyFor(values.avatar_gender);
   const [reason, setReason] = useState<Reason>(() => (stored(FALLBACK_KEY) === 'lowFps' ? 'lowFps' : null));
   const [mode, setMode] = useState<Mode>(() => (reason ? '2d' : 'loading'));
   const [attempt, setAttempt] = useState(0);
@@ -69,7 +74,7 @@ export function Avatar({pieces}: {pieces: AvatarPiece[]}) {
   }, [reason, attempt]);
 
   useEffect(() => { void scene.current?.show(worn); }, [wornKey, mode]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { store(BODY_KEY, body); void scene.current?.setBody(body); }, [body]);
+  useEffect(() => { void scene.current?.setBody(body); }, [body, mode]);
 
   const label = mode === '3d' ? t('av.mode3d') : mode === 'loading' ? t('av.loading') : t('av.mode2d');
   const why = reason === 'noWebgl' ? t('av.noWebgl') : reason === 'failed' ? t('av.failed') : reason === 'lowFps' ? t('av.lowFps') : null;
@@ -94,7 +99,8 @@ export function Avatar({pieces}: {pieces: AvatarPiece[]}) {
       <span className="muted small">{t('av.approx')}</span>
     </figcaption>
     <div className="avatar-controls">
-      <Segmented label={t('av.body')} value={body} onChange={setBody} options={[{value: 'a', label: t('av.bodyA')}, {value: 'b', label: t('av.bodyB')}]} />
+      <Segmented label={t('av.body')} value={body} onChange={v => void update({avatar_gender: v})}
+        options={BODIES.map(b => ({value: b, label: t(`set.avatar_gender.${b}`)}))} />
       {mode === '3d' && <span className="avatar-buttons">
         <button type="button" aria-label={t('av.rotateLeft')} onClick={() => scene.current?.rotate(-0.4)}><RotateCcw size={16} /></button>
         <button type="button" aria-label={t('av.rotateRight')} onClick={() => scene.current?.rotate(0.4)}><RotateCw size={16} /></button>

@@ -166,14 +166,27 @@ test('Phone planner: a date strip and one day at a time', async ({page}) => {
   await expect(page.locator('.plan-chip').nth(2)).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('No location: weather prompts for a location instead of erroring', async ({page}) => {
+test('Weather: Kemayoran by default; pick an area by name (search, district, village) and save it', async ({page}) => {
   const sub = unique('wx');
   await onboarded(sub);
   await signIn(page, sub);
+  const saved: string[] = [];
+  page.on('request', r => { if (r.method() === 'PUT' && r.url().includes('/me/weather/location')) saved.push(r.postData() ?? ''); });
   await page.goto('/app/#/weather');
-  await expect(page.getByText('Set your location to see the forecast')).toBeVisible();
+  await expect(page.locator('.weather-place')).toContainText('Kemayoran, Kemayoran, Jakarta Pusat');
+  await expect(page.getByTestId('weather-saved')).toHaveText('Not saved yet. Save it to use it in the planner and suggestions.');
+  await page.getByLabel('Find your city or regency').fill('bandung');
+  await page.getByRole('button', {name: 'Bandung Jawa Barat', exact: true}).click();
+  await page.getByLabel('District (kecamatan)').selectOption({label: 'Sumur Bandung'});
+  await page.getByLabel('Village (kelurahan / desa)').selectOption({label: 'Braga'});
+  await expect(page.locator('.weather-place')).toContainText('Braga, Sumur Bandung, Bandung');
+  await page.getByRole('button', {name: 'Save as my location'}).click();
+  await expect(page.getByTestId('weather-saved')).toHaveText('Your saved location: the planner and suggestions use it.');
+  expect(JSON.parse(saved[0]!)).toEqual({adm4: '32.73.19.1001'});
+  // A code can still be typed; a malformed one is refused before any request.
+  await page.getByText('Enter a BMKG code instead').click();
   await page.getByLabel('BMKG location code (adm4)').fill('3171');
-  await page.getByRole('button', {name: 'Save location'}).click();
+  await page.getByRole('button', {name: 'Show forecast'}).click();
   await expect(page.getByText('Use the format 12.34.56.7890.')).toBeVisible();
 });
 

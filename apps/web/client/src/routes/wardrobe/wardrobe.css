@@ -195,3 +195,19 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 /* Official (bought or redeemed, from the catalogue) vs unofficial (added by you): like Steam's non-Steam games. */
 .wr-tile.is-unofficial .tile-media { outline: 1px dashed var(--line-strong); outline-offset: -1px; }
 .unofficial-note { padding: var(--s-2) var(--s-3); border-radius: var(--r-2); border: 1px dashed var(--line-strong); color: var(--text-2); font-size: var(--fs-2); }
+
+/* BMKG location picker */
+.weather-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--s-3); }
+.weather-place { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: var(--s-1) 0 0; font-size: 1.05rem; }
+.weather-picker { display: grid; gap: var(--s-3); margin-top: var(--s-4); padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); }
+.weather-picker h2 { margin: 0; font-size: 1.1rem; }
+.weather-quick { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.weather-quick .chip { min-height: 36px; padding: 0 var(--s-3); border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text-1); cursor: pointer; font: inherit; }
+.weather-quick .chip.is-active { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 18%, var(--surface-2)); }
+.weather-search { max-width: 520px; }
+.weather-matches { list-style: none; margin: var(--s-1) 0 0; padding: var(--s-1); display: grid; gap: 2px; border-radius: var(--r-2); background: var(--surface-2); border: 1px solid var(--line); }
+.weather-matches button { width: 100%; display: flex; justify-content: space-between; gap: var(--s-2); padding: var(--s-2); border: 0; border-radius: 6px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.weather-matches button:hover, .weather-matches button:focus-visible { background: var(--surface-1); }
+.weather-selects { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s-3); }
+.weather-code summary { cursor: pointer; color: var(--text-2); }
+.weather-code form { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s-2); margin-top: var(--s-2); max-width: 520px; }

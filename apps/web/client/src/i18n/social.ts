@@ -58,6 +58,8 @@ export const socialEn = {
   'set.notify_friend_requests': 'Friend requests', 'set.notify_request_accepted': 'Accepted requests', 'set.notify_friend_shares': 'Friends’ shared looks',
   'set.friend_requests_from': 'Accept friend requests from', 'set.friend_requests_from.everyone': 'Everyone', 'set.friend_requests_from.nobody': 'Nobody',
   'set.discoverable': 'Appear in search', 'set.beta_features': 'Beta features',
+  'set.avatar_gender': 'Avatar body', 'set.avatar_gender.female': 'Woman', 'set.avatar_gender.male': 'Man', 'set.avatar_gender.unspecified': 'Not specified',
+  'st.section.avatar': 'Avatar',
 } as const;
 
 export const socialId: Record<keyof typeof socialEn, string> = {
@@ -119,4 +121,6 @@ export const socialId: Record<keyof typeof socialEn, string> = {
   'set.notify_friend_requests': 'Permintaan pertemanan', 'set.notify_request_accepted': 'Permintaan diterima', 'set.notify_friend_shares': 'Gaya yang dibagikan teman',
   'set.friend_requests_from': 'Terima permintaan dari', 'set.friend_requests_from.everyone': 'Semua orang', 'set.friend_requests_from.nobody': 'Tidak ada',
   'set.discoverable': 'Muncul di pencarian', 'set.beta_features': 'Fitur beta',
+  'set.avatar_gender': 'Tubuh avatar', 'set.avatar_gender.female': 'Perempuan', 'set.avatar_gender.male': 'Laki-laki', 'set.avatar_gender.unspecified': 'Tidak disebutkan',
+  'st.section.avatar': 'Avatar',
 };
