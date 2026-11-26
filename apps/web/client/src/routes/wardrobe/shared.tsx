@@ -6,6 +6,8 @@ import {Tile, accentFor} from '../../components/tiles.tsx';
 import {ItemImage} from '../../components/ItemImage.tsx';
 import type {MessageKey} from '../../i18n/en.ts';
 import type {Item} from '../../data/wardrobe.ts';
+// Store layout primitives (filters bar, bag lines, alerts, confirm dialogs) are shared with the wardrobe.
+import '../store/store.css';
 import './wardrobe.css';
 
 const SECTIONS: Array<[string, MessageKey]> = [

@@ -61,7 +61,7 @@ export function PlannerRoute() {
 function Weather({w}: {w: Day['weather']}) {
   const {t} = useI18n();
   if (w.status === 'beyond_forecast') return <p className="plan-weather muted small">{t('pl.weatherBeyond')}</p>;
-  if (w.status === 'unavailable') return <p className="plan-weather muted small">{t('pl.weatherUnavailable')}{w.reason ? ` · ${w.reason}` : ''}</p>;
+  if (w.status === 'unavailable') return <p className="plan-weather muted small" title={w.reason ?? undefined}>{t('pl.weatherUnavailable')}</p>;
   return <p className="plan-weather small">
     {w.min_temp_c != null && w.max_temp_c != null && <strong>{t('pl.temp', {min: Math.round(w.min_temp_c), max: Math.round(w.max_temp_c)})}</strong>}
     {w.rain && <span className="tag tag-quiet"><CloudRain size={12} aria-hidden /> {t('we.rain')}</span>}

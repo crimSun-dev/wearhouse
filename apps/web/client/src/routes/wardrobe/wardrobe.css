@@ -141,7 +141,7 @@ html[data-presentation='desktop'] .wr-status { bottom: 0; }
 .plan-chip.is-today strong { color: var(--accent-strong); }
 .plan-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .plan-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-2); }
-.plan-day { display: grid; gap: var(--s-2); align-content: start; padding: var(--s-3); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); min-height: 280px; }
+.plan-day { display: grid; gap: var(--s-2); align-content: start; padding: var(--s-3); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); min-height: 220px; }
 .plan-day.is-today { border-color: var(--accent); box-shadow: var(--shadow-1); }
 .plan-day.is-past { background: var(--surface-0); }
 .plan-day header { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
