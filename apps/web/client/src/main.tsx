@@ -17,6 +17,7 @@ const SignUpRoute = lazy(() => import('./routes/Auth.tsx').then(m => ({default: 
 const ResetRoute = lazy(() => import('./routes/Auth.tsx').then(m => ({default: m.ResetRoute})));
 const OnboardingRoute = lazy(() => import('./routes/Onboarding.tsx').then(m => ({default: m.OnboardingRoute})));
 const DevKitRoute = lazy(() => import('./routes/misc.tsx').then(m => ({default: m.DevKitRoute})));
+const AvatarFpsRoute = lazy(() => import('./routes/dev/AvatarFps.tsx').then(m => ({default: m.AvatarFpsRoute})));
 // Catalogue and commerce (task group 3).
 const CatalogueRoute = lazy(() => import('./routes/store/Catalogue.tsx').then(m => ({default: m.CatalogueRoute})));
 const ProductRoute = lazy(() => import('./routes/store/Product.tsx').then(m => ({default: m.ProductRoute})));
@@ -77,6 +78,7 @@ const router = createHashRouter([{
     {path: '/reset', element: page(<ResetRoute />)},
     {path: '/onboarding', element: page(<OnboardingRoute />)},
     {path: '/dev/kit', element: page(<DevKitRoute />)},
+    {path: '/dev/avatar-fps', element: page(<AvatarFpsRoute />)},
     // Catalogue and commerce: public discovery, private bag, orders and redemption.
     {path: '/catalogue', element: <OnboardingGate>{page(<CatalogueRoute />)}</OnboardingGate>},
     {path: '/catalogue/products/:id', element: <OnboardingGate>{page(<ProductRoute />)}</OnboardingGate>},

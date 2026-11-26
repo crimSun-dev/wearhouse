@@ -71,6 +71,13 @@ export const wardrobeEn = {
   'we.manual': 'The forecast is unavailable right now. Try again later.', 'we.rain': 'Rain', 'we.hot': 'Hot', 'we.humidity': '{n}% humidity',
   'sz.title': 'My sizes', 'sz.body': 'Your usual size in each system. The catalogue can show only your sizes.', 'sz.none': 'Not set',
   'sz.saved': 'Sizes saved',
+  'av.mode3d': '3D view', 'av.mode2d': '2D view', 'av.approx': 'Stylised approximation. Colours come from colour names; unknown colours are neutral.',
+  'av.loading': 'Loading the 3D view…', 'av.noWebgl': 'Showing the 2D view: this browser has no WebGL.',
+  'av.failed': 'Showing the 2D view: the 3D models could not load.', 'av.lowFps': 'Showing the 2D view: this device rendered 3D below 30 fps.',
+  'av.try3d': 'Try 3D again', 'av.body': 'Body', 'av.bodyA': 'Body A', 'av.bodyB': 'Body B', 'av.rotateLeft': 'Rotate left',
+  'av.rotateRight': 'Rotate right', 'av.zoomIn': 'Zoom in', 'av.zoomOut': 'Zoom out', 'av.canvas': 'Avatar wearing the current look. Arrow keys rotate, + and − zoom.',
+  'av.fpsTitle': 'Avatar frame rate', 'av.fpsStart': 'Start 60 s run', 'av.fpsRunning': 'Measuring… {s} s left', 'av.fpsResult': 'Median {fps} fps over {frames} frames',
+  'av.fpsDevice': 'Device', 'av.fpsBelow': 'Below 30 fps: this device will use the 2D view.',
 } as const;
 
 export const wardrobeId: Record<keyof typeof wardrobeEn, string> = {
@@ -145,4 +152,11 @@ export const wardrobeId: Record<keyof typeof wardrobeEn, string> = {
   'we.manual': 'Prakiraan sedang tidak tersedia. Coba lagi nanti.', 'we.rain': 'Hujan', 'we.hot': 'Panas', 'we.humidity': 'Kelembapan {n}%',
   'sz.title': 'Ukuranku', 'sz.body': 'Ukuran biasamu di tiap sistem. Katalog bisa menampilkan ukuranmu saja.', 'sz.none': 'Belum diatur',
   'sz.saved': 'Ukuran tersimpan',
+  'av.mode3d': 'Tampilan 3D', 'av.mode2d': 'Tampilan 2D', 'av.approx': 'Perkiraan bergaya. Warna diambil dari nama warna; warna yang tidak diketahui dibuat netral.',
+  'av.loading': 'Memuat tampilan 3D…', 'av.noWebgl': 'Menampilkan 2D: browser ini tidak punya WebGL.',
+  'av.failed': 'Menampilkan 2D: model 3D gagal dimuat.', 'av.lowFps': 'Menampilkan 2D: perangkat ini merender 3D di bawah 30 fps.',
+  'av.try3d': 'Coba 3D lagi', 'av.body': 'Tubuh', 'av.bodyA': 'Tubuh A', 'av.bodyB': 'Tubuh B', 'av.rotateLeft': 'Putar ke kiri',
+  'av.rotateRight': 'Putar ke kanan', 'av.zoomIn': 'Perbesar', 'av.zoomOut': 'Perkecil', 'av.canvas': 'Avatar memakai gaya saat ini. Tombol panah memutar, + dan − memperbesar.',
+  'av.fpsTitle': 'Frame rate avatar', 'av.fpsStart': 'Mulai uji 60 detik', 'av.fpsRunning': 'Mengukur… sisa {s} detik', 'av.fpsResult': 'Median {fps} fps dari {frames} frame',
+  'av.fpsDevice': 'Perangkat', 'av.fpsBelow': 'Di bawah 30 fps: perangkat ini akan memakai tampilan 2D.',
 };

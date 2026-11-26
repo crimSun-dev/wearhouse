@@ -13,6 +13,7 @@ import {ErrorState} from '../../components/states.tsx';
 import {toast} from '../../components/toast.tsx';
 import {FocusZone, focusItemProps} from '../../focus/FocusZone.tsx';
 import {WardrobeNav, itemTitle, useFail, useLabels} from './shared.tsx';
+import {Avatar} from '../../avatar/Avatar.tsx';
 
 export type Equipped = Record<string, string[]>;
 type Registry = {slots: Array<{slot: string; capacity: number}>; exclusions: string[][]};
@@ -110,6 +111,7 @@ export function FittingRoute() {
     <header className="store-head"><div><p className="eyebrow">{look.data ? t('fr.editing', {name: look.data.name}) : t('fr.newLook')}</p><h1>{t('fr.title')}</h1></div></header>
     <div className="fit-layout">
       <section className="fit-stage" aria-label={t('fr.figure')}>
+        <Avatar pieces={reg.slots.flatMap(s => (equipped[s.slot] ?? []).map(id => ({slot: s.slot, colour: byId.get(id)?.colour})))} />
         <div className="fit-figure">
           {reg.slots.filter(s => equipped[s.slot]?.length).map(s => <div key={s.slot} className={`fit-slot fit-${s.slot} ${landed === s.slot ? 'is-landed' : ''} ${slotErrors[s.slot] ? 'has-error' : ''}`}>
             <span className="fit-slot-name">{labels.slot(s.slot)}{s.capacity > 1 && <span className="muted small"> {equipped[s.slot]!.length}/{s.capacity}</span>}</span>
