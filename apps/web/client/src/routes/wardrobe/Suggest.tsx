@@ -58,7 +58,12 @@ export function SuggestRoute() {
     try { await api.call('post', '/api/v2/me/recommendations/outfits/{run_id}/events', {path: {run_id: runId}, body: {kind: 'chosen', index}}); }
     catch (e) { if (e instanceof ApiFailure && e.code === 'ALREADY_CHOSEN') toast(t('sg.alreadyChosen')); }
   };
-  const slotsOf = (s: Suggestion) => Object.fromEntries(Object.entries(s.slots).map(([slot, id]) => [slot, [id]]));
+  // A suggestion's `slots` maps item id -> slot; a look's `slots` maps slot -> item ids (several for multi-capacity slots).
+  const slotsOf = (s: Suggestion) => {
+    const out: Record<string, string[]> = {};
+    for (const [id, slot] of Object.entries(s.slots)) (out[slot] ??= []).push(id);
+    return out;
+  };
   const saveLook = async (s: Suggestion, index: number) => {
     const look = await api.call('post', '/api/v2/me/looks', {body: {name: `${t('sg.outfit', {n: index + 1})} · ${fmtDate(date)}`, slots: slotsOf(s)}});
     void refresh('looks');

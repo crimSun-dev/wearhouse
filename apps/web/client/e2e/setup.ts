@@ -40,9 +40,13 @@ export default async function setup(config: FullConfig) {
     };
     await Promise.race([ready(), ended.then(code => {throw new Error('Harness exited: ' + code);})]);
     // Each run builds into its own folder: on this repo's exFAT drive a just-deleted folder can stay locked for a
-    // while, so emptying and reusing one output folder fails intermittently. Older runs are removed when possible.
-    const outDir = `dist-test/run-${Date.now()}`;
+    // while, so emptying and reusing one output folder fails intermittently. Old runs are removed when possible, but
+    // only runs older than two hours: another session's suite may be serving a recent one on its own ports right now.
+    const started = Date.now();
+    const outDir = `dist-test/run-${started}`;
     for (const old of existsSync('dist-test') ? readdirSync('dist-test') : []) {
+      const at = Number(/^run-(\d+)$/.exec(old)?.[1]);
+      if (!at || started - at < 2 * 3600_000) continue;
       try { rmSync(`dist-test/${old}`, {recursive: true, force: true}); } catch { /* still locked; next run */ }
     }
     await build({mode: 'e2e', build: {outDir, emptyOutDir: true}, define: {
