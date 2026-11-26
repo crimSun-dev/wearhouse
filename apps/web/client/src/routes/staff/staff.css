@@ -1,0 +1,44 @@
+/* Staff workspace (task group 7): Operate mode. Dense tables, quiet surfaces, desktop-first. */
+@import '../store/store.css';
+@import '../wardrobe/wardrobe.css';
+.staff { gap: var(--s-4); }
+.staff-head { display: flex; align-items: center; gap: var(--s-3); }
+.staff-head h1 { font-size: var(--fs-6); font-weight: var(--fw-heavy); }
+.staff h2 { font-size: var(--fs-5); font-weight: var(--fw-bold); }
+.staff h3 { font-size: var(--fs-3); font-weight: var(--fw-bold); margin-top: var(--s-3); }
+.staff-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--s-5); align-items: start; }
+.staff-nav { display: grid; gap: 2px; position: sticky; top: 80px; padding: var(--s-2); border-radius: var(--r-3); background: var(--surface-0); border: 1px solid var(--line); }
+.staff-nav a { text-decoration: none; }
+.staff-main { display: grid; gap: var(--s-3); min-width: 0; align-content: start; }
+.staff-row-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+.staff-row-head h2 { margin-right: auto; }
+.staff-inline { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-2); }
+.staff-inline .field { min-width: 160px; }
+.staff-form { display: grid; gap: var(--s-3); max-width: 640px; padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-0); border: 1px solid var(--line); }
+.staff-fieldset { display: grid; gap: var(--s-2); border: 1px solid var(--line); border-radius: var(--r-2); padding: var(--s-3); margin: 0; }
+.staff-fieldset legend { padding: 0 var(--s-1); font-weight: var(--fw-bold); }
+.staff-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-4); }
+.staff-table { width: 100%; border-collapse: collapse; font-size: var(--fs-2); font-variant-numeric: tabular-nums; }
+.staff-table th { text-align: left; font-size: var(--fs-1); text-transform: uppercase; letter-spacing: var(--track-caps); color: var(--text-3); padding: var(--s-2); border-bottom: 1px solid var(--line-strong); }
+.staff-table td { padding: var(--s-2); border-bottom: 1px solid var(--line); vertical-align: top; }
+.staff-table tr:hover td { background: var(--surface-0); }
+.staff-table tr.is-rejected td { background: color-mix(in srgb, var(--warn) 10%, transparent); }
+.staff-table .btn { min-height: 34px; padding-inline: var(--s-3); font-size: var(--fs-2); }
+.chip-row { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--s-1); }
+.chip-x { border: 0; background: transparent; color: inherit; cursor: pointer; padding: 0 0 0 4px; font: inherit; }
+.role-chip { margin-right: 4px; }
+.media-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-1); }
+.media-list li { display: grid; grid-template-columns: 20px 64px minmax(120px, auto) 1fr auto; align-items: center; gap: var(--s-2); padding: var(--s-2);
+  border-radius: var(--r-2); background: var(--surface-1); border: 1px solid var(--line); }
+.media-list li.is-dragging { opacity: 0.5; border-style: dashed; }
+.media-list.is-removed li { grid-template-columns: 64px auto 1fr; opacity: 0.7; }
+.media-thumb { width: 64px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--r-1); background: var(--surface-0); }
+.media-handle { min-height: 40px; border: 0; background: transparent; color: var(--text); font: inherit; text-align: left; cursor: grab; }
+.issued { display: grid; gap: var(--s-2); padding: var(--s-3); border-radius: var(--r-2); background: var(--surface-1); border: 1px solid var(--accent); }
+.tag-print { display: grid; justify-items: center; gap: var(--s-1); margin: 0; padding: var(--s-3); background: #fff; color: #111; border-radius: var(--r-2); }
+.tag-qr { display: block; width: 200px; }
+.tag-qr svg { display: block; width: 100%; height: auto; }
+.tag-print figcaption { display: grid; justify-items: center; font-size: var(--fs-1); }
+.staff-denied { display: grid; justify-items: center; gap: var(--s-2); padding: var(--s-7) 0; text-align: center; }
+@media (max-width: 900px) { .staff-layout { grid-template-columns: 1fr; } .staff-nav { position: static; display: flex; overflow-x: auto; } .staff-nav .wr-side-link { width: auto; flex: none; } }
+@media print { body * { visibility: hidden; } .tag-print, .tag-print * { visibility: visible; } .tag-print { position: fixed; inset: 0; margin: auto; width: 60mm; height: max-content; } }

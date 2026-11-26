@@ -2,6 +2,7 @@ import type {Messages} from './en.ts';
 import {storeId} from './store.ts';
 import {wardrobeId} from './wardrobe.ts';
 import {socialId} from './social.ts';
+import {staffId} from './staff.ts';
 
 // Katalog Bahasa Indonesia. Setiap kunci di en.ts wajib ada di sini.
 export const id: Messages = {
@@ -76,4 +77,5 @@ export const id: Messages = {
   ...storeId,
   ...wardrobeId,
   ...socialId,
+  ...staffId,
 };

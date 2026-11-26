@@ -1,1 +1,4 @@
-{}
+{
+  "GET /api/v2/media/{media_id}": "Images are loaded by <img src>, not the API client: catalogue media URLs come from product and media responses.",
+  "GET /api/v2/catalogue/products/{product_id}/sizes": "The product page reads sizes with per-size stock from GET /commerce/products/{id}/offer; staff edit sizes through the admin endpoint."
+}

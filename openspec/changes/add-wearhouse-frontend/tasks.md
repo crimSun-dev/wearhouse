@@ -82,11 +82,11 @@
 
 ## 7. Staff workspace (prompt A5, `/impeccable`)
 
-- [ ] 7.1 Build the lazy staff chunk with capability gating, the Operate-mode layout and a not-permitted state. Verify that the "Moderator scope" scenario passes and that the customer bundle does not load the staff chunk (network assertion).
-- [ ] 7.2 Build the catalogue screens: import upload and job view with per-row outcomes, publish job, review queue, product revisions, publish revision, retire with confirmation, single ingest form, collections editor, size systems and values, product sizes, assign missing. Verify that the "Rejected rows visible" scenario passes, plus an e2e test of staff publishing a product that then appears in browse.
-- [ ] 7.3 Build the media manager (list incl. removed, generate, upload with rights and alt, alt edit, drag and keyboard reorder, soft remove, generate missing). Verify that the "Keyboard reorder" scenario passes.
-- [ ] 7.4 Build offers (single with per-size stock, remove, bulk rules with overwrite and results), orders (status filter, cursor, no keys) and inventory (units, issue with intent key and one-time masked delivery, reissue unclaimed, printable QR of the serial URL only). Verify that the "Tag never carries key" scenario passes (decode the QR in a test).
-- [ ] 7.5 Build moderation (hide, restore, dismiss with reason), staff roles (list, grant, revoke; `LAST_ADMIN`, `SELF_REVOKE`) and ops (`/admin/ops` plus `/health/ready`). Verify that the "Last admin protected" scenario passes. Then switch CI and `npm test` from `check:coverage --report` to strict `check:coverage`, and confirm it exits 0 with only allowlisted exceptions, each with a reason.
+- [x] 7.1 Build the lazy staff chunk with capability gating, the Operate-mode layout and a not-permitted state. Verify that the "Moderator scope" scenario passes and that the customer bundle does not load the staff chunk (network assertion).
+- [x] 7.2 Build the catalogue screens: import upload and job view with per-row outcomes, publish job, review queue, product revisions, publish revision, retire with confirmation, single ingest form, collections editor, size systems and values, product sizes, assign missing. Verify that the "Rejected rows visible" scenario passes, plus an e2e test of staff publishing a product that then appears in browse.
+- [x] 7.3 Build the media manager (list incl. removed, generate, upload with rights and alt, alt edit, drag and keyboard reorder, soft remove, generate missing). Verify that the "Keyboard reorder" scenario passes.
+- [x] 7.4 Build offers (single with per-size stock, remove, bulk rules with overwrite and results), orders (status filter, cursor, no keys) and inventory (units, issue with intent key and one-time masked delivery, reissue unclaimed, printable QR of the serial URL only). Verify that the "Tag never carries key" scenario passes (decode the QR in a test).
+- [x] 7.5 Build moderation (hide, restore, dismiss with reason), staff roles (list, grant, revoke; `LAST_ADMIN`, `SELF_REVOKE`) and ops (`/admin/ops` plus `/health/ready`). Verify that the "Last admin protected" scenario passes. Then switch CI and `npm test` from `check:coverage --report` to strict `check:coverage`, and confirm it exits 0 with only allowlisted exceptions, each with a reason.
 
 ## 8. Landing page (prompt B, `/scrollcraft`)
 
@@ -103,3 +103,10 @@
 - [ ] 9.4 Run `/impeccable polish`: Big Picture fidelity (brief §3), honest labels (`web-client-contract`), en and id copy consistency. Then add visual regression snapshots (routes × five widths × Desktop and Focus × dark and light, reduced motion on). Verify that `npm run test:visual` passes with reviewed snapshots and that the "Unreviewed visual change" behaviour is confirmed.
 - [ ] 9.5 Run the end-to-end ecosystem acceptance (`web-quality`, "Full ecosystem path") against a fresh harness database. Verify that all steps pass with zero console errors, and attach the Playwright report.
 - [ ] 9.6 Run `/impeccable document` to finalise `DESIGN.md` from the shipped result. Update `apps/web/README.md`, write `apps/web/client/README.md` (run, build, env, e2e, harness), and update `docs/architecture/tdd-status.md` F05, F10 and Phase 3 with evidence links only. Verify that `python tools/contracts.py check` and the API test suite are unchanged and green, and that `openspec validate add-wearhouse-frontend --strict` passes.
+
+## 10. Owner follow-ups (requested 2026-11-26; after groups 7–9)
+
+- [ ] 10.1 Add QR key scanning to Redeem: scan a QR that carries an activation key (receipt or the tag's hidden panel), normalise it into the key field, then redeem as usual. Public tag QRs still carry only the serial URL; scanning one on Redeem explains that it is a lookup link, not a key.
+- [ ] 10.2 Run `/impeccable polish` across the app and replace generic ("AI slop") buttons, pills and shapes with the product's own component language; re-verify the detector and visual review.
+- [ ] 10.3 Starter wardrobe: every new account receives a few official catalogue pieces (owned, verified) at onboarding, and the synthetic catalogue grows with more products. Needs a small API addition (owner authorised changing `apps/api` for this feature).
+- [ ] 10.4 Self-added garments are "Unofficial" (like Steam's "Add a non-Steam game"): clearly labelled, no serial or provenance, no verified-only properties; bought or redeemed pieces are "Official".

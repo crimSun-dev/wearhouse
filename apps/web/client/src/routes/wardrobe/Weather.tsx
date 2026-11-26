@@ -21,7 +21,15 @@ export function WeatherRoute() {
   const [adm4, setAdm4] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
   useEffect(() => { if (weather.data?.adm4) setAdm4(weather.data.adm4); }, [weather.data?.adm4]);
+  // Preview a code's forecast before saving it (public BMKG lookup; nothing is stored).
+  const check = async () => {
+    if (!ADM4.test(adm4.trim())) { setError(t('we.adm4Invalid')); return; }
+    try { const f = await api.call('get', '/api/v2/weather/forecast', {anonymous: true, query: {adm4: adm4.trim()}});
+      const s = f.slots[0]; setPreview(s ? `${Math.round(s.temp_c)}°C · ${s.description}` : t('we.manual')); }
+    catch (e) { fail(e); }
+  };
   const save = async (e: FormEvent) => {
     e.preventDefault();
     if (!ADM4.test(adm4.trim())) { setError(t('we.adm4Invalid')); return; }
@@ -62,9 +70,11 @@ export function WeatherRoute() {
       <TextField label={t('we.adm4')} hint={t('we.adm4Hint')} error={error ?? undefined} value={adm4} inputMode="decimal" maxLength={13}
         onChange={e => { setAdm4(e.target.value); setError(null); }} placeholder="31.71.03.1001" />
       <div className="buy-actions">
+        <Button onClick={() => void check()}>{t('we.preview')}</Button>
         <Button type="submit" variant="primary" loading={busy}>{t('we.set')}</Button>
         {w?.adm4 && <Button variant="ghost" onClick={() => void clear()} disabled={busy}>{t('we.clearLoc')}</Button>}
       </div>
+      {preview && <p className="muted" role="status">{preview}</p>}
     </form>
     <p className="muted small">{t('we.credit')}</p>
   </div>;

@@ -229,4 +229,4 @@ jobs:
       - run: npm run test:unit
       - run: npm run build
       - run: npm run check:size
-      - run: npm run check:coverage -- --report
+      - run: npm run check:coverage

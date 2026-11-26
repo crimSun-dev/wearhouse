@@ -8,7 +8,7 @@ import {SettingsProvider} from './settings/SettingsProvider.tsx';
 import {FocusRoot} from './focus/FocusZone.tsx';
 import {AppShell} from './shell/AppShell.tsx';
 import {HomeRoute} from './routes/Home.tsx';
-import {BuildingRoute, NotFoundRoute} from './routes/misc.tsx';
+import {NotFoundRoute} from './routes/misc.tsx';
 
 // Screens that are not on the first paint load on demand, keeping the app entry inside its size budget.
 const AboutRoute = lazy(() => import('./routes/About.tsx').then(m => ({default: m.AboutRoute})));
@@ -47,6 +47,9 @@ const NotificationsRoute = lazy(() => import('./routes/social/Profile.tsx').then
 const PublicProfileRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.PublicProfileRoute})));
 const ProfileEditRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.ProfileEditRoute})));
 const SettingsRoute = lazy(() => import('./routes/account/Settings.tsx').then(m => ({default: m.SettingsRoute})));
+const ShareRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.ShareRoute})));
+// Staff workspace (task group 7): its own chunk, never loaded by customer screens.
+const StaffRoute = lazy(() => import('./routes/staff/Staff.tsx').then(m => ({default: m.StaffRoute})));
 const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
 import './theme/global.css';
 
@@ -75,7 +78,6 @@ function SignedOutOnly({children}: {children: ReactNode}) {
   return status === 'ready' || status === 'onboarding' ? <Navigate to={to} replace /> : <>{children}</>;
 }
 
-const building = <Private><BuildingRoute /></Private>;
 const router = createHashRouter([{
   element: <AppShell />,
   children: [
@@ -106,12 +108,12 @@ const router = createHashRouter([{
     // Public surfaces built in later task groups.
     {path: '/catalogue/*', element: <NotFoundRoute />},
     {path: '/u/:handle', element: <OnboardingGate>{page(<PublicProfileRoute />)}</OnboardingGate>},
-    {path: '/shares/*', element: <BuildingRoute />},
+    {path: '/shares/:id', element: page(<ShareRoute />)},
     // Private surfaces built in later task groups.
     ...([['/community', <CommunityRoute />], ['/notifications', <NotificationsRoute />], ['/profile', <ProfileEditRoute />],
       ['/settings', <SettingsRoute />], ['/settings/:section', <SettingsRoute />]] as const).map(([path, el]) => ({path, element: <Private>{page(el)}</Private>})),
-    ...['/admin/*', '/admin']
-      .map(path => ({path, element: building})),
+    {path: '/admin', element: <Private>{page(<StaffRoute />)}</Private>},
+    {path: '/admin/:screen/*', element: <Private>{page(<StaffRoute />)}</Private>},
     {path: '*', element: <NotFoundRoute />},
   ],
 }]);

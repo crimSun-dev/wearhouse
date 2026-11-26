@@ -178,3 +178,23 @@ export function ProfileEditRoute() {
     </section>
   </div>;
 }
+
+/** #/shares/:id: one shared look, as the server projects it for this viewer (signed out sees public shares only). */
+export function ShareRoute() {
+  const {id = ''} = useParams();
+  const {t, date} = useI18n();
+  const {api, userKey, status} = useSession();
+  const anonymous = status !== 'ready';
+  const share = useQuery({queryKey: [...(anonymous ? ['public'] : userKey), 'share', id], retry: false,
+    queryFn: ({signal}) => api.call('get', '/api/v2/shares/{share_id}', {signal, anonymous, path: {share_id: id}})});
+  if (share.isPending) return <div className="page"><Skeleton ratio="4 / 1" /></div>;
+  if (share.isError) return share.error instanceof ApiFailure && share.error.status === 404 ? <ProfileNotFound />
+    : <div className="page"><ErrorState error={share.error} onRetry={() => share.refetch()} /></div>;
+  const s = share.data;
+  return <div className="page profile"><article className="share">
+    <header>{s.owner && <PersonChip card={s.owner} />}<span className="muted small">{date(s.created_at)}</span></header>
+    {s.caption && <p className="share-caption">{s.caption}</p>}
+    {s.look && <LookCard look={s.look} />}
+    {!anonymous && <Link to="/community">{t('cm.title')}</Link>}
+  </article></div>;
+}
