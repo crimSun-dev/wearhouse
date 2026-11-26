@@ -1,5 +1,6 @@
 import {storeEn} from './store.ts';
 import {wardrobeEn} from './wardrobe.ts';
+import {socialEn} from './social.ts';
 
 // English catalogue. Every key here must exist in id.ts (tests/i18n.test.ts enforces it).
 export const en = {
@@ -73,6 +74,7 @@ export const en = {
   'kit.title': 'Component kit',
   ...storeEn,
   ...wardrobeEn,
+  ...socialEn,
 } as const;
 
 export type MessageKey = keyof typeof en;

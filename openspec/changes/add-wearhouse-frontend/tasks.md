@@ -71,14 +71,14 @@
 
 ## 6. Community, profile, account (prompt A4, `/impeccable`)
 
-- [ ] 6.1 Build the feed and inspirations (save, remove, missing pieces linked to catalogue search). Verify that the "Inspiration does not grant" scenario passes.
-- [ ] 6.2 Build friends, search, requests (incoming and outgoing; accept, decline, cancel) and blocks, with the block explanation and limit and code copy. Verify that the "Requests closed" scenario passes, plus a two-user request, accept and remove e2e.
-- [ ] 6.3 Build my shares (create, edit audience and caption, repin, delete; effective audience and moderation shown) and report. Verify that the "Effective audience narrower" scenario passes, plus an `ALREADY_REPORTED` test.
-- [ ] 6.4 Build notifications (list, badge polling only while visible, mark all read; the friend-accepted moment). Verify that the "Mark read" scenario passes and that no polling happens while the tab is hidden.
-- [ ] 6.5 Build profiles (public projection, showcase with accent theming, shares, permitted sections, identical not-found state), profile edit (handle rules explained), the showcase editor, and plan sharing with a week preview. Verify that the "Not-found parity" scenario passes (DOM snapshots of blocked and unknown handles are identical).
-- [ ] 6.6 Build settings from the schema (sections rail; toggles, segmented controls, sliders; optimistic toggles with rollback; synced time; no manual sync) and privacy. Verify that the "Unknown future key" scenario passes (fixture schema with an extra flag) and that the "Privacy saved" scenario passes.
-- [ ] 6.7 Build security: overview, events, sign out everywhere, and the broker flows (change or set password with the client policy, verification resend, device sessions with revoke one and revoke others, linked methods read-only). Verify that the `account-security` scenarios "Weak password refused before it is sent" and "Web app provides broker flows" pass against the fake auth port, plus "Sign out everywhere".
-- [ ] 6.8 Build export download and account deletion (typed handle, re-auth resume). Verify that the "Stale session delete" scenario passes and that the export downloads as a `.json` file.
+- [x] 6.1 Build the feed and inspirations (save, remove, missing pieces linked to catalogue search). Verify that the "Inspiration does not grant" scenario passes.
+- [x] 6.2 Build friends, search, requests (incoming and outgoing; accept, decline, cancel) and blocks, with the block explanation and limit and code copy. Verify that the "Requests closed" scenario passes, plus a two-user request, accept and remove e2e.
+- [x] 6.3 Build my shares (create, edit audience and caption, repin, delete; effective audience and moderation shown) and report. Verify that the "Effective audience narrower" scenario passes, plus an `ALREADY_REPORTED` test.
+- [x] 6.4 Build notifications (list, badge polling only while visible, mark all read; the friend-accepted moment). Verify that the "Mark read" scenario passes and that no polling happens while the tab is hidden.
+- [x] 6.5 Build profiles (public projection, showcase with accent theming, shares, permitted sections, identical not-found state), profile edit (handle rules explained), the showcase editor, and plan sharing with a week preview. Verify that the "Not-found parity" scenario passes (DOM snapshots of blocked and unknown handles are identical).
+- [x] 6.6 Build settings from the schema (sections rail; toggles, segmented controls, sliders; optimistic toggles with rollback; synced time; no manual sync) and privacy. Verify that the "Unknown future key" scenario passes (fixture schema with an extra flag) and that the "Privacy saved" scenario passes.
+- [x] 6.7 Build security: overview, events, sign out everywhere, and the broker flows (change or set password with the client policy, verification resend, device sessions with revoke one and revoke others, linked methods read-only). Verify that the `account-security` scenarios "Weak password refused before it is sent" and "Web app provides broker flows" pass against the fake auth port, plus "Sign out everywhere".
+- [x] 6.8 Build export download and account deletion (typed handle, re-auth resume). Verify that the "Stale session delete" scenario passes and that the export downloads as a `.json` file.
 
 ## 7. Staff workspace (prompt A5, `/impeccable`)
 

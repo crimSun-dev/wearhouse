@@ -1,5 +1,5 @@
 import {useState, type FormEvent} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router';
+import {Link, useLocation, useNavigate, useSearchParams} from 'react-router';
 import {useSession} from '../session/SessionProvider.tsx';
 import {useI18n} from '../i18n/index.tsx';
 import {Button, TextField} from '../components/ui.tsx';
@@ -12,12 +12,15 @@ function useBroker() {
   const {auth, refresh} = useSession();
   const {t} = useI18n();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Return to where sign-in was asked for (e.g. re-authentication before deleting an account).
+  const returnTo = (location.state as {from?: string} | null)?.from ?? '/';
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const run = async (fn: () => Promise<void>, after?: () => void) => {
     if (!auth) { setError(t('auth.unavailable')); return; }
     setBusy(true); setError(null);
-    try { await fn(); await refresh(); after ? after() : navigate('/'); }
+    try { await fn(); await refresh(); after ? after() : navigate(returnTo, {replace: true}); }
     catch (e) { setError(e instanceof AuthFailure ? e.message : t('auth.unavailable')); }
     finally { setBusy(false); }
   };

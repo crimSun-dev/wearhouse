@@ -41,6 +41,12 @@ const PlannerRoute = lazy(() => import('./routes/wardrobe/Planner.tsx').then(m =
 const WearRoute = lazy(() => import('./routes/wardrobe/Planner.tsx').then(m => ({default: m.WearRoute})));
 const WeatherRoute = lazy(() => import('./routes/wardrobe/Weather.tsx').then(m => ({default: m.WeatherRoute})));
 const SizesRoute = lazy(() => import('./routes/wardrobe/Weather.tsx').then(m => ({default: m.SizesRoute})));
+// Community, profiles and account (task group 6).
+const CommunityRoute = lazy(() => import('./routes/social/Community.tsx').then(m => ({default: m.CommunityRoute})));
+const NotificationsRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.NotificationsRoute})));
+const PublicProfileRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.PublicProfileRoute})));
+const ProfileEditRoute = lazy(() => import('./routes/social/Profile.tsx').then(m => ({default: m.ProfileEditRoute})));
+const SettingsRoute = lazy(() => import('./routes/account/Settings.tsx').then(m => ({default: m.SettingsRoute})));
 const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
 import './theme/global.css';
 
@@ -55,7 +61,7 @@ function Private({children}: {children: ReactNode}) {
   const location = useLocation();
   if (status === 'loading') return null;
   if (status === 'onboarding') return <Navigate to="/onboarding" replace />;
-  if (status !== 'ready') return <Navigate to="/signin" replace state={{from: location.pathname}} />;
+  if (status !== 'ready') return <Navigate to="/signin" replace state={{from: location.pathname + location.search}} />;
   return <>{children}</>;
 }
 function OnboardingGate({children}: {children: ReactNode}) {
@@ -64,7 +70,9 @@ function OnboardingGate({children}: {children: ReactNode}) {
 }
 function SignedOutOnly({children}: {children: ReactNode}) {
   const {status} = useSession();
-  return status === 'ready' || status === 'onboarding' ? <Navigate to="/" replace /> : <>{children}</>;
+  const location = useLocation();
+  const to = (location.state as {from?: string} | null)?.from ?? '/';
+  return status === 'ready' || status === 'onboarding' ? <Navigate to={to} replace /> : <>{children}</>;
 }
 
 const building = <Private><BuildingRoute /></Private>;
@@ -97,10 +105,12 @@ const router = createHashRouter([{
       ['/weather', <WeatherRoute />], ['/sizes', <SizesRoute />]] as const).map(([path, el]) => ({path, element: <Private>{page(el)}</Private>})),
     // Public surfaces built in later task groups.
     {path: '/catalogue/*', element: <NotFoundRoute />},
-    {path: '/u/*', element: <BuildingRoute />}, {path: '/shares/*', element: <BuildingRoute />},
+    {path: '/u/:handle', element: <OnboardingGate>{page(<PublicProfileRoute />)}</OnboardingGate>},
+    {path: '/shares/*', element: <BuildingRoute />},
     // Private surfaces built in later task groups.
-    ...['/community/*', '/community', '/profile/*', '/profile', '/settings/*', '/settings',
-      '/notifications', '/admin/*', '/admin']
+    ...([['/community', <CommunityRoute />], ['/notifications', <NotificationsRoute />], ['/profile', <ProfileEditRoute />],
+      ['/settings', <SettingsRoute />], ['/settings/:section', <SettingsRoute />]] as const).map(([path, el]) => ({path, element: <Private>{page(el)}</Private>})),
+    ...['/admin/*', '/admin']
       .map(path => ({path, element: building})),
     {path: '*', element: <NotFoundRoute />},
   ],

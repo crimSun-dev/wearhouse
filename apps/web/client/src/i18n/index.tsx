@@ -22,7 +22,8 @@ export function rememberLanguage(lang: Lang) {
 }
 
 export function translate(lang: Lang, key: MessageKey, vars?: Record<string, string | number>) {
-  const text: string = catalogues[lang][key] ?? en[key];
+  // A key with no message returns the key itself, so callers can detect it and fall back (e.g. a future setting key).
+  const text: string = catalogues[lang][key] ?? en[key] ?? key;
   return vars ? text.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? '')) : text;
 }
 
