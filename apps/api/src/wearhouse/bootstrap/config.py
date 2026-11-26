@@ -38,6 +38,9 @@ class Settings:
     delivery_secret: str | None = field(default=None, repr=False)
     delivery_secret_previous: str | None = field(default=None, repr=False)
     trusted_proxies: tuple[str, ...] = ()
+    # Product ids every new account receives as official, owned items at onboarding (owner request 2026-11-26).
+    # Empty (the default) turns the starter kit off.
+    starter_kit: tuple[str, ...] = ()
     rate_writes_per_min: int = 120  # edge limits (harden-wearhouse-services-api); per process; 0 disables
     rate_ip_per_min: int = 600
     rate_global_per_min: int = 6000
@@ -137,6 +140,7 @@ class Settings:
             delivery_secret=e.get("WEARHOUSE_DELIVERY_SECRET") or None,
             delivery_secret_previous=e.get("WEARHOUSE_DELIVERY_SECRET_PREVIOUS") or None,
             trusted_proxies=csv("WEARHOUSE_TRUSTED_PROXIES"),
+            starter_kit=csv("WEARHOUSE_STARTER_KIT"),
             redemption_actor_limit=opt_int("WEARHOUSE_REDEMPTION_ACTOR_LIMIT", 10),
             rate_writes_per_min=int(e.get("WEARHOUSE_RATE_WRITES_PER_MIN", "120")),
             rate_ip_per_min=int(e.get("WEARHOUSE_RATE_IP_PER_MIN", "600")),

@@ -156,7 +156,7 @@ test('Keys: reveal, redeem, claimed unit links to the item, and the key never la
   await page.getByRole('button', {name: 'Reveal key'}).click();
   const code = page.locator('.unit-key');
   await expect(code).toContainText('•');
-  await page.getByRole('button', {name: 'Show'}).click();
+  await page.getByRole('button', {name: 'Show', exact: true}).click();
   const key = (await code.innerText()).trim();
   expect(key).toMatch(/^[A-Z2-7]{4}(-[A-Z2-7]{4}){3}$/);
   await page.getByRole('button', {name: 'Redeem now'}).click();

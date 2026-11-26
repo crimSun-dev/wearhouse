@@ -6,7 +6,8 @@ import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {ApiFailure, createIntent} from '../../api/index.ts';
 import {Button} from '../../components/ui.tsx';
-import {normaliseKey, takeKey} from './parts.tsx';
+import {keyFrom, normaliseKey, takeKey} from './parts.tsx';
+import {QrScanner} from '../../components/QrScanner.tsx';
 import './store.css';
 
 type Owned = {id: string; public_serial: string; product: {id: string; name: string}};
@@ -20,6 +21,14 @@ export function RedeemRoute() {
   const [wait, setWait] = useState(0);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<Owned | null>(null);
+  const [scanNote, setScanNote] = useState<string | null>(null);
+  // A scanned QR fills the field; the user still checks and submits. Public tag links are explained, never redeemed.
+  const onScan = (raw: string) => {
+    if (/#\/items\//.test(raw)) { setScanNote(t('red.tagNotKey')); return true; }
+    const key = keyFrom(raw);
+    if (!key) { setScanNote(t('red.noKeyInQr')); return true; }
+    setRaw(key); setError(null); setScanNote(t('red.scanned')); return true;
+  };
   const intent = useRef(createIntent());
   const {clean, display} = normaliseKey(raw);
   useEffect(() => {
@@ -67,5 +76,9 @@ export function RedeemRoute() {
         {wait > 0 ? t('red.wait', {s: wait}) : error ?? ''}</p>
       <Button type="submit" variant="primary" size="lg" loading={busy} disabled={wait > 0 || clean.length !== 16}>{t('red.submit')}</Button>
     </form>
+    <section className="store-section redeem-scan">
+      <QrScanner onCode={onScan} label={t('red.scan')} />
+      {scanNote && <p className="muted" role="status" data-testid="scan-note">{scanNote}</p>}
+    </section>
   </div>;
 }

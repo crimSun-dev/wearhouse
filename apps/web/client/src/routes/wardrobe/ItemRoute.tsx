@@ -86,6 +86,7 @@ function Inspector({item}: {item: Item}) {
       <p className="eyebrow">{labels.slot(unknownSlot ? null : item.slot)} · {item.verified ? t('wr.verified') : t('wr.declared')}</p>
       <h1>{itemTitle(item)}</h1>
       {revoked && <p className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('it.revoked', {reason: owned.data?.revoked_reason ?? ''})}</p>}
+      {!item.verified && <p className="unofficial-note">{t('it.unofficialNote')}</p>}
       {unknownSlot && <div className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('it.unknownSlot')}</div>}
       <div className="buy-actions">
         <Button variant="primary" disabled={unknownSlot || item.archived} title={unknownSlot ? t('fr.needsSlot') : undefined}

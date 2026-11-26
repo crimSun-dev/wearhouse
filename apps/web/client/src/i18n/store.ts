@@ -54,6 +54,8 @@ export const storeEn = {
   'red.key': 'Activation key', 'red.submit': 'Redeem', 'red.invalid': 'That key can’t be redeemed. Check it and try again.',
   'red.wait': 'Too many attempts. Try again in {s} s.', 'red.success': '{name} is now in your wardrobe',
   'red.view': 'View the item', 'red.another': 'Redeem another', 'red.serial': 'Serial {serial}',
+  'red.scan': 'Scan a key QR', 'red.scanned': 'Key scanned. Check it, then redeem.', 'red.tagNotKey': 'That’s a garment tag. Tags only look a piece up; the private key comes with your order.',
+  'red.noKeyInQr': 'That QR code doesn’t hold a Wearhouse key.', 'ord.qr': 'Show as QR', 'ord.qrNote': 'Scan this on another device to redeem there. Anyone who sees it can redeem it.',
 } as const;
 
 export const storeId: Record<keyof typeof storeEn, string> = {
@@ -111,4 +113,6 @@ export const storeId: Record<keyof typeof storeEn, string> = {
   'red.key': 'Kunci aktivasi', 'red.submit': 'Tukar', 'red.invalid': 'Kunci itu tidak bisa ditukar. Periksa lalu coba lagi.',
   'red.wait': 'Terlalu banyak percobaan. Coba lagi dalam {s} detik.', 'red.success': '{name} sekarang ada di lemarimu',
   'red.view': 'Lihat produk', 'red.another': 'Tukar yang lain', 'red.serial': 'Serial {serial}',
+  'red.scan': 'Pindai QR kunci', 'red.scanned': 'Kunci terpindai. Periksa, lalu tukarkan.', 'red.tagNotKey': 'Itu label pakaian. Label hanya untuk mencari produk; kunci pribadinya datang bersama pesananmu.',
+  'red.noKeyInQr': 'Kode QR itu tidak berisi kunci Wearhouse.', 'ord.qr': 'Tampilkan sebagai QR', 'ord.qrNote': 'Pindai ini di perangkat lain untuk menukar di sana. Siapa pun yang melihatnya bisa menukarnya.',
 };

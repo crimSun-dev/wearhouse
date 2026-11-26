@@ -258,6 +258,7 @@ export function AddRoute() {
     <WardrobeNav />
     <form className="wr-form" onSubmit={e => void submit(e)}>
       <h1>{t('add.title')}</h1><p className="muted">{t('add.body')}</p>
+      <p className="small"><Link to="/redeem">{t('add.officialHint')}</Link></p>
       <TextField label={t('add.name')} value={name} required maxLength={120} onChange={e => setName(e.target.value)} />
       <Select label={t('add.slot')} value={slot} onChange={e => { setSlot(e.target.value); setSize(''); }}>
         {slots.map(s => <option key={s} value={s}>{labels.slot(s)}</option>)}

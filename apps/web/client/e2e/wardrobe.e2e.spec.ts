@@ -18,7 +18,7 @@ test('Default view from settings: wardrobe_view list opens the library in list v
   await expect(page.locator('.wr-status')).toContainText('3 of 3 shown');
 });
 
-test('Declared item appears: marked declared, with no serial', async ({page}) => {
+test('Declared item appears: marked unofficial, with no serial', async ({page}) => {
   const sub = unique('decl');
   await onboarded(sub);
   await signIn(page, sub);
@@ -27,8 +27,9 @@ test('Declared item appears: marked declared, with no serial', async ({page}) =>
   await page.getByLabel('Slot').selectOption('outer');
   await page.getByRole('button', {name: 'Add to wardrobe'}).click();
   await expect(page.getByRole('heading', {level: 1, name: 'Thrifted denim jacket'})).toBeVisible();
-  await expect(page.getByText('Outerwear · Declared')).toBeVisible();
-  await expect(page.getByText('Serial')).toHaveCount(0);
+  await expect(page.getByText('Outerwear · Unofficial')).toBeVisible();
+  await expect(page.getByText('Unofficial piece: added by you', {exact: false})).toBeVisible();
+  await expect(page.getByText('Serial', {exact: true})).toHaveCount(0);
   await page.goto('/app/#/wardrobe');
   await expect(page.getByRole('link', {name: /Thrifted denim jacket/})).toBeVisible();
 });

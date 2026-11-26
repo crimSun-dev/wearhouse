@@ -68,6 +68,12 @@ export function normaliseKey(raw: string) {
   return {clean, display: clean.replace(/(.{4})(?=.)/g, '$1-')};
 }
 
+/** Finds an activation key in scanned text (a bare key, with or without dashes, or inside a link/payload). */
+export function keyFrom(text: string): string | null {
+  const m = text.toUpperCase().match(/(?:^|[^A-Z0-9])([A-Z2-7]{4})-?([A-Z2-7]{4})-?([A-Z2-7]{4})-?([A-Z2-7]{4})(?![A-Z0-9])/);
+  return m ? m.slice(1, 5).join('-') : null;
+}
+
 /** Extracts a tag serial from a pasted link (…#/items/<serial>) or a bare serial. */
 export function serialFrom(input: string): string | null {
   const text = input.trim();

@@ -50,9 +50,9 @@ export function ItemTile({item, onOpen}: {item: Item; onOpen?: () => void}) {
   const state = item.care_state !== 'ready' ? labels.care(item.care_state) : item.verified ? t('wr.verified') : t('wr.declared');
   const meta = `${labels.slot(item.slot_source === 'unknown' ? null : item.slot)} · ${state}`;
   const detail = item.wear_count ? t('wr.worn', {n: item.wear_count}) + (item.last_worn_on ? ` · ${t('wr.lastWorn', {date: date(item.last_worn_on)})}` : '') : t('wr.neverWorn');
-  return <div className={`wr-tile ${item.archived ? 'is-archived' : ''}`} onClickCapture={onOpen ? e => { e.preventDefault(); onOpen(); } : undefined}>
+  return <div className={`wr-tile ${item.archived ? 'is-archived' : ''} ${item.verified ? 'is-official' : 'is-unofficial'}`} onClickCapture={onOpen ? e => { e.preventDefault(); onOpen(); } : undefined}>
     <Tile href={`#/wardrobe/items/${item.id}`} title={itemTitle(item)} meta={meta} ratio="portrait"
-      badges={<>{item.verified && <span className="tag tag-ok">{t('wr.verified')}</span>}{item.archived && <span className="tag tag-quiet">{t('wr.archived')}</span>}</>}
+      badges={<>{item.verified ? <span className="tag tag-ok">{t('wr.verified')}</span> : <span className="tag tag-quiet">{t('wr.declared')}</span>}{item.archived && <span className="tag tag-quiet">{t('wr.archived')}</span>}</>}
       descriptor={{id: `item:${item.id}`, meta: `${meta} · ${detail}`, accent: accentFor(item.colour), actions: [{key: 'Enter', label: t('home.inspect')}]}}>
       <ItemImage item={item} />
     </Tile>

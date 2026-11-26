@@ -454,3 +454,42 @@ class UnitFulfilment:
             uow.audit.record(actor_id=buyer_id, action="ownership.delivery_accessed", target_type="issuance_delivery",
                              target_id=str(delivery_id), details={"outcome": out["status"], "via": "order_receipt"})
         return out
+
+
+class StarterKit:
+    """Grants a new account a few official catalogue pieces when onboarding completes.
+
+    Each piece is a real unit, issued and claimed in the onboarding transaction, so it is an ordinary owned,
+    verified item (serial, provenance, acquisition revision) with no activation key ever minted for it.
+    Retired or unknown products are skipped; at most six pieces are granted.
+    """
+    MAX = 6
+
+    def __init__(self, product_ids: tuple[str, ...]):
+        self.product_ids = tuple(uuid.UUID(p) for p in product_ids[: self.MAX])
+
+    def grant(self, uow: OwnershipUoW, user_id: uuid.UUID, now) -> int:
+        granted = 0
+        for product_id in self.product_ids:
+            rev = uow.revisions.current_for_product(product_id)
+            if rev is None or rev.catalogue_status != "active":
+                continue
+            unit_id, serial = new_id(), new_public_serial()
+            uow.ownership.insert_unit(unit_id=unit_id, product_id=product_id, revision_id=rev.revision_id,
+                                      serial=serial, issued_by=user_id, now=now)
+            uow.ownership.mark_unit_claimed(unit_id, now)
+            item_id = new_id()
+            presentation = {"product": _product_view(rev), "size": None,
+                            "acquisition": {"revision_id": str(rev.revision_id), "revision_no": rev.revision_no,
+                                            "source_namespace": rev.source_namespace, "external_id": rev.external_id,
+                                            "snapshot_sha256": rev.snapshot_sha256}}
+            uow.ownership.insert_owned_item(item_id=item_id, user_id=user_id, unit_id=unit_id,
+                                            revision_id=rev.revision_id, presentation=presentation, now=now)
+            uow.ownership.insert_event(unit_id=unit_id, item_id=item_id, user_id=user_id, event_type="claimed",
+                                       details={"source": "starter_kit"}, now=now)
+            uow.audit.record(actor_id=user_id, action="ownership.starter_granted", target_type="owned_item",
+                             target_id=str(item_id), details={"product_id": str(product_id), "serial": serial})
+            uow.outbox.emit(event_type="ownership.item_claimed", aggregate_type="owned_item", aggregate_id=item_id,
+                            payload={"unit_id": str(unit_id), "user_id": str(user_id)})
+            granted += 1
+        return granted

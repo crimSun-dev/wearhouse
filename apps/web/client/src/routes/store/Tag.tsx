@@ -1,6 +1,7 @@
-import {useEffect, useRef, useState, type FormEvent} from 'react';
+import {useState, type FormEvent} from 'react';
 import {Link, useNavigate, useParams} from 'react-router';
-import {Heart, KeyRound, ScanLine, Tag as TagIcon} from 'lucide-react';
+import {Heart, KeyRound, Tag as TagIcon} from 'lucide-react';
+import {QrScanner as Scanner} from '../../components/QrScanner.tsx';
 import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {ApiFailure} from '../../api/index.ts';
@@ -13,8 +14,6 @@ import {toast} from '../../components/toast.tsx';
 import {serialFrom} from './parts.tsx';
 import './store.css';
 
-type Detector = {detect: (source: CanvasImageSource) => Promise<Array<{rawValue: string}>>};
-type DetectorCtor = new (opts: {formats: string[]}) => Detector;
 
 /** #/items and #/items/:serial: discovery only. Nothing here sends a redemption or changes the wardrobe. */
 export function TagRoute() {
@@ -85,45 +84,4 @@ function Lookup() {
       <Button type="submit" variant="primary">{t('tag.open')}</Button>
     </form>
   </section>;
-}
-
-function Scanner({onCode}: {onCode: (raw: string) => boolean}) {
-  const {t} = useI18n();
-  const Ctor = (window as unknown as {BarcodeDetector?: DetectorCtor}).BarcodeDetector;
-  const supported = !!Ctor && window.isSecureContext && !!navigator.mediaDevices?.getUserMedia;
-  const [on, setOn] = useState(false);
-  const [denied, setDenied] = useState(false);
-  const video = useRef<HTMLVideoElement>(null);
-  const handler = useRef(onCode);
-  handler.current = onCode;
-  useEffect(() => {
-    if (!on || !Ctor) return;
-    let stream: MediaStream | null = null;
-    let raf = 0;
-    let stopped = false;
-    const detector = new Ctor({formats: ['qr_code']});
-    (async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}});
-        if (stopped || !video.current) return;
-        video.current.srcObject = stream;
-        await video.current.play();
-        const tick = async () => {
-          if (stopped || !video.current) return;
-          const codes = await detector.detect(video.current).catch(() => []);
-          if (codes[0] && handler.current(codes[0].rawValue)) { setOn(false); return; }
-          raf = requestAnimationFrame(() => void tick());
-        };
-        void tick();
-      } catch { setDenied(true); setOn(false); }
-    })();
-    return () => { stopped = true; cancelAnimationFrame(raf); stream?.getTracks().forEach(track => track.stop()); };
-  }, [on, Ctor]);
-  if (!supported) return <p className="muted small">{t('tag.noCamera')}</p>;
-  return <div className="tag-scanner">
-    {denied && <p className="muted small" role="status">{t('tag.cameraDenied')}</p>}
-    {on && <><video ref={video} className="tag-video" muted playsInline aria-label={t('tag.scanning')} />
-      <p className="muted small">{t('tag.scanning')}</p></>}
-    <Button onClick={() => { setDenied(false); setOn(o => !o); }}><ScanLine size={18} aria-hidden /> {on ? t('tag.stopScan') : t('tag.scan')}</Button>
-  </div>;
 }

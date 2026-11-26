@@ -30,7 +30,7 @@ from ..identity.application import IdentityService
 from ..identity.ports import TokenVerifier
 from ..ownership.adapters.sql import SqlOwnedItemReader, SqlOwnershipRepository
 from ..ownership.application import (AdmissionPolicy, DiscoveryService, IssuanceService, OwnedItemsService,
-                                     RedemptionService, UnitFulfilment)
+                                     RedemptionService, StarterKit, UnitFulfilment)
 from ..platform.adapters.sql import SqlUnitOfWorkFactory
 from ..platform.clock import Clock, utcnow
 from ..platform.crypto import KeyRing
@@ -121,6 +121,7 @@ def build_services(settings: Settings, engine: Engine, verifier: TokenVerifier, 
                                      faults=faults),
         owned_items=OwnedItemsService(uow, ring),
         accounts=AccountsService(uow, ring, clock=clock, lease_s=settings.idempotency_lease_s, faults=faults,
+                                 on_onboarded=StarterKit(settings.starter_kit).grant if settings.starter_kit else None,
                                  export_sections={"commerce": commerce.export_data, "wardrobe": wardrobe.export_data,
                                                   "social": social.export_data, "sizes": sizing.export_data},
                                  erasers=(lambda u, user_id: u.commerce.erase_lists(user_id),

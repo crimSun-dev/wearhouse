@@ -37,6 +37,10 @@ services:
         value: https://ep-shiny-cloud-bildxr11.neonauth.c-5.ap-southeast-1.aws.neon.tech
       - key: WEARHOUSE_OIDC_JWKS_URL
         value: https://ep-shiny-cloud-bildxr11.neonauth.c-5.ap-southeast-1.aws.neon.tech/wearhouse/auth/.well-known/jwks.json
+      # Starter wardrobe: official pieces every new account owns after onboarding (linen shirt, chinos,
+      # canvas sneakers, rain parka). Public product ids, not secrets.
+      - key: WEARHOUSE_STARTER_KIT
+        value: a7f302a4-4d1b-4053-bbe7-46018b6557cc,93ee47e7-91e4-40cb-8e73-ce488fe3dd12,0c6a79a7-c98f-4700-84bc-1f932c02a9a0,8673649d-c240-478e-bde1-a4990411a48e
       - key: WEARHOUSE_DATABASE_URL   # runtime role (wearhouse_runtime), never the migration owner
         sync: false
       - key: WEARHOUSE_DELIVERY_SECRET

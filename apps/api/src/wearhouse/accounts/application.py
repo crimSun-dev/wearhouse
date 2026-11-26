@@ -44,7 +44,8 @@ def _not_found() -> ApiError:
 class AccountsService:
     def __init__(self, uow_factory: Callable[[], AccountsUoW], ring: KeyRing, *, clock: Clock = utcnow,
                  lease_s: float = 15.0, faults: FaultHook = no_faults,
-                 export_sections: dict[str, Callable] | None = None, erasers: tuple[Callable, ...] = ()):
+                 export_sections: dict[str, Callable] | None = None, erasers: tuple[Callable, ...] = (),
+                 on_onboarded: Callable | None = None):
         self.uow_factory = uow_factory
         self.ring = ring
         self.clock = clock
@@ -52,6 +53,8 @@ class AccountsService:
         # Other modules contribute export sections / deletion steps; wired in bootstrap (dependency inversion).
         self.export_sections = dict(export_sections or {})
         self.erasers = tuple(erasers)
+        # Runs inside the transaction that sets an account's first handle (e.g. the starter kit).
+        self.on_onboarded = on_onboarded
         self.executor = IdempotentExecutor(uow_factory, ring, clock, lease_s=lease_s)
 
     # ------------------------------------------------------------------ helpers
@@ -170,6 +173,8 @@ class AccountsService:
                     uow.audit.record(actor_id=principal.user_id, action="account.handle_changed", target_type="user",
                                      target_id=str(principal.user_id), details={"handle": new_handle})
             priv = uow.accounts.ensure_privacy(principal.user_id)
+            if "handle" in values and old_handle is None and self.on_onboarded is not None:
+                self.on_onboarded(uow, principal.user_id, now)
             uow.commit()
         return self._profile_view(p, priv)
 

@@ -12,6 +12,8 @@ import {EmptyState, ErrorState} from '../../components/states.tsx';
 import {toast} from '../../components/toast.tsx';
 import {FocusZone, focusItemProps} from '../../focus/FocusZone.tsx';
 import {handOffKey} from './parts.tsx';
+import {renderSVG} from 'uqr';
+import {QrCode} from 'lucide-react';
 import './store.css';
 
 export function OrdersRoute() {
@@ -101,6 +103,7 @@ function Unit({orderId, unit, n, cancelled}: {orderId: string; unit: UnitOut; n:
   const navigate = useNavigate();
   const [key, setKey] = useState<string | null>(null);
   const [shown, setShown] = useState(false);
+  const [qr, setQr] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirmRenew, setConfirmRenew] = useState(false);
   const fail = (e: unknown) => toast(e instanceof ApiFailure ? errorText(e.code, e.message) : t('common.offline'), 'error');
@@ -132,6 +135,9 @@ function Unit({orderId, unit, n, cancelled}: {orderId: string; unit: UnitOut; n:
           <Button variant="ghost" onClick={() => setShown(s => !s)}>{shown ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />} {shown ? t('ord.hide') : t('ord.show')}</Button>
           <Button variant="ghost" onClick={() => void navigator.clipboard.writeText(key).then(() => toast(t('ord.copied'), 'success'))}><Copy size={16} aria-hidden /> {t('ord.copy')}</Button>
           <Button variant="primary" onClick={() => { handOffKey(key); setKey(null); navigate('/redeem'); }}>{t('ord.redeemNow')}</Button>
+          <Button variant="ghost" aria-pressed={qr} onClick={() => setQr(q => !q)}><QrCode size={16} aria-hidden /> {t('ord.qr')}</Button>
+          {qr && <figure className="key-qr" data-testid="key-qr"><span dangerouslySetInnerHTML={{__html: renderSVG(key, {border: 2})}} />
+            <figcaption className="muted small">{t('ord.qrNote')}</figcaption></figure>}
         </> : <Button loading={busy} onClick={() => void reveal()} {...focusItemProps({id: `unit:${unit.unit_id}`, title: t('ord.reveal')})}>
           <KeyRound size={16} aria-hidden /> {t('ord.reveal')}</Button>}
         <Button variant="ghost" onClick={() => setConfirmRenew(true)}><RefreshCw size={16} aria-hidden /> {t('ord.renew')}</Button>
