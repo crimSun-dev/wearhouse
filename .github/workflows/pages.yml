@@ -19,21 +19,35 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: legacy/web/package-lock.json
-      - run: npm ci --prefix legacy/web
-      - run: npm test --prefix legacy/web
-      - run: npm run typecheck --prefix legacy/web
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+          cache-dependency-path: |
+            legacy/web/package-lock.json
+            apps/web/client/package-lock.json
       - uses: actions/configure-pages@v5
-      - name: Build public legacy v1 frontend (v2 has no Pages rollout yet)
+      # crimSun-dev/wearhouse publishes the Wearhouse v2 web client; the API and identity broker are
+      # configured as repository variables (WEARHOUSE_API_BASE, WEARHOUSE_NEON_AUTH_URL), never secrets in code.
+      - name: Build Wearhouse v2 web client
+        if: github.repository == 'crimSun-dev/wearhouse'
+        env:
+          VITE_BASE: /wearhouse/
+          VITE_WEARHOUSE_API_BASE: ${{ vars.WEARHOUSE_API_BASE }}
+          VITE_NEON_AUTH_URL: ${{ vars.WEARHOUSE_NEON_AUTH_URL }}
+        run: |
+          npm ci --prefix apps/web/client
+          npm run test:unit --prefix apps/web/client
+          npm run build --prefix apps/web/client
+          rm -rf _site && cp -r apps/web/client/dist _site
+      # Every other repository (crimSun-dev/LIVE-DEMO) keeps publishing the frozen legacy v1 demo.
+      - name: Build public legacy v1 frontend
+        if: github.repository != 'crimSun-dev/wearhouse'
         env:
           API_BASE_URL: ${{ vars.API_BASE_URL }}
           SITE_BASE_PATH: /LIVE-DEMO/
         run: |
-          python tools/build_legacy_pages.py
-          python tools/smoke_legacy_pages.py _site
+          npm ci --prefix legacy/web
+          npm test --prefix legacy/web
+          npm run typecheck --prefix legacy/web
+          python3 tools/build_legacy_pages.py
+          python3 tools/smoke_legacy_pages.py _site
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
