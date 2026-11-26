@@ -1,0 +1,42 @@
+{
+  "name": "@wearhouse/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/check-build.mjs",
+    "build:e2e": "vite build --mode e2e --outDir dist-e2e",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:unit && npm run check:coverage -- --report",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test --project=e2e",
+    "test:visual": "playwright test --project=visual",
+    "test:a11y": "playwright test --project=a11y",
+    "check:coverage": "node scripts/check-coverage.mjs",
+    "check:size": "node scripts/check-size.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/figtree": "5.3.0",
+    "@neon/auth": "0.8.2",
+    "@tanstack/react-query": "5.108.4",
+    "@wearhouse/contracts": "file:../../../packages/contracts",
+    "lucide-react": "1.80.0",
+    "motion": "14.14.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "8.5.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.19.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "jsdom": "31.0.1",
+    "typescript": "5.9.3",
+    "vite": "7.3.8",
+    "vitest": "3.2.7"
+  }
+}

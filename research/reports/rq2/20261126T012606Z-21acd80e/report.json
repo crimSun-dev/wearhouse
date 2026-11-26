@@ -1,0 +1,651 @@
+{
+  "rq": "RQ2",
+  "provenance": {
+    "generated_at": "2026-11-26T01:26:06.210397+00:00",
+    "git_commit": "ea21b056805085f926d8bebc9b9c377e362c3267",
+    "git_dirty": true,
+    "python": "3.11.8",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "libraries": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.1"
+    },
+    "config_hash": "21acd80ef8d8d84d8696132cc146634f937b5a2fadc0dab672ae6d381a3dd00b",
+    "seeds": {
+      "base": 20261125,
+      "simulation": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "datasets": {
+      "polyvore_outfits": {
+        "synthetic": false,
+        "permission_basis": "huggingface-gated-access-granted (dataset card licence: CC BY 4.0)",
+        "files": {
+          "nondisjoint_train": "09fe68140c8207240d5d1bbfe2a443e2a80e60e6efb0b9251945cebe38e3f10c",
+          "nondisjoint_test": "31169707e667bb630cee9f5d79837c22b53d688b910299bff171f7781dc2cb62",
+          "nondisjoint_valid": "3295676dc38d592f4135df45ff55ab8d9381b035f975af6432d8a0363521c808",
+          "compatibility_test": "966796137ba0845878cfdf8bf682bbcc192e7f6b7b73a810296b19d909204d3e",
+          "fitb_test": "45db613cdae3aa9730462b57f737590327a9e9c9bc00bb42a9ff938f3b7b528c",
+          "item_metadata": "d5e7a3ce1506bc3e64eacfcb29c26f360c39bba96522f7d316ae8ee9f2d2ea58"
+        }
+      },
+      "polyvore_images": {
+        "synthetic": false,
+        "permission_basis": "huggingface-gated-access-granted (dataset card licence: CC BY 4.0)",
+        "files": {
+          "train": "a4fdb4963fd3a34f6357e0a14839eaa2ec5db1079fd764ee84d7e1795a296d06",
+          "test": "94e1a3934d96b543709f52d65159f03861c2547937e968f66f28c67d912818cf",
+          "validation": "229ae64b6b05a4c28b2d17288466a5b1e205df4bdbb7c7b529d78d191677088f"
+        }
+      }
+    },
+    "disclosure": "Code for this pipeline was written with AI assistance (Claude Code, Anthropic) under the author's direction; the author designed the study, reviewed the code and is responsible for the results. Disclose this in the thesis as required by the course's GenAI policy."
+  },
+  "assumptions": "CITED: Jakarta Kemayoran (WMO 96745) 1991-2020; rain = WMO normals rain days (>= 1 mm) per day; hot = share of days with max >= 32 C from GHCN-Daily (validated against the normals, max difference 0.023). See research/manifests/jakarta_climate.json.",
+  "result": {
+    "audit": {
+      "train_items": 204679,
+      "test_items": 47854,
+      "test_items_seen_in_training": 16655,
+      "share": 0.34803778158565635,
+      "unseen_test_items": 31199,
+      "thesis_claim_P0390_holds": false
+    },
+    "embedding": "fashionclip_image",
+    "compatibility": {
+      "type_aware": {
+        "auc": 0.89896338,
+        "fitb": 0.623,
+        "final_triplet_loss": 0.10666698556999682,
+        "triplets": 213224
+      },
+      "shared_space": {
+        "auc": 0.85613492,
+        "fitb": 0.5648,
+        "final_triplet_loss": 0.13156071404130917,
+        "triplets": 213224
+      }
+    },
+    "transfer": {
+      "status": "labels not supplied: run research/tools/label_pairs.py"
+    },
+    "simulation_items": {
+      "source": "unseen test items",
+      "count": 31199,
+      "by_slot": {
+        "accessory": 13532,
+        "footwear": 5583,
+        "bottom": 3300,
+        "dress": 2406,
+        "top": 4130,
+        "outer": 2248
+      }
+    },
+    "selection": {
+      "group": "tuning",
+      "users": 100,
+      "baseline": {
+        "coverage": 0.11733581532494135,
+        "compat": 0.7029193757075223
+      },
+      "table": [
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 2,
+          "coverage": 0.19638360932081456,
+          "compat": 0.6913145990385317,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 3,
+          "coverage": 0.19638360932081456,
+          "compat": 0.6913145990385317,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 5,
+          "coverage": 0.19638360932081456,
+          "compat": 0.6913145990385317,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "h": 7,
+          "coverage": 0.19638360932081456,
+          "compat": 0.6913145990385317,
+          "within_margin": true
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 2,
+          "coverage": 0.4378007467190624,
+          "compat": 0.6573509945763738,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 3,
+          "coverage": 0.48155229986379844,
+          "compat": 0.653127081297298,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 5,
+          "coverage": 0.537806167000826,
+          "compat": 0.647285772882695,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "h": 7,
+          "coverage": 0.5677322541636824,
+          "compat": 0.6433222539847243,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.4866308761958876,
+          "compat": 0.6485984008249369,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.5357983713329472,
+          "compat": 0.641144726287711,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.5858500525652579,
+          "compat": 0.631212440485249,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.5,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.6082666731401817,
+          "compat": 0.6253945060933215,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 2,
+          "coverage": 0.41198200439225424,
+          "compat": 0.6471398194163338,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 3,
+          "coverage": 0.44693707587070414,
+          "compat": 0.6457351987966927,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 5,
+          "coverage": 0.49204204027836584,
+          "compat": 0.6432176537588578,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.5
+          ],
+          "h": 7,
+          "coverage": 0.5225302906954301,
+          "compat": 0.6414220729426684,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.46565247906323104,
+          "compat": 0.6408700692547978,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.5072569834347221,
+          "compat": 0.6365484442252218,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.5607007994125903,
+          "compat": 0.6304076861622083,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.5881515050511148,
+          "compat": 0.6258197230771716,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 2,
+          "coverage": 0.5208400277370514,
+          "compat": 0.6537438100035141,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 3,
+          "coverage": 0.565297760454416,
+          "compat": 0.6425990445404844,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 5,
+          "coverage": 0.6019218855797496,
+          "compat": 0.6299176428319984,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "h": 7,
+          "coverage": 0.6177651775269942,
+          "compat": 0.6240462817010337,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 2,
+          "coverage": 0.2952401589929675,
+          "compat": 0.6471276290143234,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 3,
+          "coverage": 0.2952401589929675,
+          "compat": 0.6471276290143234,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 5,
+          "coverage": 0.2952401589929675,
+          "compat": 0.6471276290143234,
+          "within_margin": false
+        },
+        {
+          "w": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "h": 7,
+          "coverage": 0.2952401589929675,
+          "compat": 0.6471276290143234,
+          "within_margin": false
+        }
+      ],
+      "chosen": {
+        "w": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "h": 2,
+        "coverage": 0.19638360932081456,
+        "compat": 0.6913145990385317,
+        "within_margin": true
+      },
+      "rule": "highest tuning coverage with compatibility within the margin of the compatibility-only baseline"
+    },
+    "reporting": {
+      "favourite/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.1540497409778076,
+            "coverage_seed_std": 0.0067245045469282155,
+            "compat_seed_mean": 0.6862899029050796,
+            "compat_seed_std": 0.0018727251718827433
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.06028507640818048,
+            "coverage_seed_std": 0.0013512559748752977,
+            "compat_seed_mean": 0.7001796236747799,
+            "compat_seed_std": 0.0009471385992205182
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.06028507640818048,
+            "coverage_seed_std": 0.0013512559748752977,
+            "compat_seed_mean": 0.7001796236747799,
+            "compat_seed_std": 0.0009471385992205182
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.1540497409778076,
+            "coverage_seed_std": 0.0067245045469282155,
+            "compat_seed_mean": 0.6862899029050796,
+            "compat_seed_std": 0.0018727251718827433
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 1.555354494946009,
+        "compat_relative": -0.01983736786969369,
+        "met": true
+      },
+      "favourite/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.14805924712760712,
+            "coverage_seed_std": 0.007265410895120438,
+            "compat_seed_mean": 0.6913513843962146,
+            "compat_seed_std": 0.0013938887685347359
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.06028507640818048,
+            "coverage_seed_std": 0.0013512559748752977,
+            "compat_seed_mean": 0.7001796236747799,
+            "compat_seed_std": 0.0009471385992205182
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.06028507640818048,
+            "coverage_seed_std": 0.0013512559748752977,
+            "compat_seed_mean": 0.7001796236747799,
+            "compat_seed_std": 0.0009471385992205182
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.14805924712760712,
+            "coverage_seed_std": 0.007265410895120438,
+            "compat_seed_mean": 0.6913513843962146,
+            "compat_seed_std": 0.0013938887685347359
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 1.455985062125856,
+        "compat_relative": -0.012608534981683359,
+        "met": true
+      },
+      "random/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.28765244516488825,
+            "coverage_seed_std": 0.005049353002921073,
+            "compat_seed_mean": 0.6860414407459541,
+            "compat_seed_std": 0.0018269840963566187
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.19089359855116178,
+            "coverage_seed_std": 0.004622077811763864,
+            "compat_seed_mean": 0.7001401724364549,
+            "compat_seed_std": 0.001131944139181276
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.19089359855116178,
+            "coverage_seed_std": 0.004622077811763864,
+            "compat_seed_mean": 0.7001401724364549,
+            "compat_seed_std": 0.001131944139181276
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.28765244516488825,
+            "coverage_seed_std": 0.005049353002921073,
+            "compat_seed_mean": 0.6860414407459541,
+            "compat_seed_std": 0.0018269840963566187
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 0.5068731866762621,
+        "compat_relative": -0.020137012909054876,
+        "met": true
+      },
+      "random/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.27782061643646844,
+            "coverage_seed_std": 0.00424888299723302,
+            "compat_seed_mean": 0.6911550466869851,
+            "compat_seed_std": 0.0014644092942138383
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.19089359855116178,
+            "coverage_seed_std": 0.004622077811763864,
+            "compat_seed_mean": 0.7001401724364549,
+            "compat_seed_std": 0.001131944139181276
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.19089359855116178,
+            "coverage_seed_std": 0.004622077811763864,
+            "compat_seed_mean": 0.7001401724364549,
+            "compat_seed_std": 0.001131944139181276
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.27782061643646844,
+            "coverage_seed_std": 0.00424888299723302,
+            "compat_seed_mean": 0.6911550466869851,
+            "compat_seed_std": 0.0014644092942138383
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 0.45536895184051535,
+        "compat_relative": -0.01283332410166086,
+        "met": true
+      },
+      "weather/rainy-start-1": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.18064521242150086,
+            "coverage_seed_std": 0.004001163443094005,
+            "compat_seed_mean": 0.692643635730715,
+            "compat_seed_std": 0.0021372272147453008
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.1165096947868675,
+            "coverage_seed_std": 0.0034197208033698184,
+            "compat_seed_mean": 0.7044292208551237,
+            "compat_seed_std": 0.0017169890112534963
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.1165096947868675,
+            "coverage_seed_std": 0.0034197208033698184,
+            "compat_seed_mean": 0.7044292208551237,
+            "compat_seed_std": 0.0017169890112534963
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.18064521242150086,
+            "coverage_seed_std": 0.004001163443094005,
+            "compat_seed_mean": 0.692643635730715,
+            "compat_seed_std": 0.0021372272147453008
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18
+        },
+        "coverage_relative": 0.5504736558786562,
+        "compat_relative": -0.016730687449481356,
+        "met": true
+      },
+      "weather/dry-start-7": {
+        "variants": {
+          "full": {
+            "coverage_seed_mean": 0.1760956135424245,
+            "coverage_seed_std": 0.00566522463939569,
+            "compat_seed_mean": 0.6999025030203084,
+            "compat_seed_std": 0.0013889964307254908
+          },
+          "compatibility_only": {
+            "coverage_seed_mean": 0.11481368948200474,
+            "coverage_seed_std": 0.003256595144763339,
+            "compat_seed_mean": 0.707940931411296,
+            "compat_seed_std": 0.0009088721968727917
+          },
+          "no_context": {
+            "coverage_seed_mean": 0.11481368948200474,
+            "coverage_seed_std": 0.003256595144763339,
+            "compat_seed_mean": 0.707940931411296,
+            "compat_seed_std": 0.0009088721968727917
+          },
+          "no_recency": {
+            "coverage_seed_mean": 0.1760956135424245,
+            "coverage_seed_std": 0.00566522463939569,
+            "compat_seed_mean": 0.6999025030203084,
+            "compat_seed_std": 0.0013889964307254908
+          }
+        },
+        "wilcoxon_full_vs_compatibility_only_coverage": {
+          "statistic": 1.0,
+          "p_value": 4.0161556854627e-18
+        },
+        "coverage_relative": 0.5337510216499467,
+        "compat_relative": -0.01135465973829593,
+        "met": true
+      }
+    },
+    "success": {
+      "by_behaviour": {
+        "favourite": true,
+        "random": true,
+        "weather": true
+      },
+      "rq2_positive": true,
+      "targets": {
+        "coverage": 0.2,
+        "compat_margin": 0.05
+      }
+    },
+    "embedding_coverage": {
+      "by_image": 251008,
+      "by_text": 0
+    },
+    "corrections": "Declared corrected re-run of report 20261125T192325Z-97b5a399 (kept): (1) FashionCLIP image embeddings as the methodology specifies, replacing the text TF-IDF stand-in used because images were not yet supplied; (2) cited BMKG Kemayoran 1991-2020 climatology replacing assumed values. Targets, grids, seeds and the model settings are unchanged."
+  },
+  "wall_seconds": 3638.483
+}

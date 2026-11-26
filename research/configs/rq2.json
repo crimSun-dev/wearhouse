@@ -236,5 +236,10 @@
       "accessory": "light"
     }
   },
-  "transfer_manifest": "research/manifests/hm_transfer_labels.json"
+  "transfer_manifest": "research/manifests/hm_transfer_labels.json",
+  "embedding": "fashionclip_image",
+  "images_manifest": "research/manifests/polyvore_images.json",
+  "fashionclip_model": "patrickjohncyh/fashion-clip",
+  "corrections": "Declared corrected re-run of report 20261125T192325Z-97b5a399 (kept): (1) FashionCLIP image embeddings as the methodology specifies, replacing the text TF-IDF stand-in used because images were not yet supplied; (2) cited BMKG Kemayoran 1991-2020 climatology replacing assumed values. Targets, grids, seeds and the model settings are unchanged.",
+  "fashionclip_local": "research/.cache/fashion-clip"
 }

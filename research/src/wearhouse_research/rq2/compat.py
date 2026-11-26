@@ -29,18 +29,102 @@ class TextEmbedding:
         return {i: z[n].astype(np.float32) for n, i in enumerate(ids)}
 
 
+def _features(out):
+    """CLIP projected features: transformers < 5 returns the tensor, 5.x a model output whose pooler_output holds the
+    projected embedding."""
+    return out if hasattr(out, "norm") else out.pooler_output
+
+
 class FashionClipEmbedding:
-    """FashionCLIP image embeddings (Chia et al., 2022) for Polyvore images; requires the `fashionclip` extra and
-    locally available weights. Never used for H&M products (no permitted images)."""
+    """FashionCLIP image embeddings (Chia et al., 2022) of the Polyvore item images (methodology: image term).
+
+    Images come from the permitted Polyvore image files (parquet: item_id + JPEG bytes). Items without an image
+    (and H&M transfer items, which have no permitted images) get FashionCLIP *text* embeddings of their title and
+    type, in the same joint space; their count is reported (`text_fallback`). Embeddings are L2-normalised and cached
+    under research/.cache keyed by the model and the image files' sha256, so re-runs skip the image pass."""
     name = "fashionclip_image"
 
-    def __init__(self, model_name: str = "patrickjohncyh/fashion-clip"):
+    def __init__(self, image_files: list[Path], digests: list[str], *, model_name: str = "patrickjohncyh/fashion-clip",
+                 batch: int = 256, cache_dir: Path | None = None, log=print):
         try:
             import torch  # noqa: F401
             from transformers import CLIPModel, CLIPProcessor  # noqa: F401
         except ImportError as exc:  # pragma: no cover - optional path
             raise RuntimeError("FashionCLIP needs `pip install .[fashionclip]` and the model weights") from exc
-        self.model_name = model_name
+        self.image_files, self.digests, self.model_name = list(image_files), list(digests), model_name
+        self.batch, self.cache_dir, self.log = batch, cache_dir, log
+        self.text_fallback = 0
+        self.images_embedded = 0
+
+    def _cache_path(self) -> Path | None:
+        if self.cache_dir is None:
+            return None
+        import hashlib
+        key = hashlib.sha256(("|".join([self.model_name, *self.digests])).encode()).hexdigest()[:16]
+        return self.cache_dir / f"fashionclip_images_{key}.npz"
+
+    def _image_vectors(self, wanted: set[str]) -> dict[str, np.ndarray]:
+        cache = self._cache_path()
+        if cache is not None and cache.exists():
+            z = np.load(cache, allow_pickle=False)
+            self.log(f"FashionCLIP: {len(z['ids'])} cached image embeddings ({cache.name})")
+            return {i: v for i, v in zip(z["ids"].tolist(), z["vecs"]) if i in wanted}
+        import io
+
+        import pyarrow.parquet as pq
+        import torch
+        from PIL import Image
+        from transformers import CLIPModel, CLIPProcessor
+        dev = "cuda" if torch.cuda.is_available() else "cpu"
+        model = CLIPModel.from_pretrained(self.model_name).to(dev).eval()
+        proc = CLIPProcessor.from_pretrained(self.model_name)
+        out: dict[str, np.ndarray] = {}
+        for f in self.image_files:
+            for rb in pq.ParquetFile(f).iter_batches(batch_size=self.batch, columns=["item_id", "image"]):
+                ids = rb.column("item_id").to_pylist()
+                imgs = rb.column("image").to_pylist()
+                keep = [(i, im) for i, im in zip(ids, imgs) if i not in out and im and im.get("bytes")]
+                if not keep:
+                    continue
+                pics = [Image.open(io.BytesIO(im["bytes"])).convert("RGB") for _, im in keep]
+                with torch.no_grad():
+                    x = proc(images=pics, return_tensors="pt")["pixel_values"].to(dev)
+                    v = _features(model.get_image_features(pixel_values=x))
+                    v = torch.nn.functional.normalize(v, dim=-1).float().cpu().numpy()
+                for (i, _), row in zip(keep, v):
+                    out[i] = row
+                if len(out) % (self.batch * 40) < self.batch:
+                    self.log(f"FashionCLIP: {len(out)} images embedded")
+        if cache is not None:
+            cache.parent.mkdir(parents=True, exist_ok=True)
+            ids = sorted(out)
+            np.savez(cache, ids=np.array(ids), vecs=np.stack([out[i] for i in ids]).astype(np.float32))
+        return {i: v for i, v in out.items() if i in wanted}
+
+    def _text_vectors(self, texts: list[str]) -> np.ndarray:
+        import torch
+        from transformers import CLIPModel, CLIPProcessor
+        dev = "cuda" if torch.cuda.is_available() else "cpu"
+        model = CLIPModel.from_pretrained(self.model_name).to(dev).eval()
+        proc = CLIPProcessor.from_pretrained(self.model_name)
+        vecs = []
+        for k in range(0, len(texts), self.batch):
+            with torch.no_grad():
+                t = proc(text=texts[k:k + self.batch], return_tensors="pt", padding=True, truncation=True, max_length=77)
+                v = _features(model.get_text_features(**{n: x.to(dev) for n, x in t.items()}))
+                vecs.append(torch.nn.functional.normalize(v, dim=-1).float().cpu().numpy())
+        return np.concatenate(vecs) if vecs else np.zeros((0, 512), np.float32)
+
+    def fit_transform(self, ids: list[str], texts: list[str]) -> dict[str, np.ndarray]:
+        emb = self._image_vectors(set(ids))
+        self.images_embedded = sum(1 for i in ids if i in emb)
+        missing = [(i, t) for i, t in zip(ids, texts) if i not in emb]
+        self.text_fallback = len(missing)
+        if missing:
+            for (i, _), v in zip(missing, self._text_vectors([t for _, t in missing])):
+                emb[i] = v
+        self.log(f"FashionCLIP: {self.images_embedded} items by image, {self.text_fallback} by text")
+        return {i: emb[i].astype(np.float32) for i in ids}
 
 
 def pair_key(a: str, b: str) -> tuple[str, str]:

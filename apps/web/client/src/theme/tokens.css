@@ -1,0 +1,66 @@
+/* Wearhouse design tokens. Components use only these. Motion durations are mirrored in src/motion/tokens.ts. */
+:root {
+  /* type */
+  --font-ui: 'Figtree Variable', system-ui, sans-serif;
+  --fs-1: 0.8125rem; --fs-2: 0.9375rem; --fs-3: 1.0625rem; --fs-4: 1.25rem;
+  --fs-5: 1.5rem; --fs-6: 1.75rem; --fs-7: 2.25rem; --fs-8: 3rem;
+  --fw-regular: 420; --fw-medium: 560; --fw-bold: 720; --fw-heavy: 820;
+  --track-caps: 0.09em; --track-tight: -0.02em;
+
+  /* space and shape */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --r-1: 6px; --r-2: 8px; --r-3: 12px; --r-pill: 999px;
+  --target: 44px;
+  --gutter: clamp(16px, 3.9vw, 56px);
+  --hint-h: 56px;
+
+  /* motion */
+  --dur-1: 120ms; --dur-2: 180ms; --dur-3: 280ms; --dur-4: 420ms; --dur-5: 640ms;
+  --dur-press: 60ms;                              /* button press feedback */
+  --dur-spin: 900ms; --dur-ring: 900ms; --dur-shimmer: 1400ms;   /* loops: spinner, bell, skeleton */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* brand constants */
+  --plum: #632947; --blush: #f1e0e6; --paper: #faf6f3; --ink: #2b1624;
+  --thumb: #ffffff;                               /* toggle and slider thumbs, both themes */
+  --backdrop-dim: rgba(26, 8, 22, 0.55);          /* page dim behind dialogs */
+}
+
+/* Dark: the luminous plum world. Focus mode always uses it. */
+:root, [data-theme='dark'] {
+  color-scheme: dark;
+  --bg-top: #4d1e40; --bg-bottom: #2a1230;
+  --surface-0: #2f1430; --surface-1: #3d1937; --surface-2: #53213f; --surface-3: #6a2c51;
+  --surface-overlay: rgba(36, 14, 34, 0.86);
+  --line: rgba(255, 255, 255, 0.14); --line-strong: rgba(255, 255, 255, 0.32);
+  --text: #ffffff; --text-2: #f6dfe7; --text-3: #dcb3c6;
+  --accent: #e07aa0; --accent-strong: #f39bbc; --accent-ink: #2a1230;
+  --primary: #faf6f3; --primary-ink: #2b1624; --primary-hover: #ffffff;
+  --ok: #8ad9b0; --warn: #f2c46d; --danger: #ff9b9b; --info: #a9c8ff;
+  --focus-ring: #e07aa0; --focus-gap: #2a1230;
+  --shadow-1: 0 2px 6px rgba(20, 4, 16, 0.35);
+  --shadow-2: 0 14px 30px -10px rgba(20, 4, 16, 0.6), 0 3px 8px rgba(20, 4, 16, 0.3);
+  --shadow-lift: 0 26px 48px -16px rgba(18, 3, 14, 0.75), 0 6px 14px rgba(18, 3, 14, 0.35);
+  --skeleton-a: rgba(255, 255, 255, 0.06); --skeleton-b: rgba(255, 255, 255, 0.14);
+  --scrim: linear-gradient(180deg, rgba(42, 18, 48, 0) 0%, rgba(42, 18, 48, 0.85) 100%);
+}
+
+/* Light: Desktop presentation when theme = light (or system light). */
+[data-theme='light'] {
+  color-scheme: light;
+  --bg-top: #faf6f3; --bg-bottom: #f4e9ee;
+  --surface-0: #f6eef1; --surface-1: #ffffff; --surface-2: #f1e0e6; --surface-3: #e8cfd9;
+  --surface-overlay: rgba(250, 246, 243, 0.94);
+  --line: rgba(43, 22, 36, 0.12); --line-strong: rgba(43, 22, 36, 0.3);
+  --text: #2b1624; --text-2: #4e2f43; --text-3: #6f4f62;
+  --accent: #8e3561; --accent-strong: #632947; --accent-ink: #ffffff;
+  --primary: #632947; --primary-ink: #ffffff; --primary-hover: #74315a;
+  --ok: #1f7a4d; --warn: #8a5a00; --danger: #b3261e; --info: #2a5db0;
+  --focus-ring: #632947; --focus-gap: #faf6f3;
+  --shadow-1: 0 1px 3px rgba(43, 22, 36, 0.12);
+  --shadow-2: 0 12px 26px -12px rgba(43, 22, 36, 0.3), 0 2px 6px rgba(43, 22, 36, 0.1);
+  --shadow-lift: 0 22px 40px -16px rgba(43, 22, 36, 0.38), 0 4px 10px rgba(43, 22, 36, 0.12);
+  --skeleton-a: rgba(43, 22, 36, 0.05); --skeleton-b: rgba(43, 22, 36, 0.11);
+  --scrim: linear-gradient(180deg, rgba(250, 246, 243, 0) 0%, rgba(250, 246, 243, 0.92) 100%);
+}

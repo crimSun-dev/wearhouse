@@ -14,7 +14,7 @@ from scipy.stats import wilcoxon
 
 from ..core import (ROOT, ManifestError, Split, Stopwatch, for_selection, load_config, load_manifest, provenance,
                     write_report)
-from .compat import TextEmbedding, TypeAwareModel, auc, fitb_accuracy, make_triplets
+from .compat import FashionClipEmbedding, TextEmbedding, TypeAwareModel, auc, fitb_accuracy, make_triplets
 from .data import Polyvore, load, overlap_audit, unseen_items
 from .simulate import BEHAVIOURS, VARIANTS, UserSim, attributes, days, sample_wardrobe
 from .transfer import evaluate_transfer, labelled
@@ -111,6 +111,14 @@ def report_group(reporting: Split, pool, cfg, comp_fn, w, h, log) -> dict:
     return out
 
 
+def _fashionclip_source(cfg: dict) -> str:
+    """A local copy of the FashionCLIP weights when present (offline, resumable download), else the hub model id."""
+    local = cfg.get("fashionclip_local")
+    if local and (ROOT / local / "model.safetensors").exists():
+        return str(ROOT / local)
+    return cfg.get("fashionclip_model", "patrickjohncyh/fashion-clip")
+
+
 def transfer_rows(cfg: dict) -> tuple[list[dict] | None, str]:
     """The owner's H&M transfer labels when pinned in a permitted manifest; never generated (transfer.py)."""
     path = cfg.get("transfer_manifest")
@@ -187,7 +195,11 @@ H&M domain transfer (200 hand-labelled pairs): {r['transfer']}
 
 Tuning (group 1 only): chose w = {r["selection"]["chosen"]["w"]}, h = {r["selection"]["chosen"]["h"]}.
 
-Climatology values are **assumed** (see config) until replaced with cited BMKG figures.
+Climatology: {rep["assumptions"]}
+
+Embedding coverage: {r.get("embedding_coverage", "not applicable (text embedding)")}
+
+Corrections: {r.get("corrections") or "none (first run)"}
 
 ## Disclosure
 {rep["provenance"]["disclosure"]}
@@ -202,10 +214,21 @@ def run(cfg: dict, *, out_dir: Path | None = None, log=print, data=None) -> dict
         manifests = [m]
         transfer, status = transfer_rows(cfg)
         log(f"H&M transfer labels: {status}")
+        embedder = None
+        if cfg.get("embedding") == "fashionclip_image":
+            im = load_manifest(ROOT / cfg["images_manifest"])  # refuses unless permitted and every sha256 matches
+            manifests.append(im)
+            keys = sorted(im.files)
+            embedder = FashionClipEmbedding([im.path(k) for k in keys], [im.files[k].sha256 for k in keys],
+                                            model_name=_fashionclip_source(cfg),
+                                            cache_dir=ROOT / "research" / ".cache", log=log)
     else:
         pv, manifests = data
-        transfer = None
-    result = evaluate(pv, cfg, log=log, transfer=transfer)
+        transfer, embedder = None, None
+    result = evaluate(pv, cfg, log=log, transfer=transfer, embedder=embedder)
+    if embedder is not None:
+        result["embedding_coverage"] = {"by_image": embedder.images_embedded, "by_text": embedder.text_fallback}
+    result["corrections"] = cfg.get("corrections")
     rep = {"rq": "RQ2", "provenance": provenance(cfg, manifests, {"base": cfg["seed"], "simulation": cfg["seeds"]},
                                                  ["numpy", "scipy", "sklearn"]),
            "assumptions": cfg["climatology"]["status"], "result": result, "wall_seconds": sw.seconds()}

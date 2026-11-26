@@ -1,0 +1,51 @@
+.home { display: grid; gap: var(--s-4); padding-top: var(--s-2); }
+.home-hero { display: grid; gap: var(--s-4); padding: var(--s-6) var(--gutter) var(--s-2); max-width: 980px; }
+.home-hero h1 { font-size: clamp(2rem, 4.4vw, 3.4rem); font-weight: var(--fw-heavy); line-height: 1.05; }
+.home-hero p { font-size: var(--fs-4); color: var(--text-2); max-width: 60ch; }
+.home-hero-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-2); }
+.home-tabs { padding: 0 var(--gutter); }
+.home-empty-line { padding: 0 var(--gutter); color: var(--text-3); }
+.rail-skeleton { display: flex; gap: var(--s-4); padding: 14px var(--gutter); overflow: hidden; }
+.rail-skeleton .skeleton { flex: none; width: clamp(132px, 12vw, 184px); }
+.rail-skeleton .skeleton[style*='16 / 9'] { width: clamp(280px, 40vw, 620px); }
+
+/* The Today tile is the rail's first, largest object: a 16:9 card the size of Big Picture's focused game. */
+.rail-track .today-tile { width: clamp(280px, 42vw, 640px); }
+.today-media { display: grid !important; align-content: end; aspect-ratio: auto !important; min-height: clamp(220px, 19vw, 296px); gap: var(--s-3); padding: clamp(var(--s-4), 2.4vw, var(--s-6));
+  background:
+    radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--accent-strong) 38%, transparent), transparent 60%),
+    linear-gradient(150deg, var(--surface-3), var(--surface-1)) !important; color: var(--text); }
+.today-note { color: var(--text-2); }
+
+.collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; width: 100%; height: 100%; }
+.collage > span { overflow: hidden; background: var(--surface-1); display: grid; }
+.collage > span:only-child { grid-column: 1 / -1; grid-row: 1 / -1; }
+.collage:has(> span:nth-child(3):last-child) > span:first-child { grid-row: span 2; }
+.collage:has(> span:nth-child(2):last-child) { grid-template-rows: 1fr; }
+
+.state { display: grid; gap: var(--s-3); padding: var(--s-5) var(--gutter); }
+.state h2 { font-size: var(--fs-6); font-weight: var(--fw-heavy); }
+.state p { color: var(--text-2); max-width: 60ch; font-size: var(--fs-3); }
+.state-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.state-error p { color: var(--text); }
+.home-hero .state { padding: 0; }
+
+/* Today card: the outfit itself (planned or latest look) is the art; the detail zone carries words and actions. */
+.today-media { grid-template-columns: minmax(0, 1fr); }
+.today-outfit { position: absolute; inset: 0 0 0 38%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.today-outfit > span { display: grid; overflow: hidden; background: color-mix(in srgb, var(--surface-0) 60%, transparent); }
+.today-outfit > span:only-child { grid-column: 1 / -1; }
+.today-outfit:has(> span:nth-child(3):last-child) > span:first-child { grid-row: span 2; }
+.today-info { position: relative; display: grid; gap: var(--s-2); align-content: end; max-width: 36%; min-height: 100%; }
+.today-outfit + .today-info { max-width: 36%; }
+.today-media:not(:has(.today-outfit)) .today-info { max-width: none; }
+.today-label { font-weight: var(--fw-bold); font-size: var(--fs-3); }
+.today-big { font-size: clamp(3rem, 7vw, 6rem); font-weight: var(--fw-heavy); line-height: 0.9; letter-spacing: -0.04em; }
+/* Silhouettes in the outfit cells scale to the cell height, never clipped. */
+.today-outfit .silhouette svg { width: auto; height: 62%; max-width: 70%; }
+@media (max-width: 600px) {
+  /* Phone: the collage gets its own band on top; label and weather sit in a clear band beneath it. */
+  .today-media { min-height: 300px !important; }
+  .today-outfit { inset: 0 0 112px 0; }
+  .today-info, .today-outfit + .today-info { max-width: none; }
+}

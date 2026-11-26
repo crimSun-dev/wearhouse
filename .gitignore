@@ -55,5 +55,18 @@ CRIMSUN_POOL/RESEARCH_EXTRACT.txt
 Reference/
 # v1 demo activation keys (claim secrets for live demo items)
 test-tags/new-test-tags.json
+
+# Wearhouse client build, test and landing production output
+/apps/web/client/dist*/
+/apps/web/client/test-results/
+/apps/web/client/playwright-report/
+/apps/web/client/screenshots/
+/apps/web/client/debug.log
+/apps/web/client/scrollcraft/builds/*/out/
+/apps/web/client/scrollcraft/builds/*/lab/
+/apps/web/client/scrollcraft/builds/*/raw/
 # build metadata
 *.egg-info/
+# Impeccable working evidence (local review captures and decision sketches); DESIGN.md and .impeccable/design.json are committed
+.impeccable/review/
+.impeccable/mocks/

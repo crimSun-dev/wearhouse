@@ -86,6 +86,41 @@ Limitations to discuss:
 
 The selection code was later sped up by reusing each customer's scores across the grid. The results are identical; `tests/test_rq1.py::test_shared_score_selection_equals_reference` checks this, and a check on 400 real customers matched exactly.
 
+## RQ2 result (corrected re-run, 2026-11-26)
+
+Report `research/reports/rq2/20261126T012606Z-21acd80e`, a declared correction of `20261125T192325Z-97b5a399` (kept).
+Two inputs changed: FashionCLIP image embeddings (251,008 Polyvore items, all from images) and the cited Kemayoran
+climatology. Targets, grids, seeds and model settings are unchanged.
+
+**Answer: positive under the pre-registered rule**: coverage >= +20% with compatibility within 5%, for all three
+behaviours.
+
+| Model | AUC | FITB |
+|---|---|---|
+| type_aware | 0.899 (first run 0.530) | 0.623 (first run 0.702) |
+| shared_space | 0.856 | 0.565 |
+
+| Behaviour / season | Coverage | Compatibility |
+|---|---|---|
+| favourite rainy / dry | +155.5% / +145.6% | -2.0% / -1.3% |
+| random rainy / dry | +50.7% / +45.5% | -2.0% / -1.3% |
+| weather rainy / dry | +55.0% / +53.4% | -1.7% / -1.1% |
+
+**Read this before citing the result.**
+
+- *Rotation was not the cause.* Tuning chose w = [1, 0, 0]. That turns off both the preference term (Eq. 8) and the
+  recency/rotation term (Eq. 9), so h has no effect. Every setting with w2 or w3 above 0 lost more than 5%
+  compatibility on the tuning group, against the stronger image model. The coverage gain is therefore the Eq. 7
+  compatibility score plus the hard weather and occasion rules, compared with compatibility alone. Rotation weights
+  did not survive the margin. (In the first run, w = [1, 0.5, 0.5], h = 7 was chosen.)
+- *FITB fell* (0.702 to 0.623) while AUC rose. The cause has not been investigated.
+- *Wilcoxon p* is the same in most rows (3.9e-18): that is the floor for 100 paired users when every difference has
+  the same sign.
+- *Overlap audit*: 34.8% of test items also appear in training (non-disjoint split), so the thesis claim P0390 does
+  not hold. Disclose this.
+- *H&M domain transfer* is not reported: the owner deferred the 200 labels.
+- *This is a re-run after a negative result.* Both reports are kept and the corrections are declared. Report both.
+
 ## RQ2 climate (cited, replaces the assumed placeholder)
 
 `research/tools/climatology.py` builds the monthly rain and hot-day probabilities for BMKG Stasiun Meteorologi Kemayoran, Jakarta (WMO 96745), 1991–2020:

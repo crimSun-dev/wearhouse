@@ -1,0 +1,27 @@
+{
+  "name": "polyvore_images",
+  "status": "permitted",
+  "supplied": "nondisjoint item images (data/nondisjoint/{train,test,validation}.parquet: item_id + JPEG bytes) downloaded by the owner 2026-11-26",
+  "permission": {
+    "basis": "huggingface-gated-access-granted (dataset card licence: CC BY 4.0)",
+    "accepted_on": "2026-11-26",
+    "accepted_by": "Wearhouse project owner (own Hugging Face account; confirmed by the owner on 2026-11-26)",
+    "scope": "Academic, non-profit research only: the RQ2 compatibility model (FashionCLIP image embeddings) in the Wearhouse capstone thesis; attribution to Vasileva et al., ECCV 2018; files are not redistributed.",
+    "terms_url": "https://huggingface.co/datasets/mvasil/polyvore-outfits"
+  },
+  "citation": "Vasileva, M. I., Plummer, B. A., Dusad, K., Rajpal, S., Kumar, R., & Forsyth, D. A. (2018). Learning Type-Aware Embeddings for Fashion Compatibility. ECCV.",
+  "files": {
+    "train": {
+      "path": "H&M DATABASE/train.parquet",
+      "sha256": "a4fdb4963fd3a34f6357e0a14839eaa2ec5db1079fd764ee84d7e1795a296d06"
+    },
+    "test": {
+      "path": "H&M DATABASE/test.parquet",
+      "sha256": "94e1a3934d96b543709f52d65159f03861c2547937e968f66f28c67d912818cf"
+    },
+    "validation": {
+      "path": "H&M DATABASE/validation.parquet",
+      "sha256": "229ae64b6b05a4c28b2d17288466a5b1e205df4bdbb7c7b529d78d191677088f"
+    }
+  }
+}

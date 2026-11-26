@@ -1,0 +1,934 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T03:10:46.386Z",
+  "title": "Design System: Wearhouse",
+  "extensions": {
+    "colorMeta": {
+      "plum": {
+        "role": "primary",
+        "displayName": "House Plum",
+        "canonical": "#632947",
+        "oklch": "oklch(37.3% 0.092 350.2)",
+        "tonalRamp": [
+          "#1e000f",
+          "#42092a",
+          "#622846",
+          "#844665",
+          "#aa6988",
+          "#d18dac",
+          "#f9b2d3",
+          "#fee7f1"
+        ]
+      },
+      "blush": {
+        "role": "neutral",
+        "displayName": "Blush",
+        "canonical": "#f1e0e6",
+        "oklch": "oklch(92.2% 0.020 354.0)",
+        "tonalRamp": [
+          "#12080c",
+          "#2c2025",
+          "#493b40",
+          "#67595e",
+          "#8b7b81",
+          "#b0a0a5",
+          "#d6c5cb",
+          "#fae9ef"
+        ]
+      },
+      "paper": {
+        "role": "primary",
+        "displayName": "Paper",
+        "canonical": "#faf6f3",
+        "oklch": "oklch(97.5% 0.006 59.7)",
+        "tonalRamp": [
+          "#110904",
+          "#2b221a",
+          "#483d35",
+          "#665b53",
+          "#8a7e75",
+          "#aea298",
+          "#d5c8be",
+          "#f9ece2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#2b1624",
+        "oklch": "oklch(23.5% 0.041 340.5)",
+        "tonalRamp": [
+          "#160410",
+          "#311c2a",
+          "#4f3746",
+          "#6e5565",
+          "#927788",
+          "#b79bad",
+          "#dec1d3",
+          "#ffe6f5"
+        ]
+      },
+      "aubergine-top": {
+        "role": "neutral",
+        "displayName": "Aubergine Top",
+        "canonical": "#4d1e40",
+        "oklch": "oklch(31.7% 0.085 339.4)",
+        "tonalRamp": [
+          "#1c0015",
+          "#3d0f31",
+          "#5c2c4e",
+          "#7d4a6d",
+          "#a26c91",
+          "#c990b6",
+          "#f1b5dd",
+          "#ffe6f6"
+        ]
+      },
+      "aubergine-bottom": {
+        "role": "neutral",
+        "displayName": "Aubergine Bottom",
+        "canonical": "#2a1230",
+        "oklch": "oklch(23.3% 0.063 319.3)",
+        "tonalRamp": [
+          "#16021b",
+          "#311937",
+          "#4e3455",
+          "#6d5274",
+          "#917498",
+          "#b698be",
+          "#ddbee5",
+          "#fae7ff"
+        ]
+      },
+      "surface-0": {
+        "role": "neutral",
+        "displayName": "Surface 0 (hint bar)",
+        "canonical": "#2f1430",
+        "oklch": "oklch(24.4% 0.063 326.0)",
+        "tonalRamp": [
+          "#170119",
+          "#331834",
+          "#513452",
+          "#705171",
+          "#947395",
+          "#ba97ba",
+          "#e1bde1",
+          "#fee5fe"
+        ]
+      },
+      "surface-1": {
+        "role": "neutral",
+        "displayName": "Surface 1 (menus, drawers, dialogs)",
+        "canonical": "#3d1937",
+        "oklch": "oklch(27.9% 0.072 334.0)",
+        "tonalRamp": [
+          "#1b0017",
+          "#381432",
+          "#56304f",
+          "#764e6e",
+          "#9b7092",
+          "#c194b7",
+          "#e8bade",
+          "#fee6f9"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Surface 2 (empty tile)",
+        "canonical": "#53213f",
+        "oklch": "oklch(33.1% 0.084 345.7)",
+        "tonalRamp": [
+          "#1d0011",
+          "#3f0e2d",
+          "#5e2b49",
+          "#7f4968",
+          "#a56b8b",
+          "#cc8fb0",
+          "#f4b5d6",
+          "#ffe7f3"
+        ]
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Surface 3 (Today card high)",
+        "canonical": "#6a2c51",
+        "oklch": "oklch(39.2% 0.100 345.9)",
+        "tonalRamp": [
+          "#1d0011",
+          "#43062e",
+          "#63264b",
+          "#85446a",
+          "#ab678d",
+          "#d28bb2",
+          "#fbb0d8",
+          "#ffe7f3"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#11080d",
+          "#2b2026",
+          "#483c42",
+          "#665960",
+          "#8a7c83",
+          "#aea0a7",
+          "#d5c6cd",
+          "#f9e9f1"
+        ]
+      },
+      "text-2": {
+        "role": "neutral",
+        "displayName": "Blush Text",
+        "canonical": "#f6dfe7",
+        "oklch": "oklch(92.5% 0.027 354.5)",
+        "tonalRamp": [
+          "#14060c",
+          "#2f1f25",
+          "#4c3a40",
+          "#6b575e",
+          "#8e7a81",
+          "#b39ea5",
+          "#dac4cb",
+          "#ffe7ef"
+        ]
+      },
+      "text-3": {
+        "role": "neutral",
+        "displayName": "Muted Rose Text",
+        "canonical": "#dcb3c6",
+        "oklch": "oklch(80.9% 0.053 348.8)",
+        "tonalRamp": [
+          "#1a020f",
+          "#371828",
+          "#553444",
+          "#755162",
+          "#997385",
+          "#bf97aa",
+          "#e6bdd0",
+          "#ffe7f2"
+        ]
+      },
+      "rose-accent": {
+        "role": "secondary",
+        "displayName": "Rose Focus",
+        "canonical": "#e07aa0",
+        "oklch": "oklch(70.3% 0.133 357.4)",
+        "tonalRamp": [
+          "#1f000b",
+          "#480024",
+          "#711340",
+          "#95375e",
+          "#bd5b81",
+          "#e67fa5",
+          "#ffb0cb",
+          "#ffe7ee"
+        ]
+      },
+      "rose-accent-strong": {
+        "role": "secondary",
+        "displayName": "Bright Rose",
+        "canonical": "#f39bbc",
+        "oklch": "oklch(78.7% 0.112 355.9)",
+        "tonalRamp": [
+          "#1e000c",
+          "#480026",
+          "#6a2042",
+          "#8d3f60",
+          "#b46282",
+          "#dc86a7",
+          "#ffb0cd",
+          "#fee8ef"
+        ]
+      },
+      "ok": {
+        "role": "status",
+        "displayName": "Mint (ok, dark)",
+        "canonical": "#8ad9b0",
+        "oklch": "oklch(82.3% 0.098 160.6)",
+        "tonalRamp": [
+          "#001006",
+          "#002d1a",
+          "#004d30",
+          "#196e4b",
+          "#43926d",
+          "#69b890",
+          "#90dfb5",
+          "#c2ffde"
+        ]
+      },
+      "warn": {
+        "role": "status",
+        "displayName": "Honey (warn, dark)",
+        "canonical": "#f2c46d",
+        "oklch": "oklch(84.3% 0.118 81.9)",
+        "tonalRamp": [
+          "#130900",
+          "#312100",
+          "#543b01",
+          "#795703",
+          "#a37815",
+          "#c99d44",
+          "#f1c36c",
+          "#ffeccb"
+        ]
+      },
+      "danger": {
+        "role": "status",
+        "displayName": "Coral (danger, dark)",
+        "canonical": "#ff9b9b",
+        "oklch": "oklch(79.2% 0.120 20.1)",
+        "tonalRamp": [
+          "#200002",
+          "#4b000c",
+          "#721b24",
+          "#953c40",
+          "#bd6062",
+          "#e68485",
+          "#ffb4b3",
+          "#fee9e8"
+        ]
+      },
+      "info": {
+        "role": "status",
+        "displayName": "Sky (info, dark)",
+        "canonical": "#a9c8ff",
+        "oklch": "oklch(83.0% 0.085 261.7)",
+        "tonalRamp": [
+          "#00052e",
+          "#0b214c",
+          "#263e6c",
+          "#435d8d",
+          "#6480b3",
+          "#87a5da",
+          "#aecbff",
+          "#e6effe"
+        ]
+      },
+      "light-bg-bottom": {
+        "role": "neutral",
+        "displayName": "Light Ground Bottom",
+        "canonical": "#f4e9ee",
+        "oklch": "oklch(94.4% 0.014 348.0)",
+        "tonalRamp": [
+          "#11080d",
+          "#2c2026",
+          "#483c42",
+          "#675960",
+          "#8a7c82",
+          "#afa0a7",
+          "#d5c6cd",
+          "#fae9f1"
+        ]
+      },
+      "light-surface-0": {
+        "role": "neutral",
+        "displayName": "Light Surface 0",
+        "canonical": "#f6eef1",
+        "oklch": "oklch(95.6% 0.009 352.4)",
+        "tonalRamp": [
+          "#12080c",
+          "#2c2025",
+          "#493c41",
+          "#67595f",
+          "#8a7c81",
+          "#afa0a6",
+          "#d6c5cc",
+          "#fae9f0"
+        ]
+      },
+      "light-surface-1": {
+        "role": "neutral",
+        "displayName": "Light Surface 1",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#11080d",
+          "#2b2026",
+          "#483c42",
+          "#665960",
+          "#8a7c83",
+          "#aea0a7",
+          "#d5c6cd",
+          "#f9e9f1"
+        ]
+      },
+      "light-surface-3": {
+        "role": "neutral",
+        "displayName": "Light Surface 3",
+        "canonical": "#e8cfd9",
+        "oklch": "oklch(87.8% 0.031 351.6)",
+        "tonalRamp": [
+          "#15060d",
+          "#301e26",
+          "#4d3941",
+          "#6c575f",
+          "#907982",
+          "#b59da7",
+          "#dbc3cd",
+          "#ffe7f1"
+        ]
+      },
+      "light-text-2": {
+        "role": "neutral",
+        "displayName": "Light Secondary Text",
+        "canonical": "#4e2f43",
+        "oklch": "oklch(35.1% 0.054 341.2)",
+        "tonalRamp": [
+          "#190212",
+          "#35182c",
+          "#533448",
+          "#735167",
+          "#97748a",
+          "#bd98af",
+          "#e4bdd5",
+          "#ffe6f5"
+        ]
+      },
+      "light-text-3": {
+        "role": "neutral",
+        "displayName": "Light Muted Text",
+        "canonical": "#6f4f62",
+        "oklch": "oklch(46.8% 0.051 342.9)",
+        "tonalRamp": [
+          "#190211",
+          "#35192b",
+          "#533547",
+          "#725265",
+          "#977488",
+          "#bc98ad",
+          "#e3bed3",
+          "#fee7f4"
+        ]
+      },
+      "light-accent": {
+        "role": "secondary",
+        "displayName": "Light Plum Accent",
+        "canonical": "#8e3561",
+        "oklch": "oklch(46.8% 0.130 352.6)",
+        "tonalRamp": [
+          "#1e000e",
+          "#470029",
+          "#6f1646",
+          "#923964",
+          "#b95c87",
+          "#e281ac",
+          "#ffafd1",
+          "#ffe7f0"
+        ]
+      },
+      "light-primary-hover": {
+        "role": "primary",
+        "displayName": "Plum Hover (light)",
+        "canonical": "#74315a",
+        "oklch": "oklch(41.9% 0.107 345.0)",
+        "tonalRamp": [
+          "#1d0012",
+          "#44022f",
+          "#65234c",
+          "#87426b",
+          "#ad658f",
+          "#d589b4",
+          "#fdaeda",
+          "#ffe7f3"
+        ]
+      },
+      "light-ok": {
+        "role": "status",
+        "displayName": "Forest (ok, light)",
+        "canonical": "#1f7a4d",
+        "oklch": "oklch(51.5% 0.110 156.8)",
+        "tonalRamp": [
+          "#001005",
+          "#002d17",
+          "#004d2c",
+          "#0d6f43",
+          "#3e9465",
+          "#65b988",
+          "#8be0ad",
+          "#c4ffda"
+        ]
+      },
+      "light-warn": {
+        "role": "status",
+        "displayName": "Amber (warn, light)",
+        "canonical": "#8a5a00",
+        "oklch": "oklch(50.8% 0.108 73.3)",
+        "tonalRamp": [
+          "#140800",
+          "#341f00",
+          "#583801",
+          "#805300",
+          "#a7752b",
+          "#cd9a53",
+          "#f5c079",
+          "#ffebd3"
+        ]
+      },
+      "light-danger": {
+        "role": "status",
+        "displayName": "Brick (danger, light)",
+        "canonical": "#b3261e",
+        "oklch": "oklch(50.1% 0.178 28.7)",
+        "tonalRamp": [
+          "#210000",
+          "#4c0000",
+          "#7d0001",
+          "#ac1d17",
+          "#d64a3d",
+          "#ff7363",
+          "#ffb5aa",
+          "#ffe9e5"
+        ]
+      },
+      "light-info": {
+        "role": "status",
+        "displayName": "Cobalt (info, light)",
+        "canonical": "#2a5db0",
+        "oklch": "oklch(49.0% 0.143 259.7)",
+        "tonalRamp": [
+          "#00072b",
+          "#001f57",
+          "#043989",
+          "#275aad",
+          "#4a7fd5",
+          "#6da4fd",
+          "#acccff",
+          "#e5efff"
+        ]
+      },
+      "thumb": {
+        "role": "neutral",
+        "displayName": "Thumb (toggle and slider knobs, both themes)",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#11080d",
+          "#2b2026",
+          "#483c42",
+          "#665960",
+          "#8a7c83",
+          "#aea0a7",
+          "#d5c6cd",
+          "#f9e9f1"
+        ]
+      },
+      "backdrop-dim": {
+        "role": "neutral",
+        "displayName": "Backdrop Dim (scrim behind dialogs)",
+        "canonical": "rgba(26, 8, 22, 0.55)",
+        "tonalRamp": [
+          "rgba(26, 8, 22, 0.25)",
+          "rgba(26, 8, 22, 0.4)",
+          "rgba(26, 8, 22, 0.55)",
+          "rgba(26, 8, 22, 0.7)"
+        ]
+      }
+    },
+    "themes": {
+      "note": "Dark is :root and [data-theme=dark]; Focus mode is always dark. Light is [data-theme=light], Desktop only. Components reference these role variables; values swap per theme.",
+      "dark": {
+        "--bg-top": "#4d1e40",
+        "--bg-bottom": "#2a1230",
+        "--surface-0": "#2f1430",
+        "--surface-1": "#3d1937",
+        "--surface-2": "#53213f",
+        "--surface-3": "#6a2c51",
+        "--surface-overlay": "rgba(36, 14, 34, 0.86)",
+        "--line": "rgba(255, 255, 255, 0.14)",
+        "--line-strong": "rgba(255, 255, 255, 0.32)",
+        "--text": "#ffffff",
+        "--text-2": "#f6dfe7",
+        "--text-3": "#dcb3c6",
+        "--accent": "#e07aa0",
+        "--accent-strong": "#f39bbc",
+        "--accent-ink": "#2a1230",
+        "--primary": "#faf6f3",
+        "--primary-ink": "#2b1624",
+        "--primary-hover": "#ffffff",
+        "--focus-ring": "#e07aa0",
+        "--focus-gap": "#2a1230"
+      },
+      "light": {
+        "--bg-top": "#faf6f3",
+        "--bg-bottom": "#f4e9ee",
+        "--surface-0": "#f6eef1",
+        "--surface-1": "#ffffff",
+        "--surface-2": "#f1e0e6",
+        "--surface-3": "#e8cfd9",
+        "--surface-overlay": "rgba(250, 246, 243, 0.94)",
+        "--line": "rgba(43, 22, 36, 0.12)",
+        "--line-strong": "rgba(43, 22, 36, 0.3)",
+        "--text": "#2b1624",
+        "--text-2": "#4e2f43",
+        "--text-3": "#6f4f62",
+        "--accent": "#8e3561",
+        "--accent-strong": "#632947",
+        "--accent-ink": "#ffffff",
+        "--primary": "#632947",
+        "--primary-ink": "#ffffff",
+        "--primary-hover": "#74315a",
+        "--focus-ring": "#632947",
+        "--focus-gap": "#faf6f3"
+      },
+      "shared": {
+        "--thumb": "#ffffff",
+        "--backdrop-dim": "rgba(26, 8, 22, 0.55)",
+        "--plum": "#632947",
+        "--blush": "#f1e0e6",
+        "--paper": "#faf6f3",
+        "--ink": "#2b1624"
+      }
+    },
+    "dataColors": {
+      "note": "Hex lists in source that are data, not styling. Not part of the palette; never reuse as UI colours.",
+      "garmentColourApproximations": "components/tiles.tsx accentFor(): maps a garment's colour name (black, white, beige, navy, red, pink, ...) to an approximate hex used only to tint the backdrop wash; falls back to var(--accent).",
+      "avatarPresetSwatches": "routes/Onboarding.tsx PRESETS: six avatar colour choices (plum #632947, ivory #f4ead9, blush #f1c9d6, noir #2b1624, sage #9fb59a, sky #a9c4e0) offered as user options."
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Signed-out / empty-wardrobe home hero headline only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Detail-zone title under the rail, state headings, auth card titles; 1.5rem at <=600px."
+      },
+      "title-sm": {
+        "displayName": "Title small",
+        "purpose": "Rail titles, Focus clock, main-menu entries."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text and detail meta; tabular numerals globally; 60-70ch reading measure."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Buttons (720), field labels (560), tile titles (720, two-line clamp)."
+      },
+      "label-caps": {
+        "displayName": "Label caps",
+        "purpose": "Tabs and top-nav links; at 0.8125rem for hint labels and quick-access section headings. Never a decorative label above a headline."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Tile meta, field hints, tags, credits."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-1 (dark)",
+        "value": "0 2px 6px rgba(20, 4, 16, 0.35)",
+        "purpose": "Rest: buttons, tile media, toggle and slider thumbs."
+      },
+      {
+        "name": "shadow-2 (dark)",
+        "value": "0 14px 30px -10px rgba(20, 4, 16, 0.6), 0 3px 8px rgba(20, 4, 16, 0.3)",
+        "purpose": "Raised: tile and primary hover, toasts, auth card."
+      },
+      {
+        "name": "shadow-lift (dark)",
+        "value": "0 26px 48px -16px rgba(18, 3, 14, 0.75), 0 6px 14px rgba(18, 3, 14, 0.35)",
+        "purpose": "Lift: the selected tile, menus, drawers, dialogs."
+      },
+      {
+        "name": "shadow-1 (light)",
+        "value": "0 1px 3px rgba(43, 22, 36, 0.12)",
+        "purpose": "Rest on paper."
+      },
+      {
+        "name": "shadow-2 (light)",
+        "value": "0 12px 26px -12px rgba(43, 22, 36, 0.3), 0 2px 6px rgba(43, 22, 36, 0.1)",
+        "purpose": "Raised on paper."
+      },
+      {
+        "name": "shadow-lift (light)",
+        "value": "0 22px 40px -16px rgba(43, 22, 36, 0.38), 0 4px 10px rgba(43, 22, 36, 0.12)",
+        "purpose": "Lift on paper."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 3px solid var(--focus-ring); outline-offset: 3px",
+        "purpose": "All keyboard focus; on tiles it sits on the media, not the text."
+      },
+      {
+        "name": "field-focus-halo",
+        "value": "border-color: var(--focus-ring); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 35%, transparent)",
+        "purpose": "Text inputs and selects only."
+      },
+      {
+        "name": "dialog-backdrop",
+        "value": "background: var(--backdrop-dim); backdrop-filter: blur(6px)",
+        "purpose": "The only sanctioned blur in chrome: the modal dialog ::backdrop."
+      }
+    ],
+    "motion": [
+      {
+        "name": "dur-1 (d1)",
+        "value": "120ms",
+        "purpose": "Short transitions; the reduced-motion crossfade."
+      },
+      {
+        "name": "dur-2 (d2)",
+        "value": "180ms",
+        "purpose": "Colour and border transitions; overlay fade."
+      },
+      {
+        "name": "dur-3 (d3)",
+        "value": "280ms",
+        "purpose": "Tile hover/selection transforms and shadows; badge pop."
+      },
+      {
+        "name": "dur-4 (d4)",
+        "value": "420ms",
+        "purpose": "Backdrop crossfade."
+      },
+      {
+        "name": "dur-5 (d5)",
+        "value": "640ms",
+        "purpose": "Longest reveal."
+      },
+      {
+        "name": "dur-press",
+        "value": "60ms",
+        "purpose": "Button press feedback (scale 0.97)."
+      },
+      {
+        "name": "dur-spin",
+        "value": "900ms",
+        "purpose": "Spinner loop (linear, infinite)."
+      },
+      {
+        "name": "dur-ring",
+        "value": "900ms",
+        "purpose": "Notification bell: one damped swing on new notifications."
+      },
+      {
+        "name": "dur-shimmer",
+        "value": "1400ms",
+        "purpose": "Skeleton shimmer loop; stops under reduced motion."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Exponential ease-out for reveals and state transitions."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Symmetric moves."
+      },
+      {
+        "name": "spring-focus",
+        "value": "spring stiffness 420, damping 32, mass 0.8",
+        "purpose": "Selection lift."
+      },
+      {
+        "name": "spring-snappy",
+        "value": "spring stiffness 600, damping 38",
+        "purpose": "Small controls (segmented pill)."
+      },
+      {
+        "name": "spring-sheet",
+        "value": "spring stiffness 320, damping 36",
+        "purpose": "Drawers, dialogs and sheets sliding from their edge."
+      },
+      {
+        "name": "reduced",
+        "value": "linear 120ms crossfade",
+        "purpose": "Reduced variant of every animation; loops stop. Triggered by prefers-reduced-motion or the reduce_motion setting ([data-motion=reduced])."
+      },
+      {
+        "name": "backdrop-settle",
+        "value": "140ms",
+        "purpose": "Backdrop repaints only after the selection rests this long; wash layers render at 25% size scaled 4x."
+      },
+      {
+        "name": "detail-swap",
+        "value": "enter y 8px + fade, exit y -4px",
+        "purpose": "Detail zone on selection change."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "600px",
+        "purpose": "Compact detail zone, 60px top bar, 28px logo, no clock, no rail prev/next."
+      },
+      {
+        "name": "phone",
+        "value": "430px",
+        "purpose": "Bottom nav replaces menu button, top nav and hint bar."
+      },
+      {
+        "name": "touch",
+        "value": "(hover: none) and (pointer: coarse)",
+        "purpose": "Hint bar hidden."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action per view: paper on plum (dark), plum on paper (light).",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Wear today</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 24px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; font-family: 'Figtree Variable', system-ui, sans-serif; font-weight: 720; font-size: 0.9375rem; letter-spacing: 0.01em; transition: transform var(--dur-1, 120ms) cubic-bezier(0.16,1,0.3,1), background-color 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); } .ds-btn-primary:hover { background: var(--primary-hover, #ffffff); transform: translateY(-1px); box-shadow: var(--shadow-2, 0 14px 30px -10px rgba(20,4,16,0.6), 0 3px 8px rgba(20,4,16,0.3)); } .ds-btn:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Tinted pill with a strong hairline for secondary actions.",
+      "html": "<button class=\"ds-btn-secondary\">Try on</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 999px; cursor: pointer; font-weight: 720; font-size: 0.9375rem; background: color-mix(in srgb, var(--text, #fff) 8%, transparent); color: var(--text, #fff); border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); transition: background-color 180ms, transform 120ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--text, #fff) 14%, transparent); transform: translateY(-1px); } .ds-btn-secondary:active { transform: scale(0.97); transition-duration: var(--dur-press, 60ms); } .ds-btn-secondary:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "44px field, 8px radius, label above, hint below; focus-colour border plus 35% halo.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Handle</span><input class=\"ds-input\" value=\"sekar_w\"><small class=\"ds-field-hint\">3-30 letters, numbers or underscores.</small></label>",
+      "css": ".ds-field { display: grid; gap: 8px; } .ds-field-label { font-weight: 560; font-size: 0.9375rem; } .ds-input { width: 100%; min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: color-mix(in srgb, var(--surface-0, #2f1430) 70%, transparent); color: var(--text, #fff); font: inherit; caret-color: var(--accent, #e07aa0); transition: border-color 180ms, box-shadow 180ms; } .ds-input:hover { border-color: var(--text-3, #dcb3c6); } .ds-input:focus-visible { outline: none; border-color: var(--focus-ring, #e07aa0); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring, #e07aa0) 35%, transparent); } .ds-field-hint { color: var(--text-3, #dcb3c6); font-size: 0.8125rem; }"
+    },
+    {
+      "name": "Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Uppercase tracked labels; 3px rose underline on the active tab; rose count pills.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab is-on\">Recently added<span class=\"ds-tab-line\"></span></button><button class=\"ds-tab\">Friends<span class=\"ds-tab-count\">2</span></button><button class=\"ds-tab\">For you</button></div>",
+      "css": ".ds-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line, rgba(255,255,255,0.14)); } .ds-tab { position: relative; padding: 12px 0; border: 0; background: none; cursor: pointer; color: var(--text-3, #dcb3c6); font-weight: 720; text-transform: uppercase; letter-spacing: 0.09em; font-size: 0.9375rem; transition: color 180ms; } .ds-tab:hover, .ds-tab.is-on { color: var(--text, #fff); } .ds-tab:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: -3px; border-radius: 6px; } .ds-tab-line { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 3px; background: var(--accent, #e07aa0); } .ds-tab-count { margin-left: 8px; padding: 0 7px; border-radius: 999px; background: var(--accent, #e07aa0); color: var(--accent-ink, #2a1230); font-size: 12px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "36px filter pill; selected fills with the primary colour.",
+      "html": "<div style=\"display:flex;gap:8px\"><button class=\"ds-chip is-selected\">All</button><button class=\"ds-chip\">Tops</button><button class=\"ds-chip\">Bottoms</button></div>",
+      "css": ".ds-chip { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: transparent; color: var(--text-2, #f6dfe7); font-weight: 560; cursor: pointer; transition: background-color 180ms, color 180ms, border-color 180ms; } .ds-chip:hover { border-color: var(--text-2, #f6dfe7); color: var(--text, #fff); } .ds-chip.is-selected { background: var(--primary, #faf6f3); color: var(--primary-ink, #2b1624); border-color: var(--primary, #faf6f3); } .ds-chip:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+    },
+    {
+      "name": "Toggle",
+      "kind": "custom",
+      "refersTo": "toggle",
+      "description": "50x30 pill; on fills rose; Thumb knob with the Rest shadow.",
+      "html": "<button class=\"ds-toggle is-on\" role=\"switch\" aria-checked=\"true\"><span class=\"ds-thumb\"></span></button>",
+      "css": ".ds-toggle { display: flex; width: 50px; height: 30px; padding: 3px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); background: color-mix(in srgb, var(--text, #fff) 10%, transparent); transition: background-color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-toggle.is-on { justify-content: flex-end; background: var(--accent, #e07aa0); border-color: var(--accent, #e07aa0); } .ds-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--thumb, #ffffff); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); } .ds-toggle:focus-visible { outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: 3px; }"
+    },
+    {
+      "name": "Tile (selection lift)",
+      "kind": "card",
+      "refersTo": "tile-media",
+      "description": "One link per tile; 8px radius; 2:3 garment shown. Focus: 6px up, scale 1.04, 3px rose ring at 3px gap on the media, Lift shadow. Missing image renders the slot silhouette.",
+      "html": "<a class=\"ds-tile\" href=\"#\"><span class=\"ds-tile-media\"><span class=\"ds-sil\"><svg viewBox=\"0 0 108 100\" width=\"52%\" aria-hidden=\"true\"><path d=\"M34 18 L46 12 Q50 18 54 18 Q58 18 62 12 L74 18 L86 34 L76 42 L70 36 L70 88 L38 88 L38 36 L32 42 L22 34 Z\" fill=\"currentColor\" fill-opacity=\"0.16\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/></svg><span class=\"ds-sil-label\">Image unavailable</span></span></span><span class=\"ds-tile-title\">Linen-blend shirt</span><span class=\"ds-tile-meta\">Declared · Not worn yet</span></a>",
+      "css": ".ds-tile { display: grid; gap: 12px; width: 170px; color: inherit; text-decoration: none; outline: none; } .ds-tile-media { display: block; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 8px; background: var(--surface-2, #53213f); box-shadow: var(--shadow-1, 0 2px 6px rgba(20,4,16,0.35)); transform-origin: 50% 60%; outline: 3px solid transparent; outline-offset: 3px; transition: transform 280ms cubic-bezier(0.16,1,0.3,1), box-shadow 280ms cubic-bezier(0.16,1,0.3,1), outline-color 180ms; } .ds-tile:hover .ds-tile-media { transform: translateY(-3px); box-shadow: var(--shadow-2, 0 14px 30px -10px rgba(20,4,16,0.6), 0 3px 8px rgba(20,4,16,0.3)); } .ds-tile:focus-visible .ds-tile-media { transform: translateY(-6px) scale(1.04); outline-color: var(--focus-ring, #e07aa0); box-shadow: var(--shadow-lift, 0 26px 48px -16px rgba(18,3,14,0.75), 0 6px 14px rgba(18,3,14,0.35)); } .ds-sil { display: grid; place-items: center; align-content: center; gap: 8px; width: 100%; height: 100%; color: var(--text-2, #f6dfe7); background: linear-gradient(160deg, color-mix(in srgb, var(--text, #fff) 9%, transparent), color-mix(in srgb, var(--text, #fff) 3%, transparent)); } .ds-sil-label { font-size: 0.8125rem; color: var(--text-3, #dcb3c6); } .ds-tile-title { font-weight: 720; font-size: 0.9375rem; line-height: 1.25; } .ds-tile-meta { font-size: 0.8125rem; color: var(--text-3, #dcb3c6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+    },
+    {
+      "name": "Hint Bar",
+      "kind": "nav",
+      "refersTo": "hint-bar",
+      "description": "Focus-mode footer: keyboard keycaps plus uppercase tracked labels; opaque Surface 0, no blur.",
+      "html": "<footer class=\"ds-hintbar\"><span class=\"ds-hint\"><kbd class=\"ds-key\">M</kbd>Menu</span><span class=\"ds-hints\"><span class=\"ds-hint\"><kbd class=\"ds-key\">Enter</kbd>Open look</span><span class=\"ds-hint\"><kbd class=\"ds-key\">/</kbd>Search</span><span class=\"ds-hint\"><kbd class=\"ds-key\">Esc</kbd>Back</span></span></footer>",
+      "css": ".ds-hintbar { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px; background: var(--surface-0, #2f1430); border-top: 1px solid var(--line, rgba(255,255,255,0.14)); } .ds-hints { display: flex; gap: 24px; } .ds-hint { display: inline-flex; align-items: center; gap: 8px; font-weight: 720; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-2, #f6dfe7); } .ds-key { min-width: 28px; height: 26px; padding: 0 7px; display: inline-grid; place-items: center; border-radius: 6px; background: var(--text, #fff); color: var(--bg-bottom, #2a1230); font: inherit; font-size: 12px; letter-spacing: 0; }"
+    },
+    {
+      "name": "Menu Drawer",
+      "kind": "custom",
+      "refersTo": "menu-panel",
+      "description": "Opaque Surface 1 drawer with 56px entries that nudge 4px right on hover or focus.",
+      "html": "<div class=\"ds-drawer\"><button class=\"ds-entry\">Home</button><button class=\"ds-entry\">Wardrobe</button><button class=\"ds-entry\">Catalogue</button></div>",
+      "css": ".ds-drawer { display: grid; gap: 4px; width: 320px; padding: 24px; background: var(--surface-1, #3d1937); border: 1px solid var(--line, rgba(255,255,255,0.14)); box-shadow: var(--shadow-lift, 0 26px 48px -16px rgba(18,3,14,0.75), 0 6px 14px rgba(18,3,14,0.35)); } .ds-entry { display: flex; align-items: center; min-height: 56px; padding: 0 16px; border: 0; border-radius: 8px; background: transparent; color: var(--text, #fff); font-size: 1.25rem; font-weight: 720; text-align: left; cursor: pointer; transition: background-color 180ms, transform 180ms cubic-bezier(0.16,1,0.3,1); } .ds-entry:hover { background: color-mix(in srgb, var(--text, #fff) 11%, transparent); transform: translateX(4px); } .ds-entry:focus-visible { background: color-mix(in srgb, var(--text, #fff) 11%, transparent); transform: translateX(4px); outline: 3px solid var(--focus-ring, #e07aa0); outline-offset: -3px; }"
+    },
+    {
+      "name": "Provenance Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Quiet hairline pill naming where a claim comes from; status tags mix ok/warn at 22-24%.",
+      "html": "<span style=\"display:flex;gap:8px\"><span class=\"ds-tag ds-tag-quiet\">Simulated price</span><span class=\"ds-tag ds-tag-quiet\">Baseline ranking</span><span class=\"ds-tag ds-tag-ok\">Ready</span></span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: 0.8125rem; font-weight: 560; background: color-mix(in srgb, var(--text, #fff) 12%, transparent); color: var(--text-2, #f6dfe7); } .ds-tag-quiet { background: transparent; border: 1px solid var(--line-strong, rgba(255,255,255,0.32)); } .ds-tag-ok { background: color-mix(in srgb, var(--ok, #8ad9b0) 22%, transparent); color: var(--text, #fff); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Plum Console",
+    "overview": "Wearhouse is the media-console home played straight: a Big Picture focus rail, a hero that the focused tile repaints, rail speed from the streaming apps, and retail clarity for garments, sizes and prices. Nothing is a costume or a metaphor; the conventions are the point, and the craft is in how cleanly they are finished. The world is luminous plum, never near-black: a vertical aubergine gradient lit from above, washed by the colour of whatever is selected.\n\nSelection is the signature. One object at a time is \"the\" object: it lifts, takes a rose ring, dims its neighbours, retitles the detail zone beneath the rail, and (once the selection settles) tints the whole backdrop. Everything else stays quiet so that change reads. Density is console-loose in Focus mode and retail-dense on Desktop; both presentations share one token set, and Focus mode is always the dark world.\n\nThe light theme is the same system on paper: paper ground, ink text, plum primary, blush surfaces. It exists for Desktop only.",
+    "keyCharacteristics": [
+      "Luminous aubergine gradient ground (top to bottom, 70% stop), never black.",
+      "Selection = 3px rose ring at 3px gap + lift shadow + spring scale, with neighbours dimmed.",
+      "The backdrop is repainted by the settled selection, not by every keypress.",
+      "Opaque chrome: top bar, hint bar, menus and drawers are solid surfaces.",
+      "One sans (Figtree Variable) carrying everything from 820-weight titles to tracked uppercase tabs.",
+      "Flat 8px tiles in three fixed ratios; authored slot silhouettes as the honest missing-image state.",
+      "Every motion has a reduced variant."
+    ],
+    "rules": [
+      {
+        "name": "The Luminous Plum Rule",
+        "body": "The darkest colour in the dark world is Aubergine Bottom (#2a1230). No near-black grounds, no grey neutrals; every neutral is plum-tinted.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rose Means Here Rule",
+        "body": "Rose marks focus, the active tab or nav item, counts and on-states. If nothing is selected, active or counted, rose is absent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wash Is Borrowed Rule",
+        "body": "The only colour the backdrop takes beyond plum is the focused item's own tint at 55% in a radial wash; with no tint it falls back to the accent. The page never invents a decorative colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Data Is Not Palette Rule",
+        "body": "Two hex lists in source are data, not styling, and are not part of this palette: the colour-name approximation table that tints the backdrop wash from a garment's colour name (`accentFor` in the tiles component), and the six avatar preset swatches offered at onboarding (plum, ivory, blush, noir, sage, sky). Do not reuse their values as UI colours.",
+        "section": "colors"
+      },
+      {
+        "name": "The Weight Not Size Rule",
+        "body": "Step hierarchy with weight before size. A new level gets a new weight from the four variable stops, not a new font.",
+        "section": "typography"
+      },
+      {
+        "name": "The Caps Are Navigation Rule",
+        "body": "Uppercase tracked text names places and controls (tabs, nav links, hint labels, short section headings inside a panel). It never sits above a headline as a decorative label.",
+        "section": "typography"
+      },
+      {
+        "name": "The Opaque Chrome Rule",
+        "body": "The top bar, hint bar, menus, drawers and dialogs are opaque surfaces with no backdrop-filter. Blur over the crossfading backdrop halved the frame rate. The only blur in the chrome is the dialog's own ::backdrop (6px over Backdrop Dim).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Lift Is Selection Rule",
+        "body": "The Lift shadow belongs to the selected object and to surfaces stacked above the page. Nothing at rest wears it.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep the dark ground a plum gradient from Aubergine Top to Aubergine Bottom; Focus mode is always dark.",
+      "**Do** mark selection with the 3px rose ring at a 3px gap, the Lift shadow and the focus spring, and dim the selected tile's rail neighbours.",
+      "**Do** let the settled selection repaint the backdrop with its own tint, after 140ms, never per keypress.",
+      "**Do** keep tiles to one link, 8px radius, in 2:3, 3:4 or 16:9.",
+      "**Do** show the authored slot silhouette with \"Image unavailable\" when an image is missing.",
+      "**Do** make paper-on-plum (dark) or plum-on-paper (light) the one primary action per view.",
+      "**Do** label provenance with quiet tags: simulated prices, baseline ranking, weather source and BMKG credit.",
+      "**Do** give every animation a reduced variant and keep targets at 44px or more.",
+      "**Do** show keyboard keys in the hint bar."
+    ],
+    "donts": [
+      "**Don't** use near-black or grey grounds, gamer neon, or anything dark, murky or heavy.",
+      "**Don't** put backdrop-filter on the top bar, hint bar, menus or drawers; blur belongs only on the dialog's ::backdrop.",
+      "**Don't** use glow for focus or emphasis; depth is downward offset shadow.",
+      "**Don't** paint focus rings on mouse clicks in the Desktop presentation.",
+      "**Don't** recolour or add effects to the Wearhouse mark or wordmark beyond the supplied white and plum versions; the dark theme uses the supplied white lockup.",
+      "**Don't** put uppercase tracked labels above headlines as decoration.",
+      "**Don't** show gamepad button glyphs."
+    ]
+  }
+}

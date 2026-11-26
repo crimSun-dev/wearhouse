@@ -101,7 +101,7 @@ def test_end_to_end_synthetic_run(tmp_path):
     r = rep["result"]
     assert set(r["compatibility"]) == {"type_aware", "shared_space"} and r["selection"]["group"] == "tuning"
     assert len(r["reporting"]) == 6 and "by_behaviour" in r["success"]
-    assert "ASSUMED" in rep["assumptions"] and rep["provenance"]["datasets"]["synthetic_polyvore"]["synthetic"]
+    assert rep["assumptions"].startswith("CITED") and rep["provenance"]["datasets"]["synthetic_polyvore"]["synthetic"]
 
 
 def test_real_run_refuses_without_a_permitted_manifest(tmp_path):
