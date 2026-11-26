@@ -11,7 +11,7 @@ import {bodyFor} from '../src/avatar/Avatar.tsx';
 
 const dir = join(process.cwd(), 'public', 'avatar');
 const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')) as {
-  bodies: Record<string, string>; slots: Record<string, {template: string; anchor: 'body' | 'point'; capacity: number; positions: string[]}>;
+  bodies: Record<string, string>; base?: string; slots: Record<string, {template: string; anchor: 'body' | 'point'; capacity: number; positions: string[]}>;
 };
 const load = (file: string) => new Promise<Object3D>((resolve, reject) => {
   const buf = readFileSync(join(dir, file));
@@ -19,8 +19,13 @@ const load = (file: string) => new Promise<Object3D>((resolve, reject) => {
 });
 
 describe('avatar models', () => {
-  it('there is one body per avatar_gender choice', () => {
+  it('there is one body per avatar_gender choice, each with a two-part modest base layer', async () => {
     expect(Object.keys(manifest.bodies).sort()).toEqual(['female', 'male', 'unspecified']);
+    for (const body of Object.keys(manifest.bodies)) {
+      const base = await load(manifest.base!.replace('{body}', body));
+      expect(base.getObjectByName('base-top'), body).toBeTruthy();
+      expect(base.getObjectByName('base-bottom'), body).toBeTruthy();
+    }
   });
   it('every body loads and carries every attachment point the manifest names', async () => {
     const points = new Set(Object.values(manifest.slots).flatMap(s => s.positions));
@@ -44,7 +49,7 @@ describe('avatar models', () => {
     expect(bodyFor('a')).toBe('unspecified');
   });
   it('the manifest lists every registry slot with its capacity, and two wrist and two ring positions', () => {
-    const registry = {top: 1, outer: 1, bottom: 1, dress: 1, footwear: 1, bag: 1, headwear: 1, eyewear: 1, earrings: 1, necklace: 1,
+    const registry = {top: 1, outer: 1, bottom: 1, dress: 1, footwear: 1, underwear: 1, bag: 1, headwear: 1, eyewear: 1, earrings: 1, necklace: 1,
       tie: 1, scarf: 1, belt: 1, wrist: 2, ring: 2, accessory: 3};
     for (const [slot, capacity] of Object.entries(registry)) {
       expect(manifest.slots[slot]?.capacity, slot).toBe(capacity);

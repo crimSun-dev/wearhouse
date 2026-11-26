@@ -8,13 +8,16 @@ import {MeshoptDecoder} from 'three/examples/jsm/libs/meshopt_decoder.module.js'
 import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 export type Slot = {template: string; anchor?: 'body' | 'point'; capacity: number; positions: string[]};
-export type Manifest = {bodies: Record<string, string>; slots: Record<string, Slot>};
+/** base: the default modest layer (tank and boxer-briefs) worn whenever no underwear is equipped. */
+export type Manifest = {bodies: Record<string, string>; base?: string; slots: Record<string, Slot>};
 export type Worn = {slot: string; index: number; colour: string};
 export type AvatarScene = {
   show: (worn: Worn[]) => Promise<void>;
   setBody: (body: string) => Promise<void>;
   rotate: (radians: number) => void;
   zoom: (delta: number) => void;
+  /** Frames the whole body, or the head and shoulders. */
+  frame: (view: 'body' | 'face') => void;
   /** Spins continuously (the frame-rate route); returns a stop function. */
   spin: (radiansPerSecond: number) => () => void;
   onFrame: (cb: (ms: number) => void) => () => void;
@@ -51,7 +54,8 @@ export async function createAvatarScene(canvas: HTMLCanvasElement, body: string)
 
   const camera = new PerspectiveCamera(28, 1, 0.1, 20);
   let distance = 4.3;
-  const place = () => { camera.position.set(0, 1.0, distance); camera.lookAt(0, 0.9, 0); };
+  let aimY = 0.9;
+  const place = () => { camera.position.set(0, aimY + 0.1 * distance / 4.3, distance); camera.lookAt(0, aimY, 0); };
   place();
   // Studio lighting: warm key with soft shadow, cool rim to separate the silhouette, low fill from the floor.
   scene.add(new HemisphereLight(0xfff4ee, 0x3a2433, 0.55));
@@ -119,6 +123,14 @@ export async function createAvatarScene(canvas: HTMLCanvasElement, body: string)
       shade(garment);
       return garment;
     }));
+    if (manifest.base && !worn.some(w => w.slot === 'underwear')) {
+      const base = await model(manifest.base.replace('{body}', bodyKey));
+      base.traverse(o => { const m = o as Mesh; if (m.isMesh) m.material = garmentMaterial('base', '#' + (m.material as MeshPhysicalMaterial).color.getHexString()); });
+      const covered = new Set(worn.map(w => w.slot));
+      const hide = {'base-top': ['top', 'outer', 'dress'], 'base-bottom': ['bottom', 'dress']} as const;
+      for (const [part, by] of Object.entries(hide)) { const n = base.getObjectByName(part); if (n) n.visible = !by.some(b => covered.has(b)); }
+      shade(base); next.push(base);
+    }
     if (mine !== generation) return;                 // a newer look or body arrived while these loaded
     garments.clear();
     for (const g of next) if (g) garments.add(g);
@@ -139,6 +151,7 @@ export async function createAvatarScene(canvas: HTMLCanvasElement, body: string)
     setBody,
     rotate: r => { rig.rotation.y += r; dirty = true; },
     zoom: d => { distance = Math.min(7, Math.max(2.2, distance + d)); place(); dirty = true; },
+    frame: view => { if (view === 'face') { distance = 0.75; aimY = 1.53; } else { distance = 4.3; aimY = 0.9; } place(); dirty = true; },
     spin: rate => { spinRate = rate; return () => { spinRate = 0; }; },
     onFrame: cb => { frameListeners.add(cb); return () => frameListeners.delete(cb); },
     dispose: () => { cancelAnimationFrame(raf); scene.environment?.dispose(); renderer.dispose(); scene.clear(); },

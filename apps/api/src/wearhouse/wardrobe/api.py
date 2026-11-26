@@ -22,7 +22,7 @@ class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-SlotName = Literal["top", "outer", "bottom", "dress", "footwear", "bag", "headwear", "eyewear", "earrings", "necklace",
+SlotName = Literal["top", "outer", "bottom", "dress", "footwear", "underwear", "bag", "headwear", "eyewear", "earrings", "necklace",
                    "tie", "scarf", "belt", "wrist", "ring", "accessory"]
 CareState = Literal["ready", "laundry", "repair", "stored"]
 

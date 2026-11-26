@@ -6,7 +6,7 @@ from datetime import date, timedelta
 from ..platform.errors import FieldError, validation_failed
 
 # ------------------------------------------------------------------ slot registry (design D4)
-SLOT_CAPACITY = {"top": 1, "outer": 1, "bottom": 1, "dress": 1, "footwear": 1,
+SLOT_CAPACITY = {"top": 1, "outer": 1, "bottom": 1, "dress": 1, "footwear": 1, "underwear": 1,
                  # accessory positions (TDD §11, complete-wearhouse-tdd); "accessory" = uncategorized, never guessed
                  "bag": 1, "headwear": 1, "eyewear": 1, "earrings": 1, "necklace": 1, "tie": 1, "scarf": 1, "belt": 1,
                  "wrist": 2, "ring": 2, "accessory": 3}

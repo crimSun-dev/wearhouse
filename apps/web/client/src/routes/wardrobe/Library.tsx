@@ -17,7 +17,7 @@ import {ALL_SLOTS, ItemTile, WardrobeNav, itemTitle, useFail, useLabels} from '.
 
 type View = 'grid' | 'list' | 'outfit';
 const ZONES: Array<[string, string[]]> = [
-  ['head', ['headwear', 'eyewear', 'earrings', 'necklace', 'scarf', 'tie']], ['body', ['outer', 'top', 'dress']],
+  ['head', ['headwear', 'eyewear', 'earrings', 'necklace', 'scarf', 'tie']], ['body', ['outer', 'top', 'dress', 'underwear']],
   ['legs', ['bottom', 'belt']], ['feet', ['footwear']], ['extras', ['bag', 'wrist', 'ring', 'accessory']],
 ];
 

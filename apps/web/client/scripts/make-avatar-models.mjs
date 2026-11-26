@@ -150,22 +150,29 @@ function anatomy(P) {
   const neck = cone([0, Y.shoulder - 0.03, -0.016], [0, hc[1] - 0.07 * hs, -0.008], P.neckR * 1.1, P.neckR * 0.92);
   const H_ = v => v.map(n => n * hs);
   const at = (x, y, z) => [x * hs, hc[1] + y * hs, z * hs];
-  const headMass = group([ell(at(0, 0.005, -0.012), H_([0.074, 0.095, 0.096])), ell(at(0, -0.035, 0.026), H_([0.064, 0.074, 0.07])),
-    ell(at(0, -0.078, 0.03), H_([0.05 + 0.012 * P.jaw, 0.032, 0.056])), ell(at(0, -0.104, 0.068), H_([0.02 + 0.006 * P.jaw, 0.018, 0.018])),
-    ...[-1, 1].map(s => ell(at(s * 0.046, -0.006, 0.062), H_([0.024, 0.017, 0.02])))], 0.04);
-  const features = [ell(at(0, 0.033, 0.077), H_([0.058, 0.011 + 0.004 * P.brow, 0.018])),
-    cone(at(0, 0.02, 0.088), at(0, -0.028, 0.108), 0.0072 * hs, 0.011 * hs),
-    ...[-1, 1].map(s => ell(at(s * 0.011, -0.032, 0.097), H_([0.0105, 0.008, 0.009]))),
-    ell(at(0, -0.055, 0.092), H_([0.022, 0.0075, 0.011])), ell(at(0, -0.066, 0.089), H_([0.02, 0.0085, 0.011])),
-    ...[-1, 1].map(s => ell(at(s * 0.078, -0.006, -0.002), H_([0.011, 0.03, 0.02])))];
-  const sockets = [-1, 1].map(s => ell(at(s * 0.031, 0.008, 0.088), H_([0.017, 0.015, 0.016])));
-  const mouth = ell(at(0, -0.0608, 0.1), H_([0.02, 0.0014, 0.012]));
+  const headMass = group([ell(at(0, 0.008, -0.01), H_([0.078, 0.094, 0.094])), ell(at(0, -0.03, 0.02), H_([0.066, 0.066, 0.066])),
+    ell(at(0, -0.068, 0.028), H_([0.048 + 0.012 * P.jaw, 0.03, 0.054])), ell(at(0, -0.092, 0.06), H_([0.021 + 0.005 * P.jaw, 0.018, 0.019])),
+    ...[-1, 1].map(s => ell(at(s * 0.045, -0.016, 0.054), H_([0.026, 0.021, 0.023])))], 0.026);
+  const features = [ell(at(0, 0.031, 0.074), H_([0.056, 0.009 + 0.003 * P.brow, 0.016])),
+    cone(at(0, 0.017, 0.088), at(0, -0.022, 0.108), 0.0066 * hs, 0.0102 * hs),
+    ...[-1, 1].map(s => ell(at(s * 0.0105, -0.026, 0.097), H_([0.0095, 0.0072, 0.0085]))),
+    ell(at(0, -0.0495, 0.0905), H_([0.0175, 0.0052, 0.0072])), ell(at(0, -0.0585, 0.0885), H_([0.016, 0.006, 0.0075])),
+    ...[-1, 1].map(s => ell(at(s * 0.08, -0.006, -0.002), H_([0.01, 0.027, 0.018])))];
+  // Eyes sit in shallow sockets under lids: the upper lid covers the top of the eye, as at rest (no wide stare).
+  const eyeAt = s => at(s * 0.031, 0.006, 0.073), EYE_R = 0.0118 * hs;
+  const sockets = [-1, 1].map(s => ell(add3(eyeAt(s), [0, 0.0015, 0.011 * hs]), H_([0.0175, 0.0135, 0.012])));
+  const lids = [-1, 1].flatMap(s => { const e = eyeAt(s), up = ell(e, [EYE_R + 0.0014, EYE_R + 0.0016, EYE_R + 0.0014]), lo = ell(e, [EYE_R + 0.0011, EYE_R + 0.001, EYE_R + 0.0011]);
+    return [(x, y, z) => Math.max(up(x, y, z), e[1] + 0.0032 * hs - y + 0.9 * (x - e[0]) ** 2 / hs), (x, y, z) => Math.max(lo(x, y, z), y - (e[1] - 0.0072 * hs))]; });
+  // A gentle smile: the mouth line rises towards the corners.
+  const smile = [-1, 1].map(s => cone(at(0, -0.0542, 0.0975), at(s * 0.018, -0.0512, 0.0905), 0.0014 * hs, 0.0016 * hs));
   const head = (x, y, z) => {
     let d = headMass(x, y, z);
     if (d > 0.06) return d;
-    for (const f of features) d = smin(d, f(x, y, z), 0.012);
-    for (const s of sockets) d = smax(d, -s(x, y, z), 0.01);
-    return smax(d, -mouth(x, y, z), 0.002);
+    for (const f of features) d = smin(d, f(x, y, z), 0.007);
+    for (const s of sockets) d = smax(d, -s(x, y, z), 0.008);
+    for (const l of lids) d = smin(d, l(x, y, z), 0.0015);
+    for (const m of smile) d = smax(d, -m(x, y, z), 0.002);
+    return d;
   };
   const body = (x, y, z) => {
     let d = smin(torso(x, y, z), neck(x, y, z), 0.04);
@@ -173,8 +180,8 @@ function anatomy(P) {
     d = smin(d, L.arm(x, y, z), 0.035); d = smin(d, R.arm(x, y, z), 0.035);
     d = smin(d, L.leg(x, y, z), 0.05); return smin(d, R.leg(x, y, z), 0.05);
   };
-  const eyes = [-1, 1].map(s => at(s * 0.031, 0.008, 0.076));
-  return {P, H, hs, sc, Y, hc, at, L, R, torso, neck, head, headMass, body, eyes, sides: [L, R]};
+  const eyes = [-1, 1].map(eyeAt);
+  return {P, H, hs, sc, Y, hc, at, L, R, torso, neck, head, headMass, body, eyes, EYE_R, sides: [L, R]};
 }
 
 /** Where the surface of f is, marching along z from the front (dir 1) or back (dir -1) at (x, y). */
@@ -255,18 +262,22 @@ function merged(geos) {
 // ---------------------------------------------------------------- colour
 const linear = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };   // THREE.Color stores linear values
 function bodyColours(A, position) {
-  const {P, hs, hc} = A, skin = linear(P.skin), lip = linear(P.lip), brow = linear(P.hairColour), blush = linear('#d27f72');
+  const {P, hs, hc} = A, skin = linear(P.skin), lip = linear(P.lip), brow = linear(P.hairColour), blush = linear('#d98576');
+  const thick = P.brow > 0.7 ? 0.0068 : 0.0056;
   const out = new Float32Array(position.length);
   for (let i = 0; i < position.length; i += 3) {
-    const x = position[i], y = position[i + 1] - hc[1], z = position[i + 2];
+    const x = position[i], y = (position[i + 1] - hc[1]) / hs, z = position[i + 2] / hs, ax = Math.abs(x) / hs;
     let c = skin;
-    const lipD = Math.min(Math.hypot(x / 0.024, (y + 0.055 * hs) / 0.009, (z - 0.092 * hs) / 0.013), Math.hypot(x / 0.022, (y + 0.066 * hs) / 0.01, (z - 0.089 * hs) / 0.013));
-    if (lipD < 1.15) c = mix3(skin, lip, clamp((1.15 - lipD) / 0.25));
-    const ax = Math.abs(x) / hs;
-    const archY = 0.037 + 0.006 * (1 - ((ax - 0.034) / 0.022) ** 2);
-    if (z > 0.06 * hs && ax > 0.012 && ax < 0.058 && Math.abs(y / hs - archY) < 0.0042 + 0.0016 * (1 - Math.abs(ax - 0.03) / 0.03)) c = mix3(c, brow, 0.85);
-    const ch = Math.hypot((ax - 0.046) / 0.02, (y / hs + 0.02) / 0.02, (z / hs - 0.066) / 0.03);
-    if (ch < 1 && z > 0) c = mix3(c, blush, 0.14 * (1 - ch));
+    const curve = 0.0026 * (ax / 0.02) ** 2;                         // lips follow the smile line up to the corners
+    const lipD = Math.min(Math.hypot(ax / 0.019, (y + 0.0495 - curve) / 0.0062, (z - 0.0905) / 0.0095), Math.hypot(ax / 0.0175, (y + 0.0585 - curve * 0.6) / 0.0072, (z - 0.0885) / 0.0095));
+    if (lipD < 1.2) c = mix3(skin, lip, clamp((1.2 - lipD) / 0.3) * 0.9);
+    if (z > 0.058 && ax > 0.011 && ax < 0.056) {                      // eyebrow: a filled arch, thicker inside, tapering out
+      const t = (ax - 0.011) / 0.045, archY = 0.0228 + 0.0062 * Math.sin(Math.PI * Math.min(1, t * 1.1)) - 0.0015 * t;
+      const half = thick * (1 - 0.55 * t), dist = Math.abs(y - archY);
+      if (dist < half) c = mix3(c, brow, 0.82 * clamp((half - dist) / (half * 0.45)));
+    }
+    const ch = Math.hypot((ax - 0.045) / 0.022, (y + 0.022) / 0.02, (z - 0.06) / 0.03);
+    if (ch < 1 && z > 0) c = mix3(c, blush, 0.16 * (1 - ch));
     out[i] = c[0]; out[i + 1] = c[1]; out[i + 2] = c[2];
   }
   return out;
@@ -277,8 +288,9 @@ function hairField(A) {
   const {P, hs, hc, at} = A, Y = A.Y;
   const strands = (x, y, z) => 0.0011 * Math.sin(Math.atan2(x, -z) * 34);
   const cut = (d, y, z, ax) => {
-    d = smax(d, -Math.max(0.036 * hs - z, y - (hc[1] + 0.058 * hs)), 0.012);             // forehead
-    if (P.hair !== 'short') d = smax(d, -Math.max(0.03 * hs - z, ax - 0.066 * hs, y - (hc[1] + 0.045 * hs)), 0.012);  // face window
+    const line = hc[1] + (0.049 + 0.2 * Math.min(ax / hs, 0.07)) * hs;                     // soft curtain fringe: lowest at the centre
+    d = smax(d, -Math.max(0.034 * hs - z, y - line), 0.016);
+    if (P.hair !== 'short') d = smax(d, -Math.max(0.03 * hs - z, ax - 0.07 * hs, y - line), 0.01);  // face stays clear
     return d;
   };
   if (P.hair === 'short') {
@@ -300,7 +312,6 @@ function hairField(A) {
     if (back) d = smin(d, back(x, y, z), 0.05);
     d += strands(x, y, z);
     d = smax(d, lower - y, 0.02);
-    d = smax(d, -(A.head(x, y, z) - 0.004), 0.004);            // never inside the head
     return cut(d, y, z, Math.abs(x));
   };
 }
@@ -425,6 +436,23 @@ function garments(A) {
         return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n * 5, 0.0055, 8); };
       return [strap(14, [bagC[0] + 0.07, bagC[1] + 0.06], 1, 0.012), strap(10, [bagC[0] + 0.1, bagC[1] + 0.05], -1, -0.012)];
     }};
+  // Default modest layer (always worn unless underwear is equipped): fitted tank and boxer-briefs.
+  const scoop = ell([0, Y.shoulder + 0.03, 0.02], [P.neckR + 0.035, 0.07, P.neckR + 0.05]);
+  const tank = (x, y, z) => smax(Math.max(torsoCloth(x, y, z) - 0.0045, Y.waist - 0.04 - y, y - (Y.shoulder + 0.02)), -scoop(x, y, z), 0.006);
+  const armholes = sides.map(s => ell(add3(s.S, [s.s * 0.012, -0.03, 0]), [0.05, 0.085, 0.07]));
+  const tankCut = (x, y, z) => Math.max(tank(x, y, z), -Math.min(armholes[0](x, y, z), armholes[1](x, y, z)));
+  // Lower garments follow the full body surface (hip joints included), kept clear of the hanging hands.
+  const hipW = P.hipX + P.thigh[0] + 0.045;
+  const lower = (x, y, z) => smin(smin(torso(x, y, z), L.leg(x, y, z), 0.05), R.leg(x, y, z), 0.05);
+  const shorts = (x, y, z) => Math.max(lower(x, y, z) - 0.006, y - (Y.waist - 0.045), (Y.crotch - 0.1) - y, Math.abs(x) - hipW);
+  const briefs = (x, y, z) => Math.max(lower(x, y, z) - 0.005, y - (Y.pelvis - 0.008), (Y.crotch - 0.028) - y + 0.06 * Math.max(0, Math.abs(x) - 0.03), Math.abs(x) - hipW);
+  const bra = (x, y, z) => Math.max(torsoCloth(x, y, z) - 0.005, Y.chest - 0.065 - y, y - (Y.chest + 0.05));
+  const box = [[-0.32, Y.crotch - 0.14, -0.22], [0.32, Y.shoulder + 0.08, 0.24]];
+  // Two parts, so clothing hides only the part it covers (base-top under tops/dresses, base-bottom under bottoms/dresses).
+  out.base = {f: tankCut, box, part: 'base-top', more: {name: 'base-bottom', f: shorts}};
+  out.underwear = {f: P.bust > 0.1 ? (x, y, z) => Math.min(bra(x, y, z), briefs(x, y, z))
+    : P.pec > 0.5 ? (x, y, z) => Math.min(tankCut(x, y, z) + 0.0005, shorts(x, y, z) + 0.0005)
+    : (x, y, z) => Math.min(Math.max(bra(x, y, z), y - (Y.chest + 0.04)), briefs(x, y, z)), box};
   return out;
 }
 
@@ -465,7 +493,7 @@ function attachPoints(A) {
   const ringAt = s => [s.W[0] - s.s * 0.008, s.W[1] - 0.088 * A.sc * P.hand - 0.004, s.W[2] - 0.007 * A.sc * P.hand];
   const wristAt = s => add3(s.W, [0, 0.026, -0.003]);
   return {
-    top: [0, Y.chest, 0], outer: [0, Y.chest, 0], bottom: [0, Y.waist, 0], dress: [0, Y.waist, 0], footwear: [0, 0, 0.05],
+    top: [0, Y.chest, 0], outer: [0, Y.chest, 0], underwear: [0, Y.pelvis, 0], bottom: [0, Y.waist, 0], dress: [0, Y.waist, 0], footwear: [0, 0, 0.05],
     headwear: [0, hc[1] + 0.1 * hs, 0], eyewear: A.eyes[0], earrings: [0, hc[1] - 0.03 * hs, 0], necklace: [0, Y.shoulder, 0],
     scarf: [0, Y.shoulder, 0], tie: [0, Y.chest, 0], belt: [0, Y.waist, 0], bag: [0.12, Y.pelvis, 0],
     wrist_l: wristAt(L), wrist_r: wristAt(R), ring_l: ringAt(L), ring_r: ringAt(R),
@@ -474,7 +502,7 @@ function attachPoints(A) {
 }
 
 // ---------------------------------------------------------------- glTF output
-const CAPACITY = {top: 1, outer: 1, bottom: 1, dress: 1, footwear: 1, bag: 1, headwear: 1, eyewear: 1, earrings: 1, necklace: 1,
+const CAPACITY = {top: 1, outer: 1, bottom: 1, dress: 1, footwear: 1, underwear: 1, bag: 1, headwear: 1, eyewear: 1, earrings: 1, necklace: 1,
   tie: 1, scarf: 1, belt: 1, wrist: 2, ring: 2, accessory: 3};
 const POSITIONS = {wrist: ['attach_wrist_l', 'attach_wrist_r'], ring: ['attach_ring_l', 'attach_ring_r'],
   accessory: ['attach_accessory_1', 'attach_accessory_2', 'attach_accessory_3']};
@@ -510,20 +538,28 @@ for (const [key, P] of Object.entries(BODIES)) {
   if (only && only !== key) continue;
   const A = anatomy(P), H = P.H, t0 = Date.now();
   console.log(`${key}:`);
-  const skin = meshField(A.body, [-0.42, -0.004, -0.2], [0.42, H + 0.01, 0.3], 0.004);
+  const neckCut = A.hc[1] - 0.15 * A.hs;
+  const torsoMesh = meshField(A.body, [-0.42, -0.004, -0.2], [0.42, neckCut + 0.012, 0.3], 0.004);
+  const headMesh = meshField(A.body, [-0.12, neckCut - 0.012, -0.13], [0.12, H + 0.01, 0.14], 0.0016);
+  const skin = {position: new Float32Array([...torsoMesh.position, ...headMesh.position]), normal: new Float32Array([...torsoMesh.normal, ...headMesh.normal]),
+    index: new Uint32Array([...torsoMesh.index, ...headMesh.index.map(i => i + torsoMesh.position.length / 3)])};
   skin.color = bodyColours(A, skin.position);
   const hair = meshField(hairField(A), [-0.13, A.Y.shoulder - 0.16, -0.17], [0.13, H + 0.03, 0.14], 0.0028);
-  const eyes = merged(A.eyes.map(c => { const g = new THREE.SphereGeometry(0.0125 * A.hs, 24, 16); g.translate(...c); return g; }));
-  const irises = merged(A.eyes.map(c => { const g = new THREE.SphereGeometry(0.0062 * A.hs, 16, 12); g.scale(1, 1, 0.45); g.translate(c[0], c[1], c[2] + 0.0112 * A.hs); return g; }));
+  const eyes = merged(A.eyes.map(c => { const g = new THREE.SphereGeometry(A.EYE_R, 32, 24); g.translate(...c); return g; }));
+  const irises = merged(A.eyes.map(c => { const g = new THREE.SphereGeometry(0.0072 * A.hs, 24, 16); g.scale(1, 1, 0.42); g.translate(c[0], c[1] - 0.0006, c[2] + A.EYE_R - 0.0016); return g; }));
+  const pupils = merged(A.eyes.map(c => { const g = new THREE.SphereGeometry(0.0034 * A.hs, 16, 12); g.scale(1, 1, 0.4); g.translate(c[0], c[1] - 0.0006, c[2] + A.EYE_R + 0.0002); return g; }));
   console.log(`  meshed body in ${Date.now() - t0} ms (${skin.position.length / 3} vertices)`);
   write(`body-${key}.glb`, await glb([
     {name: `body-${key}`, material: 'skin', colour: '#ffffff', roughness: 0.6, ...skin},
     {name: 'hair', material: 'hair', colour: P.hairColour, roughness: 0.72, ...hair},
-    {name: 'eyes', material: 'eyes', colour: '#ece6e1', roughness: 0.25, ...eyes},
-    {name: 'iris', material: 'iris', colour: '#3a271f', roughness: 0.3, ...irises},
+    {name: 'eyes', material: 'eyes', colour: '#f2ebe5', roughness: 0.2, ...eyes},
+    {name: 'iris', material: 'iris', colour: '#6b4630', roughness: 0.12, ...irises},
+    {name: 'pupil', material: 'pupil', colour: '#120b09', roughness: 0.08, ...pupils},
   ], attachPoints(A), {ratio: 0.32, error: 0.00025}));
   for (const [slot, g] of Object.entries(garments(A))) {
-    const parts = [{name: slot, material: slot, ...meshField(g.f, ...g.box, 0.0045)}];
+    const h = slot === 'base' || slot === 'underwear' ? 0.0035 : 0.0045, colour = slot === 'base' ? '#8c7f88' : undefined;
+    const parts = [{name: g.part ?? slot, material: slot, colour, ...meshField(g.f, ...g.box, h)}];
+    if (g.more) parts.push({name: g.more.name, material: slot, colour, ...meshField(g.more.f, ...g.box, h)});
     if (g.extra) parts.push({name: `${slot}-strap`, material: slot, ...merged(g.extra())});
     write(`${slot}-${key}.glb`, await glb(parts));
   }
@@ -535,6 +571,7 @@ const manifest = {
   version: 3,
   note: 'Generated by scripts/make-avatar-models.mjs. One body per avatar_gender setting; every template is fitted to its body ({body}); point accessories hang on the body\'s attach_* nodes. Meshopt-compressed: load with GLTFLoader.setMeshoptDecoder.',
   bodies: Object.fromEntries(Object.keys(BODIES).map(k => [k, `body-${k}.glb`])),
+  base: 'base-{body}.glb',
   slots: Object.fromEntries(Object.entries(CAPACITY).map(([slot, capacity]) => [slot,
     {template: `${slot}-{body}.glb`, anchor: POINT.has(slot) ? 'point' : 'body', capacity, positions: POSITIONS[slot] ?? [`attach_${slot}`]}])),
 };

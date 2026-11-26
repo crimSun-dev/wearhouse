@@ -33,6 +33,7 @@ GROUP_SLOTS = {
     "Garment Lower body": "bottom",
     "Garment Full body": "dress",
     "Shoes": "footwear",
+    "Underwear": "underwear",
     "Accessories": "accessory",
 }
 MAPPINGS = (HM_ARTICLES_V1,)

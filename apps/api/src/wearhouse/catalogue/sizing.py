@@ -16,7 +16,7 @@ from .ports import ProductSize, SizeSystem, SizeValue
 MAX_ASSIGN = 20_000
 SYSTEM_CODE = re.compile(r"^[a-z][a-z0-9_]{1,31}$")
 SIZE_CODE = re.compile(r"^[A-Za-z0-9.]{1,8}$")
-SLOTS = ("top", "outer", "bottom", "dress", "footwear", "bag", "headwear", "eyewear", "earrings", "necklace", "tie",
+SLOTS = ("top", "outer", "bottom", "dress", "footwear", "underwear", "bag", "headwear", "eyewear", "earrings", "necklace", "tie",
          "scarf", "belt", "wrist", "ring", "accessory")
 
 

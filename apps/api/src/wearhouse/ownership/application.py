@@ -461,16 +461,25 @@ class StarterKit:
 
     Each piece is a real unit, issued and claimed in the onboarding transaction, so it is an ordinary owned,
     verified item (serial, provenance, acquisition revision) with no activation key ever minted for it.
-    Retired or unknown products are skipped; at most six pieces are granted.
+    Retired or unknown products are skipped; at most twelve pieces are granted. The pieces are WEARHOUSE_STARTER_KIT
+    when set, otherwise the catalogue collection with slug 'starter-kit' (editable in the staff workspace).
+    A piece the account has already received from the kit is never granted again, so a grown kit tops accounts up.
     """
-    MAX = 6
+    MAX = 12
+    COLLECTION = "starter-kit"
 
-    def __init__(self, product_ids: tuple[str, ...]):
+    def __init__(self, product_ids: tuple[str, ...] = ()):
         self.product_ids = tuple(uuid.UUID(p) for p in product_ids[: self.MAX])
+
+    def products(self, uow: OwnershipUoW) -> tuple[uuid.UUID, ...]:
+        return self.product_ids or tuple(uow.ownership.collection_products(self.COLLECTION, self.MAX))
 
     def grant(self, uow: OwnershipUoW, user_id: uuid.UUID, now) -> int:
         granted = 0
-        for product_id in self.product_ids:
+        received = uow.ownership.starter_products_granted(user_id)
+        for product_id in self.products(uow):
+            if product_id in received:
+                continue
             rev = uow.revisions.current_for_product(product_id)
             if rev is None or rev.catalogue_status != "active":
                 continue
@@ -495,19 +504,19 @@ class StarterKit:
         return granted
 
 
-def backfill_starter_kit(uow_factory: Callable, engine, product_ids: tuple[str, ...], *, clock: Clock = utcnow) -> dict:
-    """Gives the starter kit to every onboarded account that has not received it (idempotent: an account counts
-    as granted once it has a claim event marked source=starter_kit). One transaction per account."""
-    from sqlalchemy import text as sql
+def backfill_starter_kit(uow_factory: Callable, engine, product_ids: tuple[str, ...] = (), *, clock: Clock = utcnow) -> dict:
+    """Gives every onboarded account the starter-kit pieces it has not received yet (idempotent per piece: a piece
+    counts as received once a claim event marked source=starter_kit exists for it, so growing the kit tops existing
+    accounts up). One transaction per account. `accounts` counts the accounts that received at least one piece.
+    `engine` is unused (kept for the CLI's call signature)."""
     kit = StarterKit(product_ids)
-    with engine.connect() as conn:
-        users = conn.execute(sql(
-            "SELECT p.user_id FROM account_profile p WHERE p.handle IS NOT NULL AND NOT EXISTS ("
-            " SELECT 1 FROM ownership_event e WHERE e.user_id = p.user_id AND e.details->>'source' = 'starter_kit')"
-            " ORDER BY p.user_id")).scalars().all()
-    granted = 0
+    with uow_factory() as uow:
+        users = uow.ownership.onboarded_accounts()
+    accounts = granted = 0
     for user_id in users:
         with uow_factory() as uow:
-            granted += kit.grant(uow, user_id, clock())
+            n = kit.grant(uow, user_id, clock())
             uow.commit()
-    return {"accounts": len(users), "pieces": granted}
+        accounts += 1 if n else 0
+        granted += n
+    return {"accounts": accounts, "pieces": granted}

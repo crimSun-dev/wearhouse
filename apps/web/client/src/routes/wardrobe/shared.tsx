@@ -59,5 +59,5 @@ export function ItemTile({item, onOpen}: {item: Item; onOpen?: () => void}) {
   </div>;
 }
 
-export const ALL_SLOTS = ['top', 'outer', 'bottom', 'dress', 'footwear', 'bag', 'headwear', 'eyewear', 'earrings', 'necklace', 'tie',
+export const ALL_SLOTS = ['top', 'outer', 'bottom', 'dress', 'footwear', 'underwear', 'bag', 'headwear', 'eyewear', 'earrings', 'necklace', 'tie',
   'scarf', 'belt', 'wrist', 'ring', 'accessory'] as const;

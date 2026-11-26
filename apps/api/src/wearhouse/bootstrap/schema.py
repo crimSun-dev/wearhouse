@@ -1,7 +1,7 @@
 """Schema contract the runtime expects. tests/test_migrations.py asserts SCHEMA_HEAD == alembic head."""
 from __future__ import annotations
 
-SCHEMA_HEAD = "0015_tdd_completion"
+SCHEMA_HEAD = "0016_underwear_slot"
 
 LEGACY_TABLES = frozenset({"garment", "interface_log", "garment_code", "activation_attempt", "wear_log"})
 LEGACY_MARKER_TABLE = "dw_legacy_environment"

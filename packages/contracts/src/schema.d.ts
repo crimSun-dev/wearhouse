@@ -2283,7 +2283,7 @@ export interface components {
              * Slot
              * @enum {string}
              */
-            slot: "top" | "outer" | "bottom" | "dress" | "footwear" | "bag" | "headwear" | "eyewear" | "earrings" | "necklace" | "tie" | "scarf" | "belt" | "wrist" | "ring" | "accessory";
+            slot: "top" | "outer" | "bottom" | "dress" | "footwear" | "underwear" | "bag" | "headwear" | "eyewear" | "earrings" | "necklace" | "tie" | "scarf" | "belt" | "wrist" | "ring" | "accessory";
         };
         /** DeleteIn */
         DeleteIn: {
@@ -2579,7 +2579,7 @@ export interface components {
             name?: string | null;
             size?: components["schemas"]["SizeRefIn"] | null;
             /** Slot Override */
-            slot_override?: ("top" | "outer" | "bottom" | "dress" | "footwear" | "bag" | "headwear" | "eyewear" | "earrings" | "necklace" | "tie" | "scarf" | "belt" | "wrist" | "ring" | "accessory") | null;
+            slot_override?: ("top" | "outer" | "bottom" | "dress" | "footwear" | "underwear" | "bag" | "headwear" | "eyewear" | "earrings" | "necklace" | "tie" | "scarf" | "belt" | "wrist" | "ring" | "accessory") | null;
         };
         /** ItemSizeOut */
         ItemSizeOut: {

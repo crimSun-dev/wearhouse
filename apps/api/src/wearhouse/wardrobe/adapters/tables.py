@@ -11,8 +11,8 @@ from ...platform.db import metadata
 
 TS = TIMESTAMP(timezone=True)
 NOW = text("now()")
-SLOT_CHECK = ("IN ('top', 'outer', 'bottom', 'dress', 'footwear', 'bag', 'headwear', 'eyewear', 'earrings', "
-              "'necklace', 'tie', 'scarf', 'belt', 'wrist', 'ring', 'accessory')")  # complete-wearhouse-tdd (0015)
+SLOT_CHECK = ("IN ('top', 'outer', 'bottom', 'dress', 'footwear', 'underwear', 'bag', 'headwear', 'eyewear', 'earrings', "
+              "'necklace', 'tie', 'scarf', 'belt', 'wrist', 'ring', 'accessory')")  # underwear slot (0016)
 
 wardrobe_declared_item = Table(
     "wardrobe_declared_item", metadata,

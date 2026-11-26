@@ -302,15 +302,13 @@ def cmd_import_recommendations(a) -> int:
 
 
 def cmd_grant_starter_kit(a) -> int:
-    """Backfill: give WEARHOUSE_STARTER_KIT to every onboarded account that has not received it (idempotent)."""
+    """Backfill: give the starter kit (WEARHOUSE_STARTER_KIT, else the starter-kit collection) to every onboarded account
+    that has not received it (idempotent)."""
     from ..identity.ports import InvalidToken
     from ..ownership.application import backfill_starter_kit
     from .container import build_services
 
     settings, engine, _ = _runtime()
-    if not settings.starter_kit:
-        print("refusing: WEARHOUSE_STARTER_KIT is not set", file=sys.stderr)
-        return 2
 
     class _NoTokens:
         def verify(self, token):

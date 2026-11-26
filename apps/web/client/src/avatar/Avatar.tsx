@@ -112,7 +112,9 @@ export function Avatar({pieces}: {pieces: AvatarPiece[]}) {
 }
 
 /** 2D layered SVG: a body silhouette with one shape per worn slot, coloured by the same approximation table. */
+const MODEST = 'M74 92 L126 92 L130 156 L132 196 L104 196 L100 180 L96 196 L68 196 L70 156 Z';
 const SHAPES: Record<string, (i: number) => string> = {
+  underwear: () => MODEST,
   top: () => 'M70 92 L130 92 L140 112 L132 118 L128 160 L72 160 L68 118 L60 112 Z',
   outer: () => 'M64 90 L136 90 L150 168 L136 170 L132 176 L68 176 L64 170 L50 168 Z',
   bottom: () => 'M72 160 L128 160 L132 262 L106 262 L100 196 L94 262 L68 262 Z',
@@ -130,7 +132,7 @@ const SHAPES: Record<string, (i: number) => string> = {
   ring: i => (i === 0 ? 'M54 182 a3 3 0 1 0 0.1 0 Z' : 'M146 182 a3 3 0 1 0 0.1 0 Z'),
   accessory: i => ['M84 104 a4 4 0 1 0 0.1 0 Z', 'M116 104 a4 4 0 1 0 0.1 0 Z', 'M100 138 a4 4 0 1 0 0.1 0 Z'][i] ?? '',
 };
-const ORDER = ['bottom', 'dress', 'top', 'outer', 'belt', 'tie', 'scarf', 'necklace', 'footwear', 'bag', 'wrist', 'ring', 'accessory', 'earrings', 'eyewear', 'headwear'];
+const ORDER = ['underwear', 'bottom', 'dress', 'top', 'outer', 'belt', 'tie', 'scarf', 'necklace', 'footwear', 'bag', 'wrist', 'ring', 'accessory', 'earrings', 'eyewear', 'headwear'];
 
 function Flat({worn}: {worn: Worn[]}) {
   const sorted = [...worn].sort((a, b) => ORDER.indexOf(a.slot) - ORDER.indexOf(b.slot));
@@ -140,6 +142,7 @@ function Flat({worn}: {worn: Worn[]}) {
       <path d="M72 88 L128 88 L136 160 L64 160 Z" /><path d="M64 92 L52 172 L60 174 L72 104 Z M136 92 L148 172 L140 174 L128 104 Z" />
       <path d="M72 160 L98 160 L96 266 L76 266 Z M102 160 L128 160 L124 266 L104 266 Z" />
     </g>
+    {!worn.some(w => w.slot === 'underwear') && <path className="avatar-piece avatar-base" d={MODEST} fill="#8c7f88" />}
     {sorted.map(w => <path key={`${w.slot}-${w.index}`} className={`avatar-piece avatar-${w.slot}`} d={SHAPES[w.slot]?.(w.index) ?? ''} fill={w.colour} />)}
   </svg>;
 }

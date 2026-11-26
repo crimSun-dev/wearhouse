@@ -50,7 +50,7 @@ def test_empty_description_and_optional_columns_are_omitted_not_invented():
     ("Garment Upper body", "Coat", "outer"), ("Garment Upper body", "Blazer", "outer"),
     ("Garment Upper body", "Outdoor Waistcoat", "outer"), ("Garment Lower body", "Trousers", "bottom"),
     ("Garment Full body", "Dress", "dress"), ("Shoes", "Sneakers", "footwear"), ("Accessories", "Bag", "accessory"),
-    ("Underwear", "Bra", None), ("Socks & Tights", "Socks", None), ("Swimwear", "Bikini top", None),
+    ("Underwear", "Bra", "underwear"), ("Socks & Tights", "Socks", None), ("Swimwear", "Bikini top", None),
     ("Nightwear", "Pyjama set", None), ("Cosmetic", "Lip gloss", None), ("", "", None),
 ])
 def test_slot_rule_table(group, ptype, slot):

@@ -6,6 +6,7 @@
     "male": "body-male.glb",
     "unspecified": "body-unspecified.glb"
   },
+  "base": "base-{body}.glb",
   "slots": {
     "top": {
       "template": "top-{body}.glb",
@@ -45,6 +46,14 @@
       "capacity": 1,
       "positions": [
         "attach_footwear"
+      ]
+    },
+    "underwear": {
+      "template": "underwear-{body}.glb",
+      "anchor": "body",
+      "capacity": 1,
+      "positions": [
+        "attach_underwear"
       ]
     },
     "bag": {

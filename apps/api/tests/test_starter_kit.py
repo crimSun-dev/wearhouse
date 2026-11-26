@@ -46,3 +46,33 @@ def test_backfill_gives_existing_accounts_the_kit_exactly_once(api, staff, clean
     assert len(api.get("/api/v2/me/items", "early-bird").json()["items"]) == 1
     assert backfill_starter_kit(api.services.uow_factory, api.app.state.engine, kit) == {"accounts": 0, "pieces": 0}
     assert api.get("/api/v2/me/items", "not-onboarded").json()["items"] == []
+
+
+def test_a_grown_kit_tops_existing_accounts_up_without_repeating_pieces(api, staff, clean_db, issuer):
+    from conftest import synthetic_product
+    onboard(api, "veteran", "veteran")
+    first = staff["product_id"]
+    assert backfill_starter_kit(api.services.uow_factory, api.app.state.engine, (first,)) == {"accounts": 1, "pieces": 1}
+    r = api.post("/api/v2/admin/source-products", staff["editor"], json=synthetic_product("0000000002"))
+    assert r.status_code == 201, r.text
+    second = r.json()["product_id"]
+    grown = (first, second)
+    assert backfill_starter_kit(api.services.uow_factory, api.app.state.engine, grown) == {"accounts": 1, "pieces": 1}
+    owned = sorted(i["product"]["id"] for i in api.get("/api/v2/me/items", "veteran").json()["items"])
+    assert owned == sorted(grown)
+    assert backfill_starter_kit(api.services.uow_factory, api.app.state.engine, grown) == {"accounts": 0, "pieces": 0}
+
+
+def test_without_configuration_the_starter_kit_collection_is_used(api, staff, clean_db):
+    from sqlalchemy import text
+    from conftest import admin_engine
+    engine = admin_engine(clean_db.name)
+    with engine.begin() as conn:
+        cid = conn.execute(text("INSERT INTO catalogue_collection (id, slug, title) VALUES (gen_random_uuid(), 'starter-kit', 'Starter')"
+                                " RETURNING id")).scalar()
+        conn.execute(text("INSERT INTO catalogue_collection_item (collection_id, product_id, position) VALUES (:c, :p, 0)"),
+                     {"c": cid, "p": staff["product_id"]})
+    engine.dispose()
+    onboard(api, "collected", "collected")
+    items = api.get("/api/v2/me/items", "collected").json()["items"]
+    assert [i["product"]["id"] for i in items] == [staff["product_id"]]

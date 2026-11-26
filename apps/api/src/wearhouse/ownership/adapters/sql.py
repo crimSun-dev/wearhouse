@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import insert, select, tuple_, update
+from sqlalchemy import insert, select, text, tuple_, update
 from sqlalchemy.engine import Connection
 
 from ...platform.ids import new_id
@@ -19,6 +19,25 @@ def _unit(r) -> UnitRow:
 class SqlOwnershipRepository:
     def __init__(self, conn: Connection):
         self.conn = conn
+
+    def collection_products(self, slug: str, limit: int) -> list:
+        """Product ids of a catalogue collection, in its order (the starter kit's default source). Plain SQL, so this
+        adapter does not import the catalogue module's tables."""
+        return list(self.conn.execute(text(
+            "SELECT i.product_id FROM catalogue_collection_item i JOIN catalogue_collection c ON c.id = i.collection_id"
+            " WHERE c.slug = :slug ORDER BY i.position LIMIT :limit"), {"slug": slug, "limit": limit}).scalars())
+
+    def onboarded_accounts(self) -> list:
+        """Accounts that finished onboarding (have a handle); the starter-kit backfill's population."""
+        return list(self.conn.execute(text(
+            "SELECT user_id FROM account_profile WHERE handle IS NOT NULL ORDER BY user_id")).scalars())
+
+    def starter_products_granted(self, user_id) -> set:
+        """Products this account has already received from the starter kit (claim events marked source=starter_kit)."""
+        return set(self.conn.execute(
+            select(garment_unit.c.product_id).join(ownership_event, ownership_event.c.unit_id == garment_unit.c.id)
+            .where(ownership_event.c.user_id == user_id,
+                   ownership_event.c.details["source"].astext == "starter_kit")).scalars())
 
     # --- issuance -------------------------------------------------------------
     def insert_unit(self, *, unit_id, product_id, revision_id, serial, issued_by, now, size=None):
