@@ -151,3 +151,15 @@ a.bag-name:hover, a.bag-line:hover .bag-name { text-decoration: underline; }
 [data-motion='reduced'] .receipt.is-new .receipt-head, [data-motion='reduced'] .redeem-unlock { animation: none; }
 [data-motion='reduced'] .heart-icon[data-burst]::after { display: none; }
 [data-motion='reduced'] ::view-transition-group(product-hero) { animation-duration: 0s; }
+
+/* Review fixes: rails sit on the page gutter, sizes get their own line, filters fold away on phones. */
+.store .rail { margin-inline: calc(-1 * var(--gutter)); }
+.bag-sub { display: block; font-size: var(--fs-1); font-weight: var(--fw-medium); color: var(--text-3); }
+.receipt > .btn { justify-self: start; }
+.store-filters-toggle { display: none; }
+@media (max-width: 600px) {
+  .store-filters-toggle { display: inline-flex; }
+  .store-filters { padding: var(--s-2); }
+  .store-filters:not(.is-open) > :not(.store-filters-toggle) { display: none; }
+  .store-filters.is-open > .store-filters-toggle { flex-basis: 100%; }
+}

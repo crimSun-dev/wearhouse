@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {useLocation, useNavigate, useSearchParams} from 'react-router';
-import {Search, X} from 'lucide-react';
+import {Search, SlidersHorizontal, X} from 'lucide-react';
 import {useI18n} from '../../i18n/index.tsx';
 import {useSession} from '../../session/SessionProvider.tsx';
 import {useBrowse, useFacets, useSizeRegistry, type BrowseFilters} from '../../data/store.ts';
@@ -69,8 +69,11 @@ function FilterBar({filters, set, clear, browsing, onFront}: {
   const {status} = useSession();
   const facets = useFacets();
   const registry = useSizeRegistry();
-  const active = Object.keys(filters).filter(k => k !== 'sort').length;
-  return <div className="store-filters" role="group" aria-label={t('cat.filters')}>
+  const active = Object.keys(filters).filter(k => k !== 'sort' && k !== 'q').length;
+  const [open, setOpen] = useState(false);
+  return <div className={`store-filters ${open ? 'is-open' : ''}`} role="group" aria-label={t('cat.filters')}>
+    <Button className="store-filters-toggle" aria-expanded={open} onClick={() => setOpen(o => !o)}>
+      <SlidersHorizontal size={18} aria-hidden /> {t('cat.filters')}{active > 0 ? ` (${active})` : ''}</Button>
     <Select label={t('cat.category')} value={filters.category ?? ''} onChange={e => set('category', e.target.value || null)}>
       <option value="">{t('cat.any')}</option>
       {facets.data?.category.map(f => <option key={f.value} value={f.value}>{f.value} ({f.count})</option>)}

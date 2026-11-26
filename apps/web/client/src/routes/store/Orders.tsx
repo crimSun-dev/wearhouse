@@ -7,7 +7,6 @@ import {useSession} from '../../session/SessionProvider.tsx';
 import {ApiFailure} from '../../api/index.ts';
 import {useOrder, useOrders} from '../../data/store.ts';
 import {Button, Skeleton} from '../../components/ui.tsx';
-import {SimulatedLabel} from '../../components/labels.tsx';
 import {Overlay} from '../../components/Overlay.tsx';
 import {EmptyState, ErrorState} from '../../components/states.tsx';
 import {toast} from '../../components/toast.tsx';
@@ -71,8 +70,8 @@ export function ReceiptRoute() {
         <p className="muted small">{t('ord.placedOn', {date: date(r.created_at)})}</p>
         <span className={`tag ${r.status === 'cancelled' ? 'tag-warn' : 'tag-ok'}`}>{r.status === 'cancelled' ? t('ord.cancelled') : t('ord.fulfilled')}</span>
       </header>
-      <p className="co-statement" role="note"><SimulatedLabel /> {t('co.simulated')}</p>
-      <dl className="receipt-ref"><dt>{t('ord.paymentRef')}</dt><dd><code>{r.payment_ref}</code> <SimulatedLabel /></dd></dl>
+      <p className="co-statement" role="note"><span className="tag tag-quiet">{t('ord.simulatedTag')}</span> {t('co.simulated')}</p>
+      <dl className="receipt-ref"><dt>{t('ord.paymentRef')}</dt><dd><code>{r.payment_ref}</code> <span className="tag tag-quiet">{t('ord.simulatedTag')}</span></dd></dl>
       {r.lines.map(l => <section key={l.line_no} className="receipt-line">
         <h2><Link to={`/catalogue/products/${l.product_id}`}>{l.product_name}</Link>
           {l.size && <span className="muted small"> · {t('cart.size', {size: l.size.label})}</span>}</h2>

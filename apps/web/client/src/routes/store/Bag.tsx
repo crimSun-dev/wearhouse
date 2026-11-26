@@ -62,7 +62,7 @@ export function CartRoute() {
           const busy = line.isPending && line.variables?.id === l.product_id && line.variables?.size === size;
           return <div key={l.product_id + (size ?? '')} className={`bag-line ${l.available ? '' : 'is-off'}`}>
             <Link to={`/catalogue/products/${l.product_id}`} className="bag-name" {...focusItemProps({id: `cart:${l.product_id}:${size}`, title: l.name ?? ''})}>
-              {l.name ?? l.product_id}{l.size && <span className="muted small"> · {t('cart.size', {size: l.size.label})}</span>}</Link>
+              {l.name ?? l.product_id}{l.size && <span className="bag-sub">{t('cart.size', {size: l.size.label})}</span>}</Link>
             {l.available ? <>
               <Stepper label={t('cart.quantity')} value={l.quantity} min={1} max={5}
                 onChange={q => line.mutate({id: l.product_id, quantity: q, size}, {onError: fail})} />
@@ -112,13 +112,13 @@ export function CheckoutRoute() {
   };
   return <div className="page store checkout">
     <header className="store-head"><h1>{t('co.title')}</h1></header>
-    <p className="co-statement" role="note"><SimulatedLabel /> {t('co.simulated')}</p>
+    <p className="co-statement" role="note"><span className="tag tag-quiet">{t('ord.simulatedTag')}</span> {t('co.simulated')}</p>
     {changed && <p className="co-alert" role="alert"><AlertTriangle size={18} aria-hidden /> {t('co.changed', {reason: t(changed)})}</p>}
     {lost && <p className="co-alert" role="alert">{t('co.lostResponse')}</p>}
     {!c.lines.length ? <EmptyState title={t('cart.empty')}><Link to="/catalogue">{t('home.browse')}</Link></EmptyState> : <>
       <ul className="bag-list co-lines">
         {c.lines.map(l => <li key={l.product_id + (l.size?.code ?? '')} className={`bag-line ${l.available ? '' : 'is-off'}`}>
-          <span className="bag-name">{l.name}{l.size && <span className="muted small"> · {t('cart.size', {size: l.size.label})}</span>}</span>
+          <span className="bag-name">{l.name}{l.size && <span className="bag-sub">{t('cart.size', {size: l.size.label})}</span>}</span>
           <span className="bag-meta">× {l.quantity}</span>
           <span className="bag-price">{l.line_total_idr !== null ? idr(l.line_total_idr) : t('wish.unavailable')}</span>
         </li>)}
