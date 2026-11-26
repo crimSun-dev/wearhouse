@@ -1,3 +1,155 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wearhouse</title></head>
-<body><main><h1>Wearhouse</h1><a href="%BASE_URL%app/">Open Wearhouse</a></main></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wearhouse · your clothes, kept like a library</title>
+<meta name="description" content="Wearhouse keeps your clothes like a library: real-source products, private keys that become garments, outfits for Jakarta's actual weather, and a week you can plan.">
+<meta name="theme-color" content="#2a1230">
+<link rel="icon" type="image/png" href="%BASE_URL%brand/favicon.png">
+<link rel="apple-touch-icon" href="%BASE_URL%brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@420;560;720;820&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="%BASE_URL%landing/engine/scrollcraft.css">
+<!-- Only once JavaScript runs may scroll cues start hidden; without it every line is readable. -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<span data-sc-progress></span>
+
+<!-- Chaptered editorial: no fixed bar. The folio in the margin names the chapter you are in. -->
+<nav class="folio" aria-label="Chapters">
+  <a class="folio__mark" href="#title"><img src="%BASE_URL%brand/mark-white.png" alt="Wearhouse" width="28" height="28"></a>
+  <ol class="folio__list">
+    <li><a href="#store" data-chapter="store">The store</a></li>
+    <li><a href="#key" data-chapter="key">The key</a></li>
+    <li><a href="#weather" data-chapter="weather">The weather</a></li>
+    <li><a href="#friends" data-chapter="friends">Friends</a></li>
+    <li><a href="#colophon" data-chapter="colophon">Colophon</a></li>
+  </ol>
+  <span class="folio__now" aria-live="polite"></span>
+</nav>
+
+<main id="top">
+
+  <!-- TITLE PAGE: type on the paper ground, no media above the fold (flow). -->
+  <section id="title" class="sc-section title" data-sc-act="flow" data-chapter-title="Wearhouse">
+    <div class="sc-wrap title__inner" data-sc-in data-sc-stagger="90">
+      <img class="title__wordmark" src="%BASE_URL%brand/wordmark-white.png" alt="Wearhouse" width="560" height="139">
+      <h1 class="title__h1">Your clothes, kept like a library.</h1>
+      <p class="title__lede">Browse a store of real-source pieces, redeem the one you buy with a private key, and dress for the weather Jakarta actually has.</p>
+      <p class="title__links"><a class="runlink" href="%BASE_URL%app/#/">Open Wearhouse</a> <span aria-hidden="true">or</span> <a class="runlink" href="%BASE_URL%app/#/catalogue">browse the catalogue</a></p>
+    </div>
+  </section>
+
+  <!-- THE STORE: asymmetric spread, media in its own column with a caption (reveal + count). -->
+  <section id="store" class="sc-section chapter chapter--store" data-sc-act="flow" data-chapter-title="The store">
+    <div class="sc-wrap spread">
+      <div class="spread__text" data-sc-in data-sc-stagger="80">
+        <h2 class="chapter__h">A store where every piece says where it came from.</h2>
+        <p>Products start as source records, and the record stays attached: the original fields, the source, the revision you are looking at. Nothing is invented on the way to the shelf.</p>
+        <p>Prices are simulated and labelled that way. Nothing is charged, shipped or delivered. What you take home is the record of owning it.</p>
+        <p class="live live--count" data-live="count" hidden>Right now: <strong data-live-products></strong> products across <strong data-live-categories></strong> categories.</p>
+        <ul class="live live--list" data-live="newest" hidden aria-label="Newest in the catalogue"></ul>
+      </div>
+      <figure class="spread__media" data-sc-reveal="left" data-sc-reveal-at="0.05 0.45">
+        <picture>
+          <source media="(max-width: 700px)" srcset="%BASE_URL%landing/catalogue-m.webp">
+          <img src="%BASE_URL%landing/catalogue.webp" width="1600" height="725" alt="The Wearhouse catalogue: search, filters for category, colour, slot and size, a featured rainy-season collection and category chips." loading="lazy">
+        </picture>
+        <figcaption>The catalogue in the app. Featured collections, categories from real facet counts, newest first.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- THE KEY AND THE WARDROBE: the peak, pinned. Scroll types an example key one group at a time;
+       each finished group releases a hinge, and the fourth opens the doors (signature move, CSS on --sc-p). -->
+  <section id="key" class="chapter chapter--key" data-sc-act="pin" data-sc-span="4.4" data-chapter-title="The key">
+    <div data-sc-stage class="vault">
+      <div class="vault__copy">
+        <p class="vault__line" data-sc-cue="0 0.34 0">Buying is simulated. What arrives is real: a private key, shown only to you.</p>
+        <p class="vault__line" data-sc-cue="0.28 0.6">Enter it one group at a time. Each group loosens a hinge.</p>
+        <p class="vault__line vault__line--peak" data-sc-cue="0.56 1">Then the doors open, and the piece is yours.</p>
+      </div>
+      <div class="key" aria-label="Example activation key, WEAR-HOUS-EXAM-PLE2">
+        <span class="key__label">Example key, not a real one</span>
+        <span class="key__groups" aria-hidden="true">
+          <span class="key__g" style="--i:1"><span>WEAR</span></span><span class="key__dash">-</span>
+          <span class="key__g" style="--i:2"><span>HOUS</span></span><span class="key__dash">-</span>
+          <span class="key__g" style="--i:3"><span>EXAM</span></span><span class="key__dash">-</span>
+          <span class="key__g" style="--i:4"><span>PLE2</span></span>
+        </span>
+      </div>
+      <div class="wardrobe" aria-hidden="true">
+        <div class="wardrobe__body">
+          <div class="wardrobe__inside">
+            <span class="wardrobe__rail"></span>
+            <figure class="wardrobe__piece">
+              <img data-live-piece alt="" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20160%27%3E%3Crect%20width%3D%27120%27%20height%3D%27160%27%20fill%3D%27%233d1937%27/%3E%3Cpath%20d%3D%27M42%2022%20L60%2030%20L78%2022%20L104%2040%20L96%2062%20L86%2058%20L88%20138%20L32%20138%20L34%2058%20L24%2062%20L16%2040%20Z%27%20fill%3D%27%238e5a7b%27%20stroke%3D%27%23e7c9a4%27%20stroke-width%3D%272%27/%3E%3Cpath%20d%3D%27M60%2030%20L60%20138%27%20stroke%3D%27%23e7c9a4%27%20stroke-width%3D%271.5%27%20opacity%3D%27.6%27/%3E%3C/svg%3E">
+              <figcaption data-live-piece-name>Light rain parka</figcaption>
+            </figure>
+            <span class="wardrobe__shelf"></span>
+          </div>
+          <span class="door door--l"><span class="hinge" style="--h:1"></span><span class="hinge" style="--h:2"></span><span class="door__pull"></span></span>
+          <span class="door door--r"><span class="hinge" style="--h:3"></span><span class="hinge" style="--h:4"></span><span class="door__pull"></span></span>
+        </div>
+        <span class="wardrobe__floor"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WEATHER AND THE WEEK: media column with a parallax plane (parallax). -->
+  <section id="weather" class="sc-section chapter chapter--weather" data-sc-act="flow" data-chapter-title="The weather">
+    <div class="sc-wrap spread spread--flip">
+      <figure class="spread__media spread__media--tall">
+        <div data-sc-parallax="0.12">
+          <picture>
+            <source media="(max-width: 700px)" srcset="%BASE_URL%landing/planner-m.webp">
+            <img src="%BASE_URL%landing/planner.webp" width="1920" height="520" alt="The planner: seven days with BMKG temperatures and rain, a look planned for today, and later days marked forecast unavailable." loading="lazy">
+          </picture>
+        </div>
+        <figcaption>The planner. Later days say "Forecast unavailable" instead of guessing.</figcaption>
+      </figure>
+      <div class="spread__text" data-sc-in data-sc-stagger="80">
+        <h2 class="chapter__h">Dressed for the weather Jakarta actually has.</h2>
+        <p>Forecasts come from BMKG for your village code, about three days ahead. Rain and heat change which outfits are suggested, and the app tells you when a day is past what the forecast can see.</p>
+        <p>Plan seven days at a time. Marking a look as worn keeps the plan, so the week stays honest about what you meant and what you did.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRIENDS: one quiet spread, the shared look revealed as a card (reveal). -->
+  <section id="friends" class="sc-section chapter chapter--friends" data-sc-act="flow" data-chapter-title="Friends">
+    <div class="sc-wrap friends">
+      <div class="friends__text" data-sc-in data-sc-stagger="80">
+        <h2 class="chapter__h">Shared with friends, private until you say so.</h2>
+        <p>Profiles, wardrobes and friend lists each have their own setting, and they start closed. A look you share is a look, never the pieces: saving a friend's outfit adds it to your inspirations, not your wardrobe.</p>
+      </div>
+      <figure class="friends__card" data-sc-reveal="up" data-sc-reveal-at="0.1 0.5">
+        <img src="%BASE_URL%landing/home.webp" width="1920" height="540" alt="Home in the app: today's planned look, Rainy campus, with the BMKG temperature and the pieces in it." loading="lazy">
+        <figcaption>Home opens on today's planned look, with the forecast beside it.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- COLOPHON: small type, the calls to action as running text, data sources from /about (flow). -->
+  <section id="colophon" class="sc-section colophon" data-sc-act="flow" data-chapter-title="Colophon">
+    <div class="sc-wrap colophon__inner" data-sc-in data-sc-stagger="70">
+      <p class="colophon__cta">Your wardrobe is waiting. <a class="runlink" href="%BASE_URL%app/#/">Open Wearhouse</a>, or <a class="runlink" href="%BASE_URL%app/#/catalogue">browse the catalogue</a> first.</p>
+      <div class="colophon__cols">
+        <p>Wearhouse is a capstone project in Information Systems at Sampoerna University. The store is a sandbox: prices are simulated and nothing is charged, shipped or delivered. The demo catalogue is synthetic.</p>
+        <p>Weather data: BMKG (Badan Meteorologi, Klimatologi, dan Geofisika). Screens on this page are the running app with a demo account.</p>
+        <div class="live live--sources" data-live="sources" hidden><p>Data sources</p><ul></ul></div>
+      </div>
+      <p class="colophon__fine"><a href="%BASE_URL%app/#/about">About Wearhouse</a> · <a href="https://github.com/crimSun-dev/wearhouse">Source on GitHub</a></p>
+    </div>
+  </section>
+
+</main>
+
+<script src="%BASE_URL%landing/engine/scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script type="module" src="/src/landing/landing.ts"></script>
+</body>
+</html>

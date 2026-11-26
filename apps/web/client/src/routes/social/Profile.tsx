@@ -51,7 +51,9 @@ export function NotificationsRoute() {
 
 export function PublicProfileRoute() {
   const {handle = ''} = useParams();
-  const {t, date} = useI18n();
+  const {t, lang} = useI18n();
+  // member_since is month precision: show "November 2026", never an invented day.
+  const monthYear = (v: string) => new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-GB', {month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta'}).format(new Date(`${v.slice(0, 7)}-15T12:00:00+07:00`));
   const {api, userKey, status} = useSession();
   const [reporting, setReporting] = useState<string | null>(null);
   const anonymous = status !== 'ready';
@@ -79,7 +81,7 @@ export function PublicProfileRoute() {
     <header className="profile-head">
       <span className={`profile-avatar sw-${p.avatar.preset ?? 'plum'}`} aria-hidden />
       <div><h1>{p.display_name}</h1>{p.handle && <p className="muted">@{p.handle}</p>}
-        {p.member_since && <p className="muted small">{t('pf.memberSince', {date: date(p.member_since)})}</p>}</div>
+        {p.member_since && <p className="muted small">{t('pf.memberSince', {date: monthYear(p.member_since)})}</p>}</div>
     </header>
     {p.bio && <p className="profile-bio">{p.bio}</p>}
     {!visible ? <p className="co-alert">{p.profile_visibility === 'private' ? t('pf.private') : t('pf.friendsOnly')}</p> : <>

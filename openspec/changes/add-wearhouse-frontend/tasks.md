@@ -90,10 +90,10 @@
 
 ## 8. Landing page (prompt B, `/scrollcraft`)
 
-- [ ] 8.1 Capture Focus-mode screenshots of the finished app (Home, catalogue, wardrobe, fitting room, planner, profile) at 1920 and 390 px into the scrollcraft build folder as real product assets. Verify that the files exist and that they show no private keys or real personal data.
-- [ ] 8.2 Run `/scrollcraft` from the saved `BRIEF.md`: grammar and fingerprint gate, feeling curve, score, asset generation (kie.ai: synthetic people only, no logos or text), and the page built in `apps/web/client/index.html` with the scrollcraft engine copied unchanged and compressed assets in `public/landing/`. Verify that the scrollcraft report lists the grammar, signature move, fingerprint result and peak, and that a `FINGERPRINTS.md` row was appended.
-- [ ] 8.3 Wire public live data (collections, products, facets, about) with silent fallback and no authenticated calls; both calls to action; the example-key label. Verify that the "API unreachable" and "Calls to action reachable" scenarios pass, plus a network assertion of public endpoints only.
-- [ ] 8.4 Run the scrollcraft shoot harness for desktop, mobile (390×844) and reduced motion, do the feel check, and fix what it finds. Verify that the "Reduced motion landing" scenario passes, the contact sheets are reviewed, and the page is readable with JavaScript disabled.
+- [x] 8.1 Capture Focus-mode screenshots of the finished app (Home, catalogue, wardrobe, fitting room, planner, profile) at 1920 and 390 px into the scrollcraft build folder as real product assets. Verify that the files exist and that they show no private keys or real personal data.
+- [x] 8.2 Run `/scrollcraft` from the saved `BRIEF.md`: grammar and fingerprint gate, feeling curve, score, asset generation (kie.ai: synthetic people only, no logos or text), and the page built in `apps/web/client/index.html` with the scrollcraft engine copied unchanged and compressed assets in `public/landing/`. Verify that the scrollcraft report lists the grammar, signature move, fingerprint result and peak, and that a `FINGERPRINTS.md` row was appended. Status 2026-11-26: built from real app screens only; kie.ai generation skipped because no KIE_AI_API_KEY is set (recorded in REPORT.md).
+- [x] 8.3 Wire public live data (collections, products, facets, about) with silent fallback and no authenticated calls; both calls to action; the example-key label. Verify that the "API unreachable" and "Calls to action reachable" scenarios pass, plus a network assertion of public endpoints only.
+- [x] 8.4 Run the scrollcraft shoot harness for desktop, mobile (390×844) and reduced motion, do the feel check, and fix what it finds. Verify that the "Reduced motion landing" scenario passes, the contact sheets are reviewed, and the page is readable with JavaScript disabled.
 
 ## 9. Motion pass, audit, hardening, polish (prompt C)
 

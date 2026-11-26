@@ -15,14 +15,15 @@
 .friends-search { display: flex; align-items: end; gap: var(--s-2); max-width: 560px; }
 .friends-search .field { flex: 1; }
 .share-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-3); max-width: 760px; }
-.share-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s-3); }
+.share-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: var(--s-3); }
 .share { display: grid; gap: var(--s-2); padding: var(--s-4); border-radius: var(--r-3); background: var(--surface-1); border: 1px solid var(--line); }
 .share header { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); justify-content: space-between; }
 .share-caption { font-size: var(--fs-3); }
 .look-card { display: grid; gap: var(--s-1); padding: var(--s-3); border-radius: var(--r-2); background: var(--surface-0); }
 .look-card-name { font-weight: var(--fw-bold); }
 .look-card-items { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
-.look-card-items li { display: grid; grid-template-columns: 90px 1fr auto auto; gap: var(--s-2); align-items: center; }
+.look-card-items li { display: grid; grid-template-columns: 90px minmax(0, 1fr) auto auto; gap: var(--s-2); align-items: center; }
+.look-card-items a { white-space: nowrap; }
 .note-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-1); max-width: 760px; }
 .note { display: grid; grid-template-columns: 12px 1fr auto auto; align-items: center; gap: var(--s-3); padding: var(--s-3); border-radius: var(--r-2); background: var(--surface-0); border: 1px solid var(--line); }
 .note.is-unread { background: var(--surface-1); border-color: var(--line-strong); }

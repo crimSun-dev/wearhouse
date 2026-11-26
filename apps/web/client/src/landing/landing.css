@@ -1,0 +1,150 @@
+/* Wearhouse landing (task group 8). Chaptered editorial: each chapter lands on its own ground (hard cuts).
+   Engine tokens only are themed; the engine itself is copied unchanged. */
+:root {
+  --sc-canvas: #2a1230; --sc-surface: #3d1937; --sc-ink: #faf6f3; --sc-ink-soft: #dcb3c6;
+  --sc-accent: #e07aa0; --sc-accent-ink: #2a1230;
+  --sc-font-display: "Figtree", system-ui, sans-serif; --sc-font-text: "Figtree", system-ui, sans-serif;
+  --plum: #632947; --ground-title: #2a1230; --ground-store: #f4ece6; --ground-key: #1d0b1f; --ground-weather: #3d1937; --ground-friends: #f1e0e6;
+  --ink-dark: #2b1624; --ink-dark-soft: #6f4f62; --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+html { background: var(--sc-canvas); }
+body { margin: 0; background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); font-size: 1.0625rem; line-height: 1.55; }
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }   /* live elements stay out until their data arrives */
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 3px; border-radius: 4px; }
+/* Without JavaScript nothing waits for a scroll cue: every line is readable. */
+html:not(.js) [data-sc-cue], html:not(.js) [data-sc-in], html:not(.js) [data-sc-stagger] > * { opacity: 1 !important; transform: none !important; }
+
+/* Folio: the only chrome. Chapter titles in the left margin, the current one named. */
+.folio { position: fixed; z-index: 20; left: clamp(0.75rem, 1.6vw, 1.75rem); top: 50%; translate: 0 -50%; display: grid; gap: 0.9rem; justify-items: start;
+  mix-blend-mode: difference; color: #fff; }
+.folio__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.folio__list a { font-size: 0.75rem; letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none; opacity: 0.55; font-weight: 720; }
+.folio__list a[aria-current] { opacity: 1; }
+.folio__now { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+.sc-wrap { padding-left: max(var(--sc-gutter), 9.5rem); }
+.chapter__h { font-weight: 820; font-size: clamp(2.1rem, 4.6vw, 4.2rem); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 1.25rem; max-width: 16ch; }
+.runlink { font-weight: 720; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.22em; text-decoration-color: var(--sc-accent); }
+.runlink:hover { text-decoration-color: currentColor; }
+
+/* Title page */
+.title { min-height: 100svh; display: grid; align-items: end; background: var(--ground-title); }
+.title__inner { display: grid; gap: 1.5rem; padding-bottom: clamp(3rem, 10vh, 7rem); }
+.title__wordmark { width: clamp(150px, 16vw, 230px); opacity: 0.92; }
+.title__h1 { margin: 0; font-weight: 820; font-size: clamp(3rem, 9.6vw, 9.5rem); line-height: 0.92; letter-spacing: -0.04em; max-width: 11ch; }
+.title__lede { margin: 0; max-width: 38ch; font-size: clamp(1.15rem, 1.6vw, 1.45rem); color: var(--sc-ink-soft); }
+.title__links { margin: 0; font-size: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: baseline; }
+
+/* Spreads: text and a media column with a caption, never media under type. */
+.chapter--store { background: var(--ground-store); color: var(--ink-dark); }
+.chapter--store .runlink, .chapter--friends .runlink { text-decoration-color: var(--plum); }
+.spread { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+.spread--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.spread__text p { max-width: 46ch; margin: 0 0 1rem; }
+.chapter--store .spread__text p { color: var(--ink-dark-soft); }
+.spread__media { margin: 0; display: grid; gap: 0.75rem; }
+.spread__media img { border-radius: 10px; box-shadow: 0 24px 60px -24px rgba(43, 22, 36, 0.55); }
+.spread__media--tall > div { overflow: hidden; border-radius: 10px; }
+figcaption { font-size: 0.8125rem; color: inherit; opacity: 0.72; max-width: 52ch; }
+.live--count { font-size: 1.05rem; color: var(--ink-dark) !important; }
+.live--count strong { font-weight: 820; font-variant-numeric: tabular-nums; }
+.live--list { list-style: none; padding: 0; margin: 1.25rem 0 0; display: grid; gap: 0.15rem; border-top: 1px solid rgba(43, 22, 36, 0.18); }
+.live--list li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid rgba(43, 22, 36, 0.12); }
+.live--list a { font-weight: 720; text-decoration: none; }
+.live--list a:hover { text-decoration: underline; }
+.live--list span { color: var(--ink-dark-soft); font-size: 0.875rem; }
+
+/* THE KEY: the pinned peak. Progress p = --sc-p (0..1) drives every part in CSS. */
+.chapter--key { background: var(--ground-key); }
+.vault { --p: var(--sc-p, 0);
+  --g1: clamp(0, calc((var(--p) - 0.01) / 0.12), 1); --g2: clamp(0, calc((var(--p) - 0.2) / 0.1), 1);
+  --g3: clamp(0, calc((var(--p) - 0.34) / 0.1), 1); --g4: clamp(0, calc((var(--p) - 0.56) / 0.08), 1);  /* a held pause before the fourth */
+  --open: clamp(0, calc((var(--p) - 0.64) / 0.12), 1); --settle: clamp(0, calc((var(--p) - 0.72) / 0.14), 1);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-rows: 1fr auto; column-gap: clamp(2rem, 5vw, 6rem);
+  align-items: center; padding: 0 var(--sc-gutter) 0 max(var(--sc-gutter), 9.5rem); height: 100svh; box-sizing: border-box;
+  background: radial-gradient(70% 60% at 72% 46%, rgba(224, 122, 160, calc(0.08 + var(--open) * 0.22)), transparent 70%); }
+.vault__copy { position: relative; min-height: 9.5em; align-self: end; grid-row: 1; margin-bottom: 2.25rem; }
+.vault__line { position: absolute; inset: auto 0 0 0; margin: 0; font-weight: 820; font-size: clamp(1.6rem, 3.1vw, 2.9rem); line-height: 1.08; letter-spacing: -0.02em; max-width: 17ch; }
+.vault__line--peak { color: #fff; }
+.key { grid-column: 1; grid-row: 2; padding-bottom: clamp(2rem, 9vh, 6rem); display: grid; gap: 0.5rem; }
+.key__label { font-size: 0.75rem; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 720; color: var(--sc-accent); }
+.key__groups { font-family: var(--mono); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.6rem); letter-spacing: 0.06em; display: flex; align-items: baseline;
+  padding: 0.7rem 1rem; border-radius: 10px; border: 1px solid rgba(250, 246, 243, 0.2); background: rgba(250, 246, 243, 0.05); width: max-content; }
+.key__g { position: relative; display: inline-block; color: rgba(250, 246, 243, 0.16); }
+.key__g > span { display: inline-block; }
+/* Each group types in left to right as its own progress runs 0..1. */
+.key__g[style*="--i:1"] { --g: var(--g1); } .key__g[style*="--i:2"] { --g: var(--g2); } .key__g[style*="--i:3"] { --g: var(--g3); } .key__g[style*="--i:4"] { --g: var(--g4); }
+.key__g > span { color: var(--sc-ink); clip-path: inset(0 calc((1 - var(--g)) * 100%) 0 0); }
+.key__g { background: linear-gradient(var(--sc-ink), var(--sc-ink)) left bottom / calc(var(--g) * 100%) 2px no-repeat; }
+.key__dash { color: rgba(250, 246, 243, 0.4); padding: 0 0.15em; }
+
+.wardrobe { grid-column: 2; grid-row: 1 / span 2; justify-self: center; width: min(100%, 440px); perspective: 1400px; }
+.wardrobe__body { position: relative; aspect-ratio: 3 / 4.1; border-radius: 14px 14px 6px 6px; background: #12060f; box-shadow: inset 0 0 0 10px #3b1834, 0 40px 80px -30px rgba(0, 0, 0, 0.8); }
+.wardrobe__inside { position: absolute; inset: 10px; border-radius: 6px; overflow: hidden;
+  background: radial-gradient(80% 60% at 50% 20%, rgba(255, 214, 170, calc(var(--open) * 0.55)), transparent 70%), #24101f; }
+.wardrobe__rail { position: absolute; left: 10%; right: 10%; top: 13%; height: 5px; border-radius: 3px; background: #b9b6bd; }
+.wardrobe__shelf { position: absolute; left: 6%; right: 6%; bottom: 14%; height: 10px; border-radius: 2px; background: #4a2140; box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35); }
+.wardrobe__piece { position: absolute; left: 50%; bottom: calc(14% + 10px); width: 58%; margin: 0; translate: -50% calc((1 - var(--settle)) * -18%);
+  opacity: var(--settle); display: grid; gap: 0.4rem; justify-items: center; }
+.wardrobe__piece img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; background: #3d1937; box-shadow: 0 18px 30px -16px rgba(0, 0, 0, 0.8); }
+.wardrobe__piece figcaption { font-size: 0.8125rem; font-weight: 720; opacity: 0.9; color: #fff; text-align: center; }
+.door { position: absolute; top: 10px; bottom: 10px; width: calc(50% - 10px); background: linear-gradient(160deg, #6a2c51, #4d1e40 60%, #3d1937);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 0 40px rgba(0, 0, 0, 0.35); backface-visibility: hidden; }
+.door--l { left: 10px; border-radius: 6px 0 0 6px; transform-origin: left center; transform: rotateY(calc(var(--open) * -112deg)); }
+.door--r { right: 10px; border-radius: 0 6px 6px 0; transform-origin: right center; transform: rotateY(calc(var(--open) * 112deg)); }
+.door__pull { position: absolute; top: 46%; width: 6px; height: 46px; border-radius: 3px; background: #e7c9a4; }
+.door--l .door__pull { right: 10px; } .door--r .door__pull { left: 10px; }
+/* Hinges: lit and seated until their group completes, then released (dim, lifted). */
+.hinge { position: absolute; width: 10px; height: 34px; border-radius: 3px; background: var(--sc-accent); box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+  --done: clamp(0, calc((var(--g) - 0.98) * 50), 1); translate: 0 calc(var(--done) * -10px); opacity: calc(1 - var(--done) * 0.7);
+  transition: translate 160ms ease-out, opacity 160ms ease-out; }
+.hinge[style*="--h:1"] { --g: var(--g1); top: 16%; } .hinge[style*="--h:2"] { --g: var(--g2); bottom: 16%; }
+.hinge[style*="--h:3"] { --g: var(--g3); top: 16%; } .hinge[style*="--h:4"] { --g: var(--g4); bottom: 16%; }
+.door--l .hinge { left: -5px; } .door--r .hinge { right: -5px; }
+.wardrobe__floor { display: block; height: 14px; margin: 0 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent); }
+
+/* Weather */
+.chapter--weather { background: var(--ground-weather); }
+.chapter--weather .spread__text p { color: var(--sc-ink-soft); }
+.chapter--weather .spread__media img { box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.7); }
+
+/* Friends */
+.chapter--friends { background: var(--ground-friends); color: var(--ink-dark); }
+.friends { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: clamp(2rem, 5vw, 6rem); align-items: end; }
+.friends__text p { color: var(--ink-dark-soft); max-width: 44ch; }
+.friends__card { margin: 0; display: grid; gap: 0.75rem; }
+.friends__card img { border-radius: 10px; box-shadow: 0 24px 60px -24px rgba(43, 22, 36, 0.5); }
+
+/* Colophon: the smallest type on the page, the ask as running text. */
+.colophon { background: var(--ground-title); min-height: 70svh; display: grid; align-items: end; }
+.colophon__inner { display: grid; gap: 2.5rem; }
+.colophon__cta { margin: 0; font-weight: 820; font-size: clamp(1.8rem, 3.6vw, 3.2rem); line-height: 1.1; letter-spacing: -0.02em; max-width: 22ch; }
+.colophon__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem 3rem; font-size: 0.8125rem; color: var(--sc-ink-soft); }
+.colophon__cols p { margin: 0; }
+.live--sources ul { margin: 0.35rem 0 0; padding-left: 1.1em; }
+.colophon__fine { margin: 0; font-size: 0.8125rem; color: var(--sc-ink-soft); }
+
+@media (max-width: 860px) {
+  .sc-wrap, .vault { padding-left: var(--sc-gutter); }
+  /* Phones: the folio is just the current chapter's name, set small at the top-left corner. */
+  .folio { top: 0.75rem; left: 0.75rem; translate: none; mix-blend-mode: normal; }
+  .folio__list, .folio__mark { display: none; }
+  .folio__now { position: static; width: auto; height: auto; overflow: visible; clip-path: none; font-size: 0.6875rem; letter-spacing: 0.09em;
+    text-transform: uppercase; font-weight: 720; padding: 0.3rem 0.6rem; border-radius: 999px; background: rgba(29, 11, 31, 0.78); color: #fff; }
+  .folio__now:empty { display: none; }
+  .spread, .spread--flip, .friends { grid-template-columns: 1fr; }
+  .spread--flip .spread__media { order: 2; }
+  .vault { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: 1.25rem; align-content: center; }
+  .wardrobe { grid-column: 1; grid-row: 1; width: min(62vw, 300px); }
+  .vault__copy { grid-row: 2; min-height: 6.5em; }
+  .vault__line { font-size: clamp(1.35rem, 6vw, 1.8rem); }
+  .key { grid-row: 3; padding-bottom: 4.5rem; }
+  .key__groups { font-size: clamp(1.05rem, 5.4vw, 1.5rem); padding: 0.55rem 0.7rem; }
+}
+/* Reduced motion: the story is the finished composition. Nothing moves with scroll. */
+@media (prefers-reduced-motion: reduce) {
+  .vault { --g1: 1; --g2: 1; --g3: 1; --g4: 1; --open: 1; --settle: 1; }
+  .hinge { transition: none; }
+}
